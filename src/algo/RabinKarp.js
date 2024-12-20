@@ -138,6 +138,12 @@ export default class RabinKarp extends Algorithm {
 		this.controls.push(this.clearButton);
 	}
 
+	setURLData(searchParams) {
+		this.textField.value = searchParams.get("text")
+		this.patternField.value = searchParams.get("pattern")
+		this.findCallback();
+	}
+
 	setup() {
 		this.commands = [];
 		this.textRowID = [];

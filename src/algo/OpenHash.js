@@ -622,6 +622,10 @@ export default class OpenHash extends Hash {
 
 		return this.commands;
 	}
+	
+	resizeInitialTableCall() {
+		this.clearCallback();
+	}
 
 	setup() {
 		this.resetIndex = this.nextIndex;

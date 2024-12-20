@@ -166,6 +166,15 @@ export default class BST extends Algorithm {
 		this.predSucc = 'succ';
 	}
 
+	setURLData(searchParams) {
+		const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		dataList.forEach(dataEntry => {
+			this.implementAction(this.add.bind(this), parseInt(dataEntry), true);
+			this.animationManager.skipForward();
+			this.animationManager.clearHistory();
+		});
+	}
+
 	reset() {
 		this.nextIndex = 1;
 		this.treeRoot = null;
