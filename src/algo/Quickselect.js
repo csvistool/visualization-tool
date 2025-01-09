@@ -174,6 +174,12 @@ export default class Quickselect extends Algorithm {
 		}
 	}
 
+	setURLData(searchParams) {
+		this.listField.value = searchParams.get("data");
+		this.kField.value = searchParams.get("k")
+		this.runCallback()
+	}
+
 	setup() {
 		this.commands = [];
 		this.arrayData = [];

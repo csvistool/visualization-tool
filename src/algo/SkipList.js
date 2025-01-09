@@ -203,6 +203,17 @@ export default class SkipList extends Algorithm {
 		}
 	}
 
+	setURLData(searchParams) {
+		const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		dataList.forEach(dataEntry => {
+			this.addValueFieldRandom.value = dataEntry;
+			this.addRandomlyCallback();
+			// this.implementAction(this.addValueFieldRandom.bind(this), parseInt(dataEntry), true);
+			this.animationManager.skipForward();
+			this.animationManager.clearHistory();
+		});
+	}
+
 	setup() {
 		this.commands = [];
 

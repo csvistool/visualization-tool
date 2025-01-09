@@ -101,6 +101,12 @@ export default class LCS extends Algorithm {
 		this.controls.push(this.clearButton);
 	}
 
+	setURLData(searchParams) {
+		this.S1Field.value = searchParams.get("s1")
+		this.S2Field.value = searchParams.get("s2")
+		this.runCallback();
+	}
+
 	setup() {
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
