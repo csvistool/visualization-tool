@@ -133,16 +133,6 @@
 	right: 80px;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-}
-
-.content {
-    flex: 1;
-}
-
 #blob-container:hover {
 	width: 165px;
 	height: 165px;
@@ -348,6 +338,10 @@ div.header h1 {
 div.container {
 	width: 100%;
 	margin: 0px;
+	/* Makes the container take up 100% of the device height even if the page has minimal content */
+	display: flex;
+	flex-direction: column;
+	min-height: 100dvh;
 }
 
 div.header {
@@ -375,6 +369,8 @@ div.footer {
 
 div.content {
 	padding: 5em 1em 1em 1em;
+	/* grows the content to fill extra space in the container */
+	flex: 1;
 }
 
 .contact {
