@@ -133,6 +133,16 @@
 	right: 80px;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+
+.content {
+    flex: 1;
+}
+
 #blob-container:hover {
 	width: 165px;
 	height: 165px;
