@@ -56,10 +56,15 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 			}
 
 			const updateDimensions = () => {
-				animManagRef.current.changeSize(document.body.clientWidth);
+				canvasRef.current.height = 100;
+				animManagRef.current.changeSize(document.body.clientWidth, document.getElementById("canvasContainer").clientHeight -1);
 			};
+			
 
 			window.addEventListener('resize', updateDimensions);
+
+			// TODO: invistagate why 0 ms causes extra 3 pixels to be added to height
+			setTimeout(updateDimensions,10)
 
 			return () => {
 				window.removeEventListener('resize', updateDimensions);
@@ -187,8 +192,8 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 						</div>
 					</div>
 
-					<div className="viewport">
-						<canvas id="canvas" width={0} height="505" ref={canvasRef}></canvas>
+					<div className="viewport" id="canvasContainer">
+						<canvas id="canvas" width={0} height="200" ref={canvasRef}></canvas>
 						{moreInfoEnabled && (
 							<div className="modal">
 								<div className="modal-content">{infoModals[algoName]}</div>
