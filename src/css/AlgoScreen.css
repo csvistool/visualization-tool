@@ -34,8 +34,8 @@
 	background: #ffffff;
 	font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
 	display: flex;
-    flex-direction: column;
-    flex: 1;
+	flex-direction: column;
+	flex: 1;
 }
 
 .VisualizationMainPage #container {
@@ -43,8 +43,8 @@
 	/* margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
 	text-align: left; /* this overrides the text-align: center on the body element. */
 	height: 100%; /* keeps the page full height like an app*/
-    display: flex;
-    flex-flow: column;
+	display: flex;
+	flex-flow: column;
 }
 
 .VisualizationMainPage #toggle {
@@ -85,7 +85,7 @@
 
 .VisualizationMainPage .viewport {
 	position: relative;
-	flex:1; /* to grow and take up available space */
+	flex: 1; /* to grow and take up available space */
 }
 
 .VisualizationMainPage #generalAnimationControlSection {
