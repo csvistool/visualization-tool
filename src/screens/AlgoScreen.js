@@ -57,6 +57,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
 			const updateDimensions = () => {
 				canvasRef.current.height = 100;
+				canvasRef.current.width = 50;
 				animManagRef.current.changeSize(document.body.clientWidth, document.getElementById("canvasContainer").clientHeight -1);
 			};
 			
@@ -141,73 +142,74 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 						</div>
 					</h1>
 				</div>
+				<div id="x-ScrollContainer">
+					<div id="mainContent">
+						<div id="algoControlSection">
+							<table id="AlgorithmSpecificControls"></table>
+							<div id="toggles">
+								{hasPseudoCode && pseudocodeType === 'none' && (
+									<BsFileEarmarkFill
+										className="pseudocode-toggle"
+										size={32}
+										onClick={togglePseudocode}
+										opacity={'40%'}
+										title="Code: Hidden"
+									/>
+								)}
+								{hasPseudoCode && pseudocodeType === 'english' && (
+									<BsFileEarmarkFontFill
+										className="pseudocode-toggle"
+										size={32}
+										onClick={togglePseudocode}
+										title="Code: English"
+									/>
+								)}
+								{hasPseudoCode && pseudocodeType === 'code' && (
+									<BsFileEarmarkCodeFill
+										className="pseudocode-toggle"
+										size={32}
+										onClick={togglePseudocode}
+										title="Code: Pseudo"
+									/>
+								)}
+								{bigOModals(algoName) && (
+									<BsClock
+										className="menu-modal"
+										size={30}
+										onClick={toggleBigO}
+										opacity={bigOEnabled ? '100%' : '40%'}
+										title="Time Complexities"
+									/>
+								)}
+								{infoModals[algoName] && (
+									<BsBookHalf
+										className="menu-modal"
+										size={30}
+										onClick={toggleMoreInfo}
+										opacity={moreInfoEnabled ? '100%' : '40%'}
+										title="More Information"
+									/>
+								)}
+							</div>
+						</div>
 
-				<div id="mainContent">
-					<div id="algoControlSection">
-						<table id="AlgorithmSpecificControls"></table>
-						<div id="toggles">
-							{hasPseudoCode && pseudocodeType === 'none' && (
-								<BsFileEarmarkFill
-									className="pseudocode-toggle"
-									size={32}
-									onClick={togglePseudocode}
-									opacity={'40%'}
-									title="Code: Hidden"
-								/>
+						<div className="viewport" id="canvasContainer">
+							<canvas id="canvas" width={0} height="200" ref={canvasRef}></canvas>
+							{moreInfoEnabled && (
+								<div className="modal">
+									<div className="modal-content">{infoModals[algoName]}</div>
+								</div>
 							)}
-							{hasPseudoCode && pseudocodeType === 'english' && (
-								<BsFileEarmarkFontFill
-									className="pseudocode-toggle"
-									size={32}
-									onClick={togglePseudocode}
-									title="Code: English"
-								/>
-							)}
-							{hasPseudoCode && pseudocodeType === 'code' && (
-								<BsFileEarmarkCodeFill
-									className="pseudocode-toggle"
-									size={32}
-									onClick={togglePseudocode}
-									title="Code: Pseudo"
-								/>
-							)}
-							{bigOModals(algoName) && (
-								<BsClock
-									className="menu-modal"
-									size={30}
-									onClick={toggleBigO}
-									opacity={bigOEnabled ? '100%' : '40%'}
-									title="Time Complexities"
-								/>
-							)}
-							{infoModals[algoName] && (
-								<BsBookHalf
-									className="menu-modal"
-									size={30}
-									onClick={toggleMoreInfo}
-									opacity={moreInfoEnabled ? '100%' : '40%'}
-									title="More Information"
-								/>
+							{bigOEnabled && (
+								<div className="modal bigo">
+									<div className="modal-content">{bigOModals(algoName)}</div>
+								</div>
 							)}
 						</div>
-					</div>
 
-					<div className="viewport" id="canvasContainer">
-						<canvas id="canvas" width={0} height="200" ref={canvasRef}></canvas>
-						{moreInfoEnabled && (
-							<div className="modal">
-								<div className="modal-content">{infoModals[algoName]}</div>
-							</div>
-						)}
-						{bigOEnabled && (
-							<div className="modal bigo">
-								<div className="modal-content">{bigOModals(algoName)}</div>
-							</div>
-						)}
-					</div>
-
-					<div id="generalAnimationControlSection">
-						<table id="GeneralAnimationControls" ref={animBarRef}></table>
+						<div id="generalAnimationControlSection">
+							<table id="GeneralAnimationControls" ref={animBarRef}></table>
+						</div>
 					</div>
 				</div>
 			</div>

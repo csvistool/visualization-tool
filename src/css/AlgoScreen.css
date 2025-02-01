@@ -35,7 +35,14 @@
 	font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
 	display: flex;
 	flex-direction: column;
-	flex: 1;
+	height: 100%;
+	min-width: 100%;
+	width: min-content;
+}
+
+div#x-ScrollContainer {
+    flex: 1;
+    overflow-x: scroll;
 }
 
 .VisualizationMainPage #container {
