@@ -58,7 +58,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 			const updateDimensions = () => {
 				canvasRef.current.height = 100;
 				canvasRef.current.width = 50;
-				animManagRef.current.changeSize(document.body.clientWidth, document.getElementById("canvasContainer").clientHeight -1);
+				animManagRef.current.changeSize(document.getElementById("canvasContainer").clientWidth - 1, document.getElementById("canvasContainer").clientHeight -1);
 			};
 			
 
