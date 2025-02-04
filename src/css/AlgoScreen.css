@@ -42,7 +42,7 @@
 
 div#x-ScrollContainer {
     flex: 1;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .VisualizationMainPage #container {
@@ -100,6 +100,7 @@ div#x-ScrollContainer {
 	background: var(--control);
 	border-top: 2px var(--border) solid;
 	transition: all 0.4s ease 0s;
+	min-height: 70px;
 }
 
 .VisualizationMainPage #GeneralAnimationControls {
