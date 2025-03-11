@@ -40,4 +40,5 @@ export { default as StackArray } from './StackArray';
 export { default as StackLL } from './StackLL';
 export { default as HeapSort } from './HeapSort';
 export { default as FredSort } from './FredSort';
+export { default as DropSort } from './DropSort';
 export { default as CreateGraph } from './CreateGraph';

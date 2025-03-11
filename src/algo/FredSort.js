@@ -63,7 +63,7 @@ const COMP_COUNT_Y = 50;
 
 const LARGE_OFFSET = 15;
 
-export default class MergeSort extends Algorithm {
+export default class FredSort extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
 
@@ -153,13 +153,6 @@ export default class MergeSort extends Algorithm {
 		this.iPointerID = this.nextIndex++;
 		this.jPointerID = this.nextIndex++;
 
-		// this.pseudocode = pseudocodeText.FredSort;
-		// this.codeID = this.addCodeToCanvasBaseAll(
-		// 	this.pseudocode,
-		// 	'find',
-		// 	CODE_START_X,
-		// 	CODE_START_Y,
-		// );
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);

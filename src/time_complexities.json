@@ -1205,6 +1205,15 @@
 		}
 	},
 
+	"DropSort": {
+		"DropSort": {
+			"all cases": {
+				"big_o": "O(n)",
+				"explanation": "We always iterate through the array one time. This is a great runtime, but comes with the consequence that we lose data, so it is not a true sort."
+			}
+		}
+	},
+
 	"LSDRadix": {
 		"LSDRadix": {
 			"worst": {

@@ -275,7 +275,20 @@ const Modals = {
 				It is generally worse than MergeSort for efficiency, but is a fun exercise for algorithmic analysis.
 			</li>
 		</ul>
-	)
+	),
+	DropSort: (
+		<ul>
+			<li>
+				This sort, also commonly known by other less appropriate names, is a way to create a sorted array of data in O(n) time.
+			</li>
+			<li>
+				Iterate through the array left-to-right and <strong>drop (delete)</strong> any out-of-order elements, so that we end up with a sorted list.
+			</li>
+			<li>
+				While this sort is technically O(n), it is not recommended for any real-world use since the user typically does not want to lose parts of their data when sorting.
+			</li>
+		</ul>
+	),
 };
 
 export default Modals;
