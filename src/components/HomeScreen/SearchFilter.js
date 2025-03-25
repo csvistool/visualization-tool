@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import React from "react";
-import { algoMap } from "../../AlgoList";
+import { Link } from 'react-router-dom';
+import React from 'react';
+import { algoMap } from '../../AlgoList';
 
 const SearchFilter = React.memo(function SearchFilter({ filteredAlgoList }) {
 	return filteredAlgoList.length ? (
@@ -49,6 +49,6 @@ const SearchFilter = React.memo(function SearchFilter({ filteredAlgoList }) {
 	) : (
 		<span className="no-results">No results found. Please try a different search term.</span>
 	);
-})
+});
 
 export default SearchFilter;

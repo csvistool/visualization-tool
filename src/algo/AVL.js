@@ -131,19 +131,22 @@ export default class AVL extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		if (searchParams.has("predSucc")) {
-			const selection = searchParams.get("predSucc");
-			if (selection === "pred") {
-				this.predSucc = 'pred'
+		if (searchParams.has('predSucc')) {
+			const selection = searchParams.get('predSucc');
+			if (selection === 'pred') {
+				this.predSucc = 'pred';
 				this.predButton.checked = true;
-			} else if (selection === "succ") {
-				this.predSucc = 'succ'
+			} else if (selection === 'succ') {
+				this.predSucc = 'succ';
 				this.succButton.checked = true;
 			}
 		}
 
-		if (searchParams.has("data")) {
-			const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		if (searchParams.has('data')) {
+			const dataList = searchParams
+				.get('data')
+				.split(',')
+				.filter(item => item.trim() !== '');
 			dataList.forEach(dataEntry => {
 				this.implementAction(this.add.bind(this), parseInt(dataEntry), true);
 				this.animationManager.skipForward();

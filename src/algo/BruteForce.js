@@ -116,8 +116,8 @@ export default class BruteForce extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		this.textField.value = searchParams.get("text")
-		this.patternField.value = searchParams.get("pattern")
+		this.textField.value = searchParams.get('text');
+		this.patternField.value = searchParams.get('pattern');
 		this.findCallback();
 	}
 
@@ -159,7 +159,8 @@ export default class BruteForce extends Algorithm {
 
 	exampleCallback() {
 		const selection = this.exampleDropdown.value;
-		this.exampleDropdown.options[0].text = this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
+		this.exampleDropdown.options[0].text =
+			this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
 		if (!selection) {
 			return;
 		}

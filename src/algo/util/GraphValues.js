@@ -432,7 +432,6 @@ const BFS_DFS_ADJ_LIST =
 		/*H*/ [0, 0, 0, 0, 0, 0, 1, 0],
 	].map(row => row.map(x => x || -1)); // Turn 0s to -1s
 
-
 // Dijkstra's
 
 const DIJKSTRAS_ADJ_LIST =

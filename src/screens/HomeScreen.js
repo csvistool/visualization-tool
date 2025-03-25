@@ -38,10 +38,10 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 	const setQueryParam = (param, newFilter) => {
 		if (newFilter && newFilter !== '') {
 			searchParams.set(param, newFilter);
-			setSearchParams(searchParams, {replace: true});
+			setSearchParams(searchParams, { replace: true });
 		} else {
 			searchParams.delete(param);
-			setSearchParams(searchParams, {replace: true});
+			setSearchParams(searchParams, { replace: true });
 		}
 	};
 
@@ -65,15 +65,15 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 		}
 		return true;
 	});
-	
-	function getRelatedAlgoList() { 
+
+	function getRelatedAlgoList() {
 		const relatedSet = new Set();
 		if (dsaFilter) {
 			for (const key in relatedSearches) {
 				if (key.toLowerCase().includes(dsaFilter.toLowerCase())) {
 					relatedSearches[key].forEach(value => {
 						if (!filteredAlgoList.includes(value)) {
-							relatedSet.add(value)
+							relatedSet.add(value);
 						}
 					});
 				}
@@ -101,11 +101,13 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 											placeholder="Search..."
 											type="search"
 											value={dsaFilter}
-											onChange={e => setQueryParam("q", e.target.value)}
+											onChange={e => setQueryParam('q', e.target.value)}
 										/>
 										<SideButton
 											button={allCategories}
-											filter={buttonValue => setQueryParam("filter", buttonValue)}
+											filter={buttonValue =>
+												setQueryParam('filter', buttonValue)
+											}
 										/>
 									</div>
 									{/* Blob Gimmick */}
@@ -118,9 +120,13 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 										</div>
 										{getRelatedAlgoList().length > 0 && (
 											<>
-												<h1 className="related-pages-header">Related Pages</h1>
+												<h1 className="related-pages-header">
+													Related Pages
+												</h1>
 												<div className="inner-flex">
-													<SearchFilter filteredAlgoList={getRelatedAlgoList()} />
+													<SearchFilter
+														filteredAlgoList={getRelatedAlgoList()}
+													/>
 												</div>
 											</>
 										)}

@@ -3,7 +3,7 @@
 	--shadow: rgba(0, 0, 0, 5);
 	--buttons: #e2e4f6;
 	--text: #e2e4f6;
-	--text-primary: #5d7eab;;
+	--text-primary: #5d7eab;
 	--filter: brightness(70%);
 	--borders: #325778;
 	--hover-text: #d7ac37;
@@ -46,12 +46,12 @@
 }
 
 .related-pages-header {
-    font-size: 2em;
-    color: var(--text);
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	font-size: 2em;
+	color: var(--text);
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .banner-container {
@@ -154,7 +154,7 @@
 	left: 30px;
 	z-index: 2;
 	pointer-events: auto; /* Allow mouse events */
-    -webkit-pointer-events: auto; /* Safari */
+	-webkit-pointer-events: auto; /* Safari */
 }
 
 .blobLogo-animate {
@@ -410,19 +410,19 @@ div.content {
 }
 
 .algo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	text-align: center;
-    width: 100%;
+	width: 100%;
 	padding: 5%;
 }
 
 .algo-name {
-    width: 100%;
+	width: 100%;
 	padding-bottom: 0px;
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .algo-picture {
@@ -522,21 +522,21 @@ input::placeholder {
 }
 
 .side-panel {
-    position: sticky;
-    top: 100;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    background: var(--buttons);
-    min-width: 24%;
-    padding: 5px;
-    padding-bottom: 15px;
-    border: 1.5px var(--borders) solid;
-    border-radius: 40px;
-    box-shadow: 5px 12px 12px var(--shadow);
-    transition: all 0.4s ease 0s;
-    pointer-events: auto;
-    z-index: 2;
+	position: sticky;
+	top: 100;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+	background: var(--buttons);
+	min-width: 24%;
+	padding: 5px;
+	padding-bottom: 15px;
+	border: 1.5px var(--borders) solid;
+	border-radius: 40px;
+	box-shadow: 5px 12px 12px var(--shadow);
+	transition: all 0.4s ease 0s;
+	pointer-events: auto;
+	z-index: 2;
 }
 
 .Side-Buttons button {

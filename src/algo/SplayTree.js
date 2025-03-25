@@ -127,7 +127,10 @@ export default class SplayTree extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		const dataList = searchParams
+			.get('data')
+			.split(',')
+			.filter(item => item.trim() !== '');
 		dataList.forEach(dataEntry => {
 			this.implementAction(this.insertElement.bind(this), parseInt(dataEntry), true);
 			this.animationManager.skipForward();

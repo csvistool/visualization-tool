@@ -247,19 +247,30 @@ export default class LinkedList extends Algorithm {
 
 	setURLData(searchParams) {
 		this.implementAction(this.clearAll.bind(this));
-	
-		if (searchParams.has("tail")) {
-			const tail = searchParams.get("tail");
-			if (tail === "1") {
+
+		if (searchParams.has('tail')) {
+			const tail = searchParams.get('tail');
+			if (tail === '1') {
 				this.toggleTailPointer();
 				this.tailCheckbox.checked = true;
 			}
 		}
 
-		if (searchParams.has("data")) {
-			const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		if (searchParams.has('data')) {
+			const dataList = searchParams
+				.get('data')
+				.split(',')
+				.filter(item => item.trim() !== '');
 			dataList.forEach(dataEntry => {
-				this.implementAction(this.add.bind(this), dataEntry.substring(0, 4), this.size, false, false, true, true);
+				this.implementAction(
+					this.add.bind(this),
+					dataEntry.substring(0, 4),
+					this.size,
+					false,
+					false,
+					true,
+					true,
+				);
 				this.animationManager.skipForward();
 				this.animationManager.clearHistory();
 			});

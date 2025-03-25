@@ -184,22 +184,21 @@ export default class Heap extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		if (searchParams.has("type")) {
-			const type = searchParams.get("type");
-			if (type === "min") { 
+		if (searchParams.has('type')) {
+			const type = searchParams.get('type');
+			if (type === 'min') {
 				this.isMinHeap = true;
 				this.minHeapButton.checked = true;
 				this.maxHeapButton.checked = false;
-
-			} else if (type === "max") {
+			} else if (type === 'max') {
 				this.isMinHeap = false;
 				this.maxHeapButton.checked = true;
 				this.minHeapButton.checked = false;
 			}
 		}
 
-		if (searchParams.has("data")) {
-			const data = searchParams.get("data");
+		if (searchParams.has('data')) {
+			const data = searchParams.get('data');
 			this.buildHeapField.value = data;
 			this.buildHeapCallback();
 		}

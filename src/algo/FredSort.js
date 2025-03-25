@@ -63,7 +63,7 @@ const COMP_COUNT_Y = 50;
 
 const LARGE_OFFSET = 15;
 
-export default class MergeSort extends Algorithm {
+export default class FredSort extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
 
@@ -153,13 +153,6 @@ export default class MergeSort extends Algorithm {
 		this.iPointerID = this.nextIndex++;
 		this.jPointerID = this.nextIndex++;
 
-		// this.pseudocode = pseudocodeText.FredSort;
-		// this.codeID = this.addCodeToCanvasBaseAll(
-		// 	this.pseudocode,
-		// 	'find',
-		// 	CODE_START_X,
-		// 	CODE_START_Y,
-		// );
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);
@@ -182,7 +175,8 @@ export default class MergeSort extends Algorithm {
 
 	exampleCallback() {
 		const selection = this.exampleDropdown.value;
-		this.exampleDropdown.options[0].text = this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
+		this.exampleDropdown.options[0].text =
+			this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
 		if (!selection) {
 			return;
 		}
@@ -304,10 +298,17 @@ export default class MergeSort extends Algorithm {
 		this.secondArrayID = [];
 		for (let i = 0; i < numPartitions; i++) {
 			const left = Math.floor((i * this.arrayData.length) / numPartitions);
-			const right = Math.min(this.arrayData.length - 1, Math.floor(((i + 1) * this.arrayData.length) / numPartitions) - 1);
+			const right = Math.min(
+				this.arrayData.length - 1,
+				Math.floor(((i + 1) * this.arrayData.length) / numPartitions) - 1,
+			);
 			const offset = i * LARGE_OFFSET;
 			const prevOffset = i > 0 ? (i - 1) * LARGE_OFFSET : 0;
-			this.secondArrayID.push(...this.drawArrayAndCopy(left, right, offset, prevOffset, 1).filter(id => id !== undefined));
+			this.secondArrayID.push(
+				...this.drawArrayAndCopy(left, right, offset, prevOffset, 1).filter(
+					id => id !== undefined,
+				),
+			);
 			partition_bounds.push([left, right]);
 		}
 
@@ -350,8 +351,17 @@ export default class MergeSort extends Algorithm {
 					if (this.arrayData[j + index_offset] < this.arrayData[j - 1 + index_offset]) {
 						this.swap(j + index_offset, j - 1 + index_offset, LARGE_OFFSET * a);
 					}
-					if (j === 1) this.cmd(act.setBackgroundColor, this.secondArrayID[index_offset], '#2ECC71');
-					this.cmd(act.setBackgroundColor, this.secondArrayID[j + index_offset], '#2ECC71');
+					if (j === 1)
+						this.cmd(
+							act.setBackgroundColor,
+							this.secondArrayID[index_offset],
+							'#2ECC71',
+						);
+					this.cmd(
+						act.setBackgroundColor,
+						this.secondArrayID[j + index_offset],
+						'#2ECC71',
+					);
 				}
 			}
 		}
@@ -432,41 +442,41 @@ export default class MergeSort extends Algorithm {
 		this.cmd(act.setForegroundColor, this.iPointerID, '#FF0000');
 		this.cmd(act.setForegroundColor, this.jPointerID, '#FF0000');
 		this.cmd(act.step);
-	
+
 		const iLabelID = this.nextIndex++;
 		const iXPos = i * ARRAY_ELEM_WIDTH + ARRAY_START_X + extra_offset;
 		const iYPos = ARRAY_START_Y + ARRAY_LINE_SPACING;
 		this.cmd(act.createLabel, iLabelID, this.displayData[i], iXPos, iYPos);
-	
+
 		const jLabelID = this.nextIndex++;
 		const jXPos = j * ARRAY_ELEM_WIDTH + ARRAY_START_X + extra_offset;
 		const jYPos = ARRAY_START_Y + ARRAY_LINE_SPACING;
 		this.cmd(act.createLabel, jLabelID, this.displayData[j], jXPos, jYPos);
-	
+
 		this.cmd(act.setText, this.secondArrayID[i], '');
 		this.cmd(act.setText, this.secondArrayID[j], '');
 		this.cmd(act.step);
-	
+
 		this.cmd(act.move, iLabelID, jXPos, jYPos);
 		this.cmd(act.move, jLabelID, iXPos, iYPos);
 		this.cmd(act.step);
-	
+
 		this.cmd(act.setText, this.secondArrayID[i], this.displayData[j]);
 		this.cmd(act.setText, this.secondArrayID[j], this.displayData[i]);
 		this.cmd(act.delete, iLabelID);
 		this.cmd(act.delete, jLabelID);
 		this.cmd(act.step);
-	
+
 		// Swap data in backend array
 		let temp = this.arrayData[i];
 		this.arrayData[i] = this.arrayData[j];
 		this.arrayData[j] = temp;
-	
+
 		// Swap data in display array
 		temp = this.displayData[i];
 		this.displayData[i] = this.displayData[j];
 		this.displayData[j] = temp;
-	
+
 		this.cmd(act.setForegroundColor, this.iPointerID, '#0000FF');
 		this.cmd(act.setForegroundColor, this.jPointerID, '#0000FF');
 		this.cmd(act.step);

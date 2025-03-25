@@ -82,7 +82,7 @@ const Modals = {
 				The worst case is when we have a reverse sorted array (we perform
 				<a className="equation">
 					n + (n - 1) + (n - 2) + ... = n<sup>2</sup>
-				</p>
+				</a>
 				comparisons)
 			</li>
 		</ul>
@@ -92,12 +92,12 @@ const Modals = {
 			<li>This is a singly circular LinkedList with no tail.</li>
 			<li>
 				Adding to the front, adding to the back, and removing from the front can all be done
-				in <a className="equation">O(1)</p> using data movement tricks and pointer
+				in <a className="equation">O(1)</a> using data movement tricks and pointer
 				manipulation.
 			</li>
 			<li>
 				Removing from the back requires a traversal to the node before the last node making
-				it <a className="equation">O(n)</p>
+				it <a className="equation">O(n)</a>
 			</li>
 		</ul>
 	),
@@ -122,7 +122,7 @@ const Modals = {
 				The worst case is when we have a reverse sorted array (we perform
 				<a className="equation">
 					n + (n - 1) + (n - 2) + ... = n<sup>2</sup>
-				</p>
+				</a>
 				comparisons)
 			</li>
 			<li>
@@ -142,7 +142,7 @@ const Modals = {
 			</li>
 			<li>
 				Since this is a DLL with a tail, all operations acting at the front and back of the
-				list are <a className="equation">O(1)</p>
+				list are <a className="equation">O(1)</a>
 			</li>
 		</ul>
 	),
@@ -153,7 +153,7 @@ const Modals = {
 				The worst case is when we have a reverse sorted array (we perform
 				<a className="equation">
 					n + (n - 1) + (n - 2) + ... = n<sup>2</sup>
-				</p>
+				</a>
 				comparisons)
 			</li>
 		</ul>
@@ -194,16 +194,16 @@ const Modals = {
 			</li>
 			<li>
 				LinkedLists are designed to operate at the head. So all operations acting at the
-				front are <a className="equation">O(1).</p>
+				front are <a className="equation">O(1).</a>
 			</li>
 			<li>
-				Without the tail, adding to the back is <a className="equation">O(n)</p> since
-				we must traverse from the head to the last node.
+				Without the tail, adding to the back is <a className="equation">O(n)</a> since we
+				must traverse from the head to the last node.
 			</li>
 			<li>
-				With the tail, adding to the back becomes <a className="equation">O(1)</p>{' '}
-				since we can set the next pointer of the tail to the new node and then have the tail
-				point to the new node.
+				With the tail, adding to the back becomes <a className="equation">O(1)</a> since we
+				can set the next pointer of the tail to the new node and then have the tail point to
+				the new node.
 			</li>
 		</ul>
 	),

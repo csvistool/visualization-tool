@@ -204,7 +204,10 @@ export default class SkipList extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		const dataList = searchParams
+			.get('data')
+			.split(',')
+			.filter(item => item.trim() !== '');
 		dataList.forEach(dataEntry => {
 			this.addValueFieldRandom.value = dataEntry;
 			this.addRandomlyCallback();

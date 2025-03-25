@@ -217,32 +217,32 @@ export default class BTree extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		if (searchParams.has("promote")) {
-			const selection = searchParams.get("promote");
-			if (selection === "second") {
-				this.split_index = 1
+		if (searchParams.has('promote')) {
+			const selection = searchParams.get('promote');
+			if (selection === 'second') {
+				this.split_index = 1;
 				this.splitSecondSelect.checked = true;
 				this.splitThirdSelect.checked = false;
-			} else if (selection === "third") {
-				this.split_index = 2
+			} else if (selection === 'third') {
+				this.split_index = 2;
 				this.splitSecondSelect.checked = false;
-				this.splitThirdSelect.checked = true
+				this.splitThirdSelect.checked = true;
 			}
 		}
 
-		if (searchParams.has("predSucc")) {
-			const selection = searchParams.get("predSucc");
-			if (selection === "pred") {
-				this.predSucc = 'pred'
+		if (searchParams.has('predSucc')) {
+			const selection = searchParams.get('predSucc');
+			if (selection === 'pred') {
+				this.predSucc = 'pred';
 				this.predButton.checked = true;
-			} else if (selection === "succ") {
-				this.predSucc = 'succ'
+			} else if (selection === 'succ') {
+				this.predSucc = 'succ';
 				this.succButton.checked = true;
 			}
 		}
 
-		if (searchParams.has("data")) {
-			const data = searchParams.get("data");
+		if (searchParams.has('data')) {
+			const data = searchParams.get('data');
 			this.buildTreeField.value = data;
 			this.buildTreeCallback();
 		}

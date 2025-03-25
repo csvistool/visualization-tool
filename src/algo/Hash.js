@@ -265,45 +265,50 @@ export default class Hash extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		// initial capacity must be processed first since it requires restarting 
-		if (searchParams.has("initialCapacity")) {
-			this.initialCapacityField.value = parseInt(searchParams.get("initialCapacity").substring(0, 2))
+		// initial capacity must be processed first since it requires restarting
+		if (searchParams.has('initialCapacity')) {
+			this.initialCapacityField.value = parseInt(
+				searchParams.get('initialCapacity').substring(0, 2),
+			);
 			this.resizeInitialTableCall();
 			this.animationManager.skipForward();
 		}
 
-		if (searchParams.has("loadFactor")) {
-			this.loadField.value = parseInt(searchParams.get("loadFactor").substring(0, 2));
+		if (searchParams.has('loadFactor')) {
+			this.loadField.value = parseInt(searchParams.get('loadFactor').substring(0, 2));
 			this.loadFactorCallBack();
 		}
 
-		if (searchParams.has("hashType")) {
-			const newHashType = searchParams.get("hashType").trim()
+		if (searchParams.has('hashType')) {
+			const newHashType = searchParams.get('hashType').trim();
 			if (newHashType === 'Integers' || newHashType === 'Strings' || newHashType === 'True') {
 				this.hashTypeDropDown.value = newHashType;
 				this.checkHashType();
 			}
 		}
 
-		if (searchParams.has("data")) {
-			const dataList = searchParams.get("data").split(",").filter(item => item.trim() !== "");
+		if (searchParams.has('data')) {
+			const dataList = searchParams
+				.get('data')
+				.split(',')
+				.filter(item => item.trim() !== '');
 			dataList.forEach(dataEntry => {
-				const pair = dataEntry.split(":")
-				pair[0] = pair[0].trim().substring(0, 4)
-				pair[1] = pair[1].trim().substring(0, 4)
-				
+				const pair = dataEntry.split(':');
+				pair[0] = pair[0].trim().substring(0, 4);
+				pair[1] = pair[1].trim().substring(0, 4);
+
 				if (this.hashType === 'integers' && isNaN(Number(pair[0]))) {
-					console.error("Cannot add non-integer keys when hashType is Integers.")
-					return
+					console.error('Cannot add non-integer keys when hashType is Integers.');
+					return;
 				} else if (pair[0].length === 0) {
-					console.error("Cannot add empty keys.")
-					return
+					console.error('Cannot add empty keys.');
+					return;
 				}
-	
+
 				this.implementAction(this.insertElement.bind(this), pair[0], pair[1]);
 				this.animationManager.skipForward();
 				this.animationManager.clearHistory();
-			});	
+			});
 		}
 	}
 

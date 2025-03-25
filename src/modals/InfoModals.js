@@ -249,9 +249,9 @@ const Modals = {
 	SplayTree: (
 		<ul>
 			<li>
-				SplayTrees are optimized for frequently accessing the same subset of elements.
-				After an operation on an element, the element is moved to the root of the tree.
-				This allows for faster access next time this element is searched for, and frequently-
+				SplayTrees are optimized for frequently accessing the same subset of elements. After
+				an operation on an element, the element is moved to the root of the tree. This
+				allows for faster access next time this element is searched for, and frequently-
 				searched elements will tend to be towards the top of the tree.
 			</li>
 		</ul>
@@ -268,14 +268,33 @@ const Modals = {
 	FredSort: (
 		<ul>
 			<li>
-				First, split the array into √n partitions. Then, run Insertion Sort on each partition. Lastly, merge each partition together in sorted order, similar to MergeSort.
+				First, split the array into √n partitions. Then, run Insertion Sort on each
+				partition. Lastly, merge each partition together in sorted order, similar to
+				MergeSort.
 			</li>
 			<li>
-				FredSort is an iterative sort created by our very own Professor <strong>Fred</strong>eric Faulkner.
-				It is generally worse than MergeSort for efficiency, but is a fun exercise for algorithmic analysis.
+				FredSort is an iterative sort created by our very own Professor{' '}
+				<strong>Fred</strong>eric Faulkner. It is generally worse than MergeSort for
+				efficiency, but is a fun exercise for algorithmic analysis.
 			</li>
 		</ul>
-	)
+	),
+	DropSort: (
+		<ul>
+			<li>
+				This sort, also commonly known by other less appropriate names, is a way to create a
+				sorted array of data in O(n) time.
+			</li>
+			<li>
+				Iterate through the array left-to-right and <strong>drop (delete)</strong> any
+				out-of-order elements, so that we end up with a sorted list.
+			</li>
+			<li>
+				While this sort is technically O(n), it is not recommended for any real-world use
+				since the user typically does not want to lose parts of their data when sorting.
+			</li>
+		</ul>
+	),
 };
 
 export default Modals;

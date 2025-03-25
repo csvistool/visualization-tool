@@ -219,12 +219,11 @@ export default class AnimationManager extends EventListener {
 			this.skipBack(),
 		);
 		this.stepBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Step Back', () => {
-				if (!this.paused) {
-					this.doPlayPause();
-				}
-				this.stepBack()
-			},
-		);
+			if (!this.paused) {
+				this.doPlayPause();
+			}
+			this.stepBack();
+		});
 		this.playPauseBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Pause', () =>
 			this.doPlayPause(),
 		);
@@ -238,7 +237,7 @@ export default class AnimationManager extends EventListener {
 				if (!this.paused) {
 					this.doPlayPause();
 				}
-				this.step()
+				this.step();
 			},
 		);
 		this.skipForwardButton = addControlToAnimationBar(
@@ -736,9 +735,9 @@ export default class AnimationManager extends EventListener {
 					}
 				} else {
 					if (
-						this.animationPaused
-						&& this.animationSteps !== undefined
-						&& this.currentAnimation < this.animationSteps.length
+						this.animationPaused &&
+						this.animationSteps !== undefined &&
+						this.currentAnimation < this.animationSteps.length
 					) {
 						this.awaitingStep = true;
 						this.fireEvent('AnimationWaiting', 'NoData');

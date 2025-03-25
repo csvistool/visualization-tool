@@ -102,8 +102,8 @@ export default class LCS extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		this.S1Field.value = searchParams.get("s1")
-		this.S2Field.value = searchParams.get("s2")
+		this.S1Field.value = searchParams.get('s1');
+		this.S2Field.value = searchParams.get('s2');
 		this.runCallback();
 	}
 
