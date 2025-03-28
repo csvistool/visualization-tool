@@ -44,8 +44,6 @@ const ARRAY_LINE_SPACING = 75;
 const ARRAY_ELEM_WIDTH = 50;
 const ARRAY_ELEM_HEIGHT = 50;
 
-const LARGE_OFFSET = 15;
-
 export default class MergeSort extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
