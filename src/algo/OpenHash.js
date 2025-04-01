@@ -147,9 +147,13 @@ export default class OpenHash extends Hash {
 	}
 
 	setURLData(searchParams) {
-		if (searchParams.has("probeType")) {
-			const newProbeType = searchParams.get("probeType").trim()
-			if (newProbeType === 'linear' || newProbeType === 'quadratic' || newProbeType === 'double') {
+		if (searchParams.has('probeType')) {
+			const newProbeType = searchParams.get('probeType').trim();
+			if (
+				newProbeType === 'linear' ||
+				newProbeType === 'quadratic' ||
+				newProbeType === 'double'
+			) {
 				this.probeTypeDropDown.value = newProbeType;
 				this.checkProbeType();
 			}

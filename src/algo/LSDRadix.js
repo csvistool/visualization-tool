@@ -126,15 +126,15 @@ export default class LSDRadix extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		if (searchParams.has("negative")) {
-			const type = searchParams.get("negative");
-			if (type === "1") {
+		if (searchParams.has('negative')) {
+			const type = searchParams.get('negative');
+			if (type === '1') {
 				this.negativeNumbersCheckbox.checked = true;
 				this.toggleNegativeNumbers();
 			}
 		}
 
-		if (searchParams.has("data")) {
+		if (searchParams.has('data')) {
 			const data = searchParams.get('data');
 			this.listField.value = data;
 			this.sortCallback();
@@ -240,11 +240,7 @@ export default class LSDRadix extends Algorithm {
 				this.codeID.english[7][0],
 				'      b is (num at array[j] / base % 10 + 9)',
 			);
-			this.cmd(
-				act.setText,
-				this.codeID.english[11][0],
-				'    for each bucket:'
-			);
+			this.cmd(act.setText, this.codeID.english[11][0], '    for each bucket:');
 		} else {
 			this.cmd(act.setText, this.codeID.code[1][0], '  buckets ← array of 10 lists');
 			this.cmd(act.setText, this.codeID.code[7][0], '      b ← array[j] / div % 10');
@@ -260,11 +256,7 @@ export default class LSDRadix extends Algorithm {
 				this.codeID.english[7][0],
 				'      b is (num at array[j] / base % 10)',
 			);
-			this.cmd(
-				act.setText,
-				this.codeID.english[11][0],
-				'    for each bucket:'
-			);
+			this.cmd(act.setText, this.codeID.english[11][0], '    for each bucket:');
 		}
 	}
 
