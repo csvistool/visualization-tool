@@ -228,7 +228,7 @@ export default class LSDRadix extends Algorithm {
 		if (negativeNumbersEnabled) {
 			this.cmd(act.setText, this.codeID.code[1][0], '  buckets ← array of 19 lists');
 			this.cmd(act.setText, this.codeID.code[7][0], '      b ← array[j] / div % 10 + 9');
-			this.cmd(act.setText, this.codeID.code[11][0], '    for bucket ← 0, 18:');
+			this.cmd(act.setText, this.codeID.code[11][0], '    for b ← 0, 18:');
 
 			this.cmd(
 				act.setText,
@@ -240,10 +240,15 @@ export default class LSDRadix extends Algorithm {
 				this.codeID.english[7][0],
 				'      b is (num at array[j] / base % 10 + 9)',
 			);
+			this.cmd(
+				act.setText,
+				this.codeID.english[11][0],
+				'    for each bucket:'
+			);
 		} else {
 			this.cmd(act.setText, this.codeID.code[1][0], '  buckets ← array of 10 lists');
 			this.cmd(act.setText, this.codeID.code[7][0], '      b ← array[j] / div % 10');
-			this.cmd(act.setText, this.codeID.code[11][0], '    for bucket ← 0, 9:');
+			this.cmd(act.setText, this.codeID.code[11][0], '    for b ← 0, 9:');
 
 			this.cmd(
 				act.setText,
@@ -254,6 +259,11 @@ export default class LSDRadix extends Algorithm {
 				act.setText,
 				this.codeID.english[7][0],
 				'      b is (num at array[j] / base % 10)',
+			);
+			this.cmd(
+				act.setText,
+				this.codeID.english[11][0],
+				'    for each bucket:'
 			);
 		}
 	}
