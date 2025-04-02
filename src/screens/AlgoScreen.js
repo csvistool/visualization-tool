@@ -34,7 +34,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const animManagRef = useRef(null);
 
 	const [infoModalEnabled, setInfoModalEnabled] = useState(false);
-	const [infoModalTab, setInfoModalTab] = useState('about'); // 'about' or 'code'
+	const [infoModalTab, setInfoModalTab] = useState('about'); // 'about' or 'code' or 'bigo'
 	const [bigOEnabled, setBigOEnabled] = useState(false);
 	const [pseudocodeType, setPseudocodeType] = useState('english');
 	const [selectedSection, setSelectedSection] = useState(null);
@@ -155,8 +155,11 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	};
 
 	const toggleBigO = () => {
-		setInfoModalEnabled(false);
-		setBigOEnabled(prev => !prev);
+		// Instead of showing a separate modal, open info modal with BigO tab
+		if (!infoModalEnabled) {
+			setInfoModalEnabled(true);
+		}
+		setInfoModalTab('bigo');
 	};
 
 	const togglePseudocode = () => {
@@ -170,20 +173,36 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
 	// Function to apply syntax highlighting to pseudocode
 	const highlightSyntax = (content) => {
+		// Create a safe version of the content by escaping HTML
+		const escapeHtml = (unsafe) => {
+			return unsafe
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;")
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#039;");
+		};
+		
+		const escaped = escapeHtml(content);
+		
 		// Define regex patterns for different code elements
-		const keywordPattern = /\b(if|else|for|while|return|end)\b(?!\s*procedure)/g;
-		const procedurePattern = /\bprocedure\s+(\w+)/g;
-		const endProcedurePattern = /end\s+procedure/g;
+		const keywordPattern = /\b(if|else|for|while|return)\b/g;
+		const procedureStartPattern = /\b(procedure)\s+(\w+)/g;
+		const endProcedurePattern = /\b(end)\s+(procedure)\b/g;
 		const commentPattern = /\/\/.+$/g;
 		const paramPattern = /\(([^)]+)\)/g;
 		
-		// Apply highlighting by wrapping in span tags
-		const highlighted = content
-			.replace(procedurePattern, '<span class="pseudocode-procedure">procedure $1</span>')
-			.replace(endProcedurePattern, '<span class="pseudocode-end">end procedure</span>')
+		// Apply highlighting with span elements
+		let highlighted = escaped
+			.replace(endProcedurePattern, '<span class="pseudocode-end">$1 $2</span>')
+			.replace(procedureStartPattern, '<span class="pseudocode-procedure">$1 $2</span>')
 			.replace(keywordPattern, '<span class="pseudocode-keyword">$1</span>')
-			.replace(commentPattern, '<span class="pseudocode-comment">$&</span>')
-			.replace(paramPattern, '(<span class="pseudocode-param">$1</span>)');
+			.replace(commentPattern, '<span class="pseudocode-comment">$&</span>');
+		
+		// Handle parameters separately to avoid nested replacements
+		highlighted = highlighted.replace(paramPattern, function(match, p1) {
+			return '(<span class="pseudocode-param">' + p1 + '</span>)';
+		});
 		
 		return { __html: highlighted };
 	};
@@ -234,13 +253,13 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 					<div id="algoControlSection">
 						<table id="AlgorithmSpecificControls"></table>
 						<div id="toggles">
-							{(infoModals[algoName] || pseudocodeData) && (
+							{(infoModals[algoName] || pseudocodeData || bigOModals(algoName)) && (
 								<BsBookHalf
 									className="menu-modal"
 									size={30}
 									onClick={toggleInfoModal}
 									opacity={infoModalEnabled ? '100%' : '40%'}
-									title="Information & Pseudocode"
+									title="Information & Documentation"
 								/>
 							)}
 							{hasPseudoCode && pseudocodeType === 'none' && (
@@ -268,15 +287,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 									title="Code: Pseudo"
 								/>
 							)}
-							{bigOModals(algoName) && (
-								<BsClock
-									className="menu-modal"
-									size={30}
-									onClick={toggleBigO}
-									opacity={bigOEnabled ? '100%' : '40%'}
-									title="Time Complexities"
-								/>
-							)}
 						</div>
 					</div>
 
@@ -302,6 +312,15 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 											>
 												<BsCodeSlash size={18} />
 												<span className="tab-text">Pseudocode</span>
+											</button>
+										)}
+										{bigOModals(algoName) && (
+											<button 
+												className={`tab-button ${infoModalTab === 'bigo' ? 'active' : ''}`}
+												onClick={() => setInfoModalTab('bigo')}
+											>
+												<BsClock size={18} />
+												<span className="tab-text">Big O</span>
 											</button>
 										)}
 									</div>
@@ -363,10 +382,16 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 											)}
 										</div>
 									)}
+									
+									{infoModalTab === 'bigo' && bigOModals(algoName) && (
+										<div className="tab-content bigo-content">
+											{bigOModals(algoName)}
+										</div>
+									)}
 								</div>
 							</div>
 						)}
-						{bigOEnabled && (
+						{false && bigOEnabled && (
 							<div className="modal bigo">
 								<div className="modal-content">{bigOModals(algoName)}</div>
 							</div>

@@ -942,3 +942,82 @@ input[type='checkbox'] {
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 	border: 1px solid var(--border);
 }
+
+/* Big O Content within Tab */
+.bigo-content {
+	padding: 10px;
+	max-height: 400px;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--border) transparent;
+}
+
+.bigo-content::-webkit-scrollbar {
+	width: 8px;
+}
+
+.bigo-content::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.bigo-content::-webkit-scrollbar-thumb {
+	background-color: var(--border);
+	border-radius: 6px;
+	border: 2px solid transparent;
+}
+
+.bigo-content .button-container {
+	margin-bottom: 15px;
+}
+
+.bigo-content .button-container button {
+	background-color: var(--button);
+	color: var(--primary);
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	padding: 8px 12px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+.bigo-content .button-container button:hover {
+	background-color: var(--background);
+	color: var(--hover-text);
+	transform: translateY(-2px);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.bigo-content table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 15px;
+}
+
+.bigo-content td {
+	padding: 8px;
+	border: 1px solid var(--border);
+}
+
+.bigo-content h4 {
+	margin-top: 15px;
+	margin-bottom: 10px;
+	color: var(--primary);
+}
+
+.bigo-content .blur {
+	filter: blur(4px);
+	transition: filter 0.3s ease;
+}
+
+.bigo-content .big_o_cell {
+	cursor: pointer;
+}
+
+/* Responsive design for Big O content */
+@media (max-width: 768px) {
+	.bigo-content table {
+		font-size: 14px;
+	}
+}
