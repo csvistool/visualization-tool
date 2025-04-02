@@ -2195,5 +2195,63 @@
 				["end procedure"]
 			]
 		}
+	},
+	"LCS": {
+		"run": {
+			"code": [
+				["procedure LCS(S1, S2, matrix):"],
+				["  matrix ← create new 2D array of length S1.length by S2.length"],
+				["  for y ← 1, to S1.length, loop"],
+				["    for x ← 1 to S2.length, loop"],
+				["      if (S1[y] == S2[x])"],
+				["        matrix[y][x] = 1 + matrix[y - 1][x - 1]"],
+				["      else"],
+				["        matrix[y][x] = max(matrix[y - 1][x], matrix[y][x - 1])"],
+				["    end for"],
+				["  end for"],
+				["  currY ← S1.length"],
+				["  currX ← S2.length"],
+				["  list ← create new List()"],
+				["  while currY > 0 and currX > 0, loop:"],
+				["    if matrix[currY - 1][currX] == matrix[currY][currX - 1]"],
+				["      and matrix[currY][currX] != matrix[currY - 1][currX - 1]"],
+				["      list.addFront(S1[currY])"],
+				["      currX--"],
+				["      currY--"],
+				["    else"],
+				["      if matrix[currY - 1][currX] > matrix[currY][currX - 1]"],
+				["        currY--"],
+				["      else"],
+				["        currX--"],
+				["    end if"],
+				["  end while"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure LCS(S1, S2, matrix):"],
+				["  create a 2D array matrix sized by string lengths"],
+				["  for each character in S1:"],
+				["    for each character in S2:"],
+				["      if characters match:"],
+				["        add 1 to the diagonal value"],
+				["      else:"],
+				["        take maximum of left or above cell"],
+				["    end for"],
+				["  end for"],
+				["  start at bottom-right corner of matrix"],
+				["  initialize empty result list"],
+				["  while not at a boundary:"],
+				["    if top value equals left value"],
+				["      and current value is greater than both:"],
+				["      add current character to result list"],
+				["      move diagonally up-left"],
+				["    else:"],
+				["      move toward larger of left/top values"],
+				["    end if"],
+				["  end while"],
+				["  return built list of characters"],
+				["end procedure"]
+			]
+		}
 	}
 }
