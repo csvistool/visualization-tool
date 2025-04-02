@@ -197,13 +197,13 @@ const Modals = {
 				front are <span className="equation">O(1).</span>
 			</li>
 			<li>
-				Without the tail, adding to the back is <span className="equation">O(n)</span> since we
-				must traverse from the head to the last node.
+				Without the tail, adding to the back is <span className="equation">O(n)</span> since
+				we must traverse from the head to the last node.
 			</li>
 			<li>
-				With the tail, adding to the back becomes <span className="equation">O(1)</span> since we
-				can set the next pointer of the tail to the new node and then have the tail point to
-				the new node.
+				With the tail, adding to the back becomes <span className="equation">O(1)</span>{' '}
+				since we can set the next pointer of the tail to the new node and then have the tail
+				point to the new node.
 			</li>
 		</ul>
 	),

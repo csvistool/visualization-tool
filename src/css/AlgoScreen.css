@@ -555,30 +555,30 @@ input[type='checkbox'] {
 
 /* Syntax highlighting */
 .pseudocode-keyword {
-	color: #0033B3;
+	color: #0033b3;
 	font-weight: bold;
 }
 
 .dark-theme .pseudocode-keyword {
-	color: #569CD6;
+	color: #569cd6;
 }
 
 .pseudocode-procedure {
-	color: #4277BB;
+	color: #4277bb;
 	font-weight: bold;
 }
 
 .dark-theme .pseudocode-procedure {
-	color: #569CD6;
+	color: #569cd6;
 }
 
 .pseudocode-end {
-	color: #7A3E9D;
+	color: #7a3e9d;
 	font-weight: bold;
 }
 
 .dark-theme .pseudocode-end {
-	color: #C586C0;
+	color: #c586c0;
 }
 
 .pseudocode-comment {
@@ -587,7 +587,7 @@ input[type='checkbox'] {
 }
 
 .dark-theme .pseudocode-comment {
-	color: #6A9955;
+	color: #6a9955;
 }
 
 .pseudocode-param {
@@ -595,7 +595,7 @@ input[type='checkbox'] {
 }
 
 .dark-theme .pseudocode-param {
-	color: #9CDCFE;
+	color: #9cdcfe;
 }
 
 .modal.pseudocode .modal-content {
@@ -611,7 +611,7 @@ input[type='checkbox'] {
 		min-width: auto;
 		right: 5%;
 	}
-	
+
 	.pseudocode-controls {
 		flex-direction: column;
 		gap: 8px;
@@ -723,25 +723,25 @@ input[type='checkbox'] {
 		min-width: auto;
 		right: 5%;
 	}
-	
+
 	.tab-text {
 		display: none;
 	}
-	
+
 	.tab-button {
 		padding: 8px;
 	}
-	
+
 	.pseudocode-header {
 		flex-direction: column;
 		gap: 10px;
 		align-items: flex-start;
 	}
-	
+
 	.pseudocode-section-selector {
 		width: 100%;
 	}
-	
+
 	.code-toggle-button {
 		align-self: flex-end;
 		margin-top: -40px;
@@ -893,30 +893,30 @@ input[type='checkbox'] {
 
 /* Syntax highlighting */
 .pseudocode-keyword {
-	color: #0033B3;
+	color: #0033b3;
 	font-weight: bold;
 }
 
 .dark-theme .pseudocode-keyword {
-	color: #569CD6;
+	color: #569cd6;
 }
 
 .pseudocode-procedure {
-	color: #4277BB;
+	color: #4277bb;
 	font-weight: bold;
 }
 
 .dark-theme .pseudocode-procedure {
-	color: #569CD6;
+	color: #569cd6;
 }
 
 .pseudocode-end {
-	color: #7A3E9D;
+	color: #7a3e9d;
 	font-weight: bold;
 }
 
 .dark-theme .pseudocode-end {
-	color: #C586C0;
+	color: #c586c0;
 }
 
 .pseudocode-comment {
@@ -925,7 +925,7 @@ input[type='checkbox'] {
 }
 
 .dark-theme .pseudocode-comment {
-	color: #6A9955;
+	color: #6a9955;
 }
 
 .pseudocode-param {
@@ -933,7 +933,7 @@ input[type='checkbox'] {
 }
 
 .dark-theme .pseudocode-param {
-	color: #9CDCFE;
+	color: #9cdcfe;
 }
 
 .modal.info-modal .modal-content {

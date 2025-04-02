@@ -100,47 +100,48 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	useEffect(() => {
 		const findPseudocode = () => {
 			// Function to normalize and standardize algorithm names for comparison
-			const normalizeAlgoName = (name) => {
-				return name.toLowerCase()
+			const normalizeAlgoName = name => {
+				return name
+					.toLowerCase()
 					.replace(/['\s-]+/g, '') // Remove apostrophes, spaces, hyphens
-					.replace(/s$/, '')       // Remove trailing 's' for plurals
+					.replace(/s$/, '') // Remove trailing 's' for plurals
 					.replace(/^(singly|doubly|circularly)/, ''); // Remove prefixes like "singly", "doubly"
 			};
-			
+
 			const normalizedAlgoName = normalizeAlgoName(algoName);
-			
+
 			// First try exact match
 			if (pseudocodeText[algoName]) {
 				return pseudocodeText[algoName];
 			}
-			
+
 			// Then try normalized matching
 			const algoKey = Object.keys(pseudocodeText).find(key => {
 				return normalizeAlgoName(key) === normalizedAlgoName;
 			});
-			
+
 			if (algoKey) {
 				return pseudocodeText[algoKey];
 			}
-			
+
 			return null;
 		};
-		
+
 		const data = findPseudocode();
 		setPseudocodeData(data);
-		
+
 		if (data) {
 			setSelectedSection(Object.keys(data)[0]); // Default to first section
 		}
 	}, [algoName]);
-	
+
 	// Get the appropriate content based on selected section
-	const pseudocodeContent = pseudocodeData && selectedSection ? 
-		pseudocodeData[selectedSection][pseudocodeType] : null;
+	const pseudocodeContent =
+		pseudocodeData && selectedSection ? pseudocodeData[selectedSection][pseudocodeType] : null;
 
 	const toggleInfoModal = () => {
 		setBigOEnabled(false);
-		
+
 		// When opening the modal, set the appropriate tab
 		if (!infoModalEnabled) {
 			// Choose the tab based on available content
@@ -150,16 +151,8 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 				setInfoModalTab('code');
 			}
 		}
-		
-		setInfoModalEnabled(prev => !prev);
-	};
 
-	const toggleBigO = () => {
-		// Instead of showing a separate modal, open info modal with BigO tab
-		if (!infoModalEnabled) {
-			setInfoModalEnabled(true);
-		}
-		setInfoModalTab('bigo');
+		setInfoModalEnabled(prev => !prev);
 	};
 
 	const togglePseudocode = () => {
@@ -172,38 +165,38 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	};
 
 	// Function to apply syntax highlighting to pseudocode
-	const highlightSyntax = (content) => {
+	const highlightSyntax = content => {
 		// Create a safe version of the content by escaping HTML
-		const escapeHtml = (unsafe) => {
+		const escapeHtml = unsafe => {
 			return unsafe
-				.replace(/&/g, "&amp;")
-				.replace(/</g, "&lt;")
-				.replace(/>/g, "&gt;")
-				.replace(/"/g, "&quot;")
-				.replace(/'/g, "&#039;");
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#039;');
 		};
-		
+
 		const escaped = escapeHtml(content);
-		
+
 		// Define regex patterns for different code elements
 		const keywordPattern = /\b(if|else|for|while|return)\b/g;
 		const procedureStartPattern = /\b(procedure)\s+(\w+)/g;
 		const endProcedurePattern = /\b(end)\s+(procedure)\b/g;
 		const commentPattern = /\/\/.+$/g;
 		const paramPattern = /\(([^)]+)\)/g;
-		
+
 		// Apply highlighting with span elements
 		let highlighted = escaped
 			.replace(endProcedurePattern, '<span class="pseudocode-end">$1 $2</span>')
 			.replace(procedureStartPattern, '<span class="pseudocode-procedure">$1 $2</span>')
 			.replace(keywordPattern, '<span class="pseudocode-keyword">$1</span>')
 			.replace(commentPattern, '<span class="pseudocode-comment">$&</span>');
-		
+
 		// Handle parameters separately to avoid nested replacements
-		highlighted = highlighted.replace(paramPattern, function(match, p1) {
+		highlighted = highlighted.replace(paramPattern, function (match, p1) {
 			return '(<span class="pseudocode-param">' + p1 + '</span>)';
 		});
-		
+
 		return { __html: highlighted };
 	};
 
@@ -293,12 +286,18 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 					<div className="viewport">
 						<canvas id="canvas" width={0} height="505" ref={canvasRef}></canvas>
 						{infoModalEnabled && (
-							<div className={`modal info-modal ${theme === 'dark' ? 'dark-theme' : ''}`}>
+							<div
+								className={`modal info-modal ${
+									theme === 'dark' ? 'dark-theme' : ''
+								}`}
+							>
 								<div className="modal-content">
 									<div className="modal-tabs">
 										{infoModals[algoName] && (
-											<button 
-												className={`tab-button ${infoModalTab === 'about' ? 'active' : ''}`}
+											<button
+												className={`tab-button ${
+													infoModalTab === 'about' ? 'active' : ''
+												}`}
 												onClick={() => setInfoModalTab('about')}
 											>
 												<BsInfoCircle size={18} />
@@ -306,8 +305,10 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 											</button>
 										)}
 										{pseudocodeData && (
-											<button 
-												className={`tab-button ${infoModalTab === 'code' ? 'active' : ''}`}
+											<button
+												className={`tab-button ${
+													infoModalTab === 'code' ? 'active' : ''
+												}`}
 												onClick={() => setInfoModalTab('code')}
 											>
 												<BsCodeSlash size={18} />
@@ -315,8 +316,10 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 											</button>
 										)}
 										{bigOModals(algoName) && (
-											<button 
-												className={`tab-button ${infoModalTab === 'bigo' ? 'active' : ''}`}
+											<button
+												className={`tab-button ${
+													infoModalTab === 'bigo' ? 'active' : ''
+												}`}
 												onClick={() => setInfoModalTab('bigo')}
 											>
 												<BsClock size={18} />
@@ -324,57 +327,85 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 											</button>
 										)}
 									</div>
-									
+
 									{infoModalTab === 'about' && infoModals[algoName] && (
 										<div className="tab-content about-content">
 											{infoModals[algoName]}
 										</div>
 									)}
-									
+
 									{infoModalTab === 'code' && pseudocodeData && (
 										<div className="tab-content code-content">
 											<div className="pseudocode-header">
 												<div className="pseudocode-title">
 													{Object.keys(pseudocodeData).length > 1 && (
-														<select 
+														<select
 															value={selectedSection}
-															onChange={(e) => setSelectedSection(e.target.value)}
+															onChange={e =>
+																setSelectedSection(e.target.value)
+															}
 															className="pseudocode-section-selector"
 														>
-															{Object.keys(pseudocodeData).map(section => (
-																<option key={section} value={section}>
-																	{section.charAt(0).toUpperCase() + section.slice(1).replace(/([A-Z])/g, ' $1')}
-																</option>
-															))}
+															{Object.keys(pseudocodeData).map(
+																section => (
+																	<option
+																		key={section}
+																		value={section}
+																	>
+																		{section
+																			.charAt(0)
+																			.toUpperCase() +
+																			section
+																				.slice(1)
+																				.replace(
+																					/([A-Z])/g,
+																					' $1',
+																				)}
+																	</option>
+																),
+															)}
 														</select>
 													)}
 												</div>
-												<button 
-													className="code-toggle-button" 
+												<button
+													className="code-toggle-button"
 													onClick={togglePseudocodeType}
-													title={pseudocodeType === 'english' ? 'Show Code Format' : 'Show English Format'}
-												>
-													{pseudocodeType === 'english' 
-														? <BsCodeSlash size={20} />
-														: <BsTranslate size={20} />
+													title={
+														pseudocodeType === 'english'
+															? 'Show Code Format'
+															: 'Show English Format'
 													}
+												>
+													{pseudocodeType === 'english' ? (
+														<BsCodeSlash size={20} />
+													) : (
+														<BsTranslate size={20} />
+													)}
 												</button>
 											</div>
-											
+
 											{pseudocodeContent && (
 												<div className="pseudocode-modal-content">
 													{pseudocodeContent.map((line, i) => {
 														// Calculate indentation level by counting leading spaces
 														const content = line[0];
 														const indentMatch = content.match(/^(\s+)/);
-														const indentLevel = indentMatch ? indentMatch[0].length / 2 : 0;
-														
+														const indentLevel = indentMatch
+															? indentMatch[0].length / 2
+															: 0;
+
 														return (
-															<div 
-																key={i} 
+															<div
+																key={i}
 																className="pseudocode-line"
-																style={{ paddingLeft: `${indentLevel * 20}px` }}
-																dangerouslySetInnerHTML={highlightSyntax(content)}
+																style={{
+																	paddingLeft: `${
+																		indentLevel * 20
+																	}px`,
+																}}
+																dangerouslySetInnerHTML={highlightSyntax(
+																	content,
+																)}
 															></div>
 														);
 													})}
@@ -382,7 +413,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 											)}
 										</div>
 									)}
-									
+
 									{infoModalTab === 'bigo' && bigOModals(algoName) && (
 										<div className="tab-content bigo-content">
 											{bigOModals(algoName)}
