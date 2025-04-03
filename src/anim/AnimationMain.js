@@ -140,6 +140,11 @@ function addControlToAnimationBar(animBarRef, type, name, callback) {
 	element.setAttribute('value', name);
 	if (type === 'Button') {
 		element.onclick = callback;
+		if (name === 'Pause') {
+			element.classList.add('pause');
+		} else if (name === 'Play') {
+			element.classList.add('play');
+		}
 	} else if (type === 'Text') {
 		element.onkeydown = callback;
 	}
@@ -228,7 +233,7 @@ export default class AnimationManager extends EventListener {
 			this.doPlayPause(),
 		);
 		this.playPauseBackButton.setAttribute('style', 'width: 80px');
-		this.playPauseBackButton.style.backgroundColor = '#ffcccc';
+		this.playPauseBackButton.classList.add('pause');
 		this.stepForwardButton = addControlToAnimationBar(
 			animBarRef,
 			'Button',
@@ -798,19 +803,16 @@ export default class AnimationManager extends EventListener {
 	}
 
 	doPlayPause() {
-		this.paused = !this.paused;
 		if (this.paused) {
-			this.playPauseBackButton.setAttribute('value', 'Play');
-			this.playPauseBackButton.style.backgroundColor = '#ccffcc';
-			if (this.skipBackButton.disabled === false) {
-				if (this.undoStack && this.undoStack.length !== 0) {
-					this.stepBackButton.disabled = false;
-				}
-			}
+			this.playPauseBackButton.value = 'Pause';
+			this.playPauseBackButton.classList.remove('play');
+			this.playPauseBackButton.classList.add('pause');
 		} else {
-			this.playPauseBackButton.setAttribute('value', 'Pause');
-			this.playPauseBackButton.style.backgroundColor = '#ffcccc';
+			this.playPauseBackButton.value = 'Play';
+			this.playPauseBackButton.classList.remove('pause');
+			this.playPauseBackButton.classList.add('play');
 		}
+		this.paused = !this.paused;
 		this.setPaused(this.paused);
 	}
 

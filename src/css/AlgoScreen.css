@@ -1,23 +1,27 @@
 [data-theme='light'] {
-	--primary: #282828;
-	--control: #f2f2f2;
-	--border: #282828;
-	--button: #f2f2f2;
-	--header: #012f57;
-	--filter: brightness(85%);
-	--shadow: rgba(0, 0, 0, 0.75);
-	--slider: #f9c333;
+	--primary: #2c3e50;
+	--control: #f5f7fa;
+	--border: #e0e5ec;
+	--button: #f5f7fa;
+	--header: #4a7bbd;
+	--filter: brightness(90%);
+	--shadow: rgba(0, 0, 0, 0.1);
+	--slider: #3498db;
+	--play-button: #388E3C;
+	--pause-button: #D32F2F;
 }
 
 [data-theme='dark'] {
-	--primary: #f2f2f2;
-	--control: #282828;
-	--border: #f2f2f2;
-	--button: #282828;
-	--header: #282828;
-	--filter: brightness(185%);
-	--shadow: rgba(242, 242, 242, 0.1);
-	--slider: #d4f1f1;
+	--primary: #f0f2f8;
+	--control: #011228;
+	--border: #4a5568;
+	--button: #2d3748;
+	--header: #011228;
+	--filter: brightness(120%);
+	--shadow: rgba(0, 0, 0, 0.3);
+	--slider: #3498db;
+	--play-button: #2E7D32;
+	--pause-button: #B71C1C;
 }
 
 * {
@@ -55,13 +59,14 @@
 
 .VisualizationMainPage #algoControlSection {
 	background: var(--control);
-	color: #000000;
+	color: var(--primary);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: var(--border) 2px solid;
-	transition: all 0.4s ease 0s;
-	padding: 5px 5px;
+	border-bottom: 1px var(--border) solid;
+	transition: all 0.3s ease;
+	padding: 10px 16px;
+	box-shadow: 0 1px 3px var(--shadow);
 }
 
 .VisualizationMainPage #toggles * {
@@ -93,12 +98,13 @@
 
 .VisualizationMainPage #header {
 	background: var(--header);
-	border-bottom: 1.5px var(--border) solid;
-	color: #fffff0;
-	padding: 0 10px 0 5px;
-	transition: all 0.4s ease 0s;
+	border-bottom: 1px var(--border) solid;
+	color: #ffffff;
+	padding: 0 16px;
+	transition: all 0.3s ease;
 	font-family: 'Cabin', 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
 	font-weight: 400;
+	box-shadow: 0 2px 4px var(--shadow);
 }
 
 .VisualizationMainPage #header a:visited {
@@ -176,13 +182,13 @@ em {
 	height: 35px;
 	margin-right: 20px;
 	cursor: pointer;
-	transition: 0.2s;
+	transition: all 0.2s ease;
 	color: var(--primary);
 }
 
 .menu-modal:hover {
 	filter: var(--filter);
-	scale: 125%;
+	transform: scale(1.1);
 }
 .pseudocode-toggle {
 	cursor: pointer;
@@ -230,12 +236,12 @@ em {
 
 .VisualizationMainPage .modal-content {
 	max-height: 100%;
-	overflow-y: auto; /* Adds a vertical scrollbar when content exceeds max height */
-	padding: 15px 30px 15px 30px;
-	border-radius: 20px;
+	overflow-y: auto;
+	padding: 20px 30px;
+	border-radius: 12px;
 	background-color: var(--control);
-	transition: all 0.4s ease 0s;
-	box-shadow: 0px 0px 5px var(--shadow);
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 16px var(--shadow);
 }
 
 .VisualizationMainPage .modal-content ul {
@@ -307,19 +313,20 @@ em {
 }
 
 .VisualizationMainPage input[type='button'] {
-	background: var(--button);
-	border: var(--border) 2px solid;
-	border-radius: 6px;
-	padding: 8px 20px;
+	font-size: 14px;
+	padding: 8px 16px;
+	margin: 5px;
+	background-color: var(--button);
 	color: var(--primary);
-	margin: 6px;
-	cursor: pointer;
-	font-size: 13px;
-	font-weight: 550;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 4px var(--shadow);
 }
 
 .VisualizationMainPage input[type='button']:hover {
-	filter: var(--filter);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px var(--shadow);
 }
 
 .VisualizationMainPage input[type='button']::-moz-focus-inner {
@@ -652,31 +659,24 @@ input[type='checkbox'] {
 }
 
 .tab-button {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	background: transparent;
+	padding: 10px 20px;
+	margin: 0 5px;
 	border: none;
+	background: transparent;
 	color: var(--primary);
-	opacity: 0.6;
-	padding: 8px 15px;
-	border-radius: 20px;
+	font-size: 16px;
 	cursor: pointer;
 	transition: all 0.2s ease;
-	font-weight: 500;
+	border-bottom: 2px solid transparent;
 }
 
 .tab-button.active {
-	opacity: 1;
-	background-color: rgba(0, 0, 0, 0.1);
-}
-
-.dark-theme .tab-button.active {
-	background-color: rgba(255, 255, 255, 0.1);
+	color: var(--slider);
+	border-bottom: 2px solid var(--slider);
 }
 
 .tab-button:hover {
-	opacity: 1;
+	color: var(--slider);
 }
 
 .tab-content {
@@ -1020,4 +1020,33 @@ input[type='checkbox'] {
 	.bigo-content table {
 		font-size: 14px;
 	}
+}
+
+.VisualizationMainPage #generalAnimationControlSection input[type='button'] {
+	font-size: 14px;
+	padding: 8px 16px;
+	margin: 5px;
+	background-color: var(--button);
+	color: var(--primary);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 4px var(--shadow);
+}
+
+.VisualizationMainPage #generalAnimationControlSection input[type='button']:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px var(--shadow);
+}
+
+.VisualizationMainPage #generalAnimationControlSection input[type='button'].play {
+	background-color: var(--play-button) !important;
+	color: white !important;
+	border: none !important;
+}
+
+.VisualizationMainPage #generalAnimationControlSection input[type='button'].pause {
+	background-color: var(--pause-button) !important;
+	color: white !important;
+	border: none !important;
 }
