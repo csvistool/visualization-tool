@@ -10,9 +10,9 @@
 	--about-text: #ffffff;
 	--about-link: #d7ac37;
 	--menu-text: #ffffff;
-	--card-hover: #e8ebf0;  /* Darker gray for more prominent glow */
+	--card-hover: #e8ebf0; /* Darker gray for more prominent glow */
 	--card-shadow: rgba(0, 0, 0, 0.1);
-	--hover-border: #ffbb00;  /* Darker blue for border in light mode */
+	--hover-border: #ffbb00; /* Darker blue for border in light mode */
 }
 
 [data-theme='dark'] {
@@ -531,7 +531,7 @@ div.content {
 .inner-flex button.button:active {
 	background: var(--card-hover);
 	border-color: var(--hover-border);
-	border-width: 2px;  /* Slightly thicker border on hover */
+	border-width: 2px; /* Slightly thicker border on hover */
 	box-shadow: 0 4px 6px var(--card-shadow);
 	transform: translateY(-2px);
 }
@@ -776,7 +776,7 @@ input::placeholder {
 }
 
 .search-container::before {
-	content: "🔍";
+	content: '🔍';
 	position: absolute;
 	left: 12px;
 	top: 50%;
@@ -787,8 +787,14 @@ input::placeholder {
 
 /* Animation Improvements */
 @keyframes fadeIn {
-	from { opacity: 0; transform: translateY(10px); }
-	to { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .algo-container {
@@ -797,8 +803,7 @@ input::placeholder {
 
 /* Theme Transition */
 [data-theme] {
-	transition: background-color var(--transition-speed) ease,
-				color var(--transition-speed) ease;
+	transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 /* Button Modernization */

@@ -7,8 +7,8 @@
 	--filter: brightness(90%);
 	--shadow: rgba(0, 0, 0, 0.1);
 	--slider: #3498db;
-	--play-button: #388E3C;
-	--pause-button: #D32F2F;
+	--play-button: #388e3c;
+	--pause-button: #d32f2f;
 }
 
 [data-theme='dark'] {
@@ -20,8 +20,8 @@
 	--filter: brightness(120%);
 	--shadow: rgba(0, 0, 0, 0.3);
 	--slider: #3498db;
-	--play-button: #2E7D32;
-	--pause-button: #B71C1C;
+	--play-button: #2e7d32;
+	--pause-button: #b71c1c;
 }
 
 * {
