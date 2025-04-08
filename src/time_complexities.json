@@ -1517,7 +1517,7 @@
 	},
 
 	"Dijkstra": {
-		"Dijkstra''s": {
+		"Dijkstra's": {
 			"all cases": {
 				"big_o": "O(|E|log|E|)",
 				"explanation": "For each vertex, we iterate through all of its adjacent edges like in BFS. We add edges to a priority queue to decide in what order to explore, which is logarithmic for each step (it uses a heap!)",
