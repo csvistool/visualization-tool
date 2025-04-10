@@ -152,7 +152,8 @@ export default class MergeSort extends Algorithm {
 
 	exampleCallback() {
 		const selection = this.exampleDropdown.value;
-		this.exampleDropdown.options[0].text = this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
+		this.exampleDropdown.options[0].text =
+			this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
 		if (!selection) {
 			return;
 		}
@@ -199,7 +200,6 @@ export default class MergeSort extends Algorithm {
 	sort(list) {
 		this.commands = [];
 
-		
 		// User input validation
 		if (!list.length) {
 			this.shake(this.sortButton);
@@ -264,7 +264,7 @@ export default class MergeSort extends Algorithm {
 			);
 		}
 		this.cmd(act.step);
-		
+
 		this.cmd(
 			act.setText,
 			this.infoLabelID,

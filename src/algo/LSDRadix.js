@@ -126,15 +126,15 @@ export default class LSDRadix extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		if (searchParams.has("negative")) {
-			const type = searchParams.get("negative");
-			if (type === "1") {
+		if (searchParams.has('negative')) {
+			const type = searchParams.get('negative');
+			if (type === '1') {
 				this.negativeNumbersCheckbox.checked = true;
 				this.toggleNegativeNumbers();
 			}
 		}
 
-		if (searchParams.has("data")) {
+		if (searchParams.has('data')) {
 			const data = searchParams.get('data');
 			this.listField.value = data;
 			this.sortCallback();

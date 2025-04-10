@@ -265,9 +265,11 @@ export default class Hash extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		// initial capacity must be processed before the loadFactor and data since it requires restarting 
-		if (searchParams.has("initialCapacity")) {
-			this.initialCapacityField.value = parseInt(searchParams.get("initialCapacity").substring(0, 2))
+		// initial capacity must be processed before the loadFactor and data since it requires restarting
+		if (searchParams.has('initialCapacity')) {
+			this.initialCapacityField.value = parseInt(
+				searchParams.get('initialCapacity').substring(0, 2),
+			);
 			this.resizeInitialTableCall();
 			this.animationManager.skipForward();
 		}

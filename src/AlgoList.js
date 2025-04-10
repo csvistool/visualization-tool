@@ -3,14 +3,20 @@ import * as algos from './algo';
 // After adding the export in algos/index.js, add new algorithms in the following format:
 // AlgorithmName: ['Menu Display Name', algos.ClassName, hasPseudoCode, 'Verbose Display Name (optional)', 'Rainbow Color (optional)'],
 export const algoMap = {
-	NonLinearProbing: ['Non-Linear Probing', algos.NonLinearProbing, false, 'Non-Linear Probing', true],
+	NonLinearProbing: [
+		'Non-Linear Probing',
+		algos.NonLinearProbing,
+		false,
+		'Non-Linear Probing',
+		true,
+	],
 	LVA: ['LVA', algos.LVA, false, 'Landis-Velsky-Adelson Tree', true],
 	BogoSort: ['Bogo Sort', algos.BogoSort, false, 'Bogo Sort', true],
-  	DropSort: ['Drop Sort', algos.DropSort, false, 'Drop Sort', true],
+	DropSort: ['Drop Sort', algos.DropSort, false, 'Drop Sort', true],
 	SleepSort: ['Sleep Sort', algos.SleepSort, false, 'Sleep Sort', true],
 	MiracleSort: ['Miracle Sort', algos.MiracleSort, false, 'Miracle Sort', true],
 	FredSort: ['Fred Sort', algos.FredSort, false, 'Fred Sort', true],
-  	ArrayList: ['ArrayList', algos.ArrayList, true],
+	ArrayList: ['ArrayList', algos.ArrayList, true],
 	LinkedList: ['Singly LinkedList', algos.LinkedList, true],
 	DoublyLinkedList: ['Doubly LinkedList', algos.DoublyLinkedList, true],
 	CircularlyLinkedList: ['Circularly LinkedList', algos.CircularlyLinkedList, true],
@@ -58,7 +64,7 @@ const aprilFoolsAlgos = [
 	'SleepSort',
 	'MiracleSort',
 	'BogoSort',
-	'FredSort'
+	'FredSort',
 ];
 const isAprilFools = new Date().getMonth() === 3 && new Date().getDate() <= 2; // April 1st or 2nd
 export const algoList = [
@@ -349,5 +355,5 @@ export const algoFilter = [
 	{
 		id: 'DropSort',
 		category: 'Sorting and Quickselect',
-	}
+	},
 ];
