@@ -175,9 +175,6 @@ export default class Quickselect extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		this.listField.value = searchParams.get('data');
-		this.kField.value = searchParams.get('k');
-		this.runCallback();
 		if (searchParams.has("pivot")) {
 			const type = searchParams.get("pivot")
 			if (type === "random" || type === "perfect" || type === "min" || type === "set") {

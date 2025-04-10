@@ -139,9 +139,6 @@ export default class RabinKarp extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		this.textField.value = searchParams.get('text');
-		this.patternField.value = searchParams.get('pattern');
-		this.findCallback();
 		if (searchParams.has("base")) {
 			const base = parseInt(searchParams.get("base"));
 			if (Number.isInteger(base) && base > 0) {
