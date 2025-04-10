@@ -139,20 +139,17 @@ export default class RabinKarp extends Algorithm {
 	}
 
 	setURLData(searchParams) {
-		this.textField.value = searchParams.get('text');
-		this.patternField.value = searchParams.get('pattern');
-		this.findCallback();
-		if (searchParams.has("base")) {
-			const base = parseInt(searchParams.get("base"));
+		if (searchParams.has('base')) {
+			const base = parseInt(searchParams.get('base'));
 			if (Number.isInteger(base) && base > 0) {
 				this.baseField.value = base;
 				this.baseCallback();
 			}
 		}
-		
-		if (searchParams.has("text") || searchParams.has("pattern")) {
-			this.textField.value = searchParams.get("text")
-			this.patternField.value = searchParams.get("pattern")
+
+		if (searchParams.has('text') || searchParams.has('pattern')) {
+			this.textField.value = searchParams.get('text');
+			this.patternField.value = searchParams.get('pattern');
 			this.findCallback();
 		}
 	}

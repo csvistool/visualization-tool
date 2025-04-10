@@ -145,7 +145,8 @@ export default class MergeSort extends Algorithm {
 
 	exampleCallback() {
 		const selection = this.exampleDropdown.value;
-		this.exampleDropdown.options[0].text = this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
+		this.exampleDropdown.options[0].text =
+			this.exampleDropdown.options[this.exampleDropdown.selectedIndex].text;
 		if (!selection) {
 			return;
 		}
@@ -294,12 +295,8 @@ export default class MergeSort extends Algorithm {
 			this.cmd(act.createLabel, timerID, '', xPos, yPos);
 		}
 
-		this.cmd(
-			act.setText,
-			this.infoLabelID,
-			'Setting sleep timers for each element.',
-		);
-		
+		this.cmd(act.setText, this.infoLabelID, 'Setting sleep timers for each element.');
+
 		for (let i = 0; i < this.arrayData.length; i++) {
 			this.cmd(
 				act.move,
@@ -328,7 +325,7 @@ export default class MergeSort extends Algorithm {
 			ARRAY_START_Y + ARRAY_LINE_SPACING * 2,
 		);
 		this.cmd(act.setHighlight, this.jPointerID, 1);
-		
+
 		let max_value = Math.max(...this.arrayData);
 		let j = 0;
 		const timers = [...this.arrayData];
@@ -341,10 +338,25 @@ export default class MergeSort extends Algorithm {
 					timers[i]--;
 					this.cmd(act.setText, this.timerIDs[i], timers[i]);
 					if (timers[i] === 0) {
-						this.cmd(act.setText, this.infoLabelID, `Copying ${this.displayData[i]} to next spot because its sleep timer elapsed.`);
+						this.cmd(
+							act.setText,
+							this.infoLabelID,
+							`Copying ${this.displayData[i]} to next spot because its sleep timer elapsed.`,
+						);
 						const labelID = this.nextIndex++;
-						this.cmd(act.createLabel, labelID, this.displayData[i], ARRAY_START_X + i * ARRAY_ELEM_WIDTH, ARRAY_START_Y);
-						this.cmd(act.move, labelID, ARRAY_START_X + j * ARRAY_ELEM_WIDTH, ARRAY_START_Y + ARRAY_LINE_SPACING * 2);
+						this.cmd(
+							act.createLabel,
+							labelID,
+							this.displayData[i],
+							ARRAY_START_X + i * ARRAY_ELEM_WIDTH,
+							ARRAY_START_Y,
+						);
+						this.cmd(
+							act.move,
+							labelID,
+							ARRAY_START_X + j * ARRAY_ELEM_WIDTH,
+							ARRAY_START_Y + ARRAY_LINE_SPACING * 2,
+						);
 						this.cmd(act.step);
 						this.cmd(act.setText, this.secondArrayID[j], this.displayData[i]);
 						this.cmd(act.delete, labelID);
