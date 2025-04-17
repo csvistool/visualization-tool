@@ -1517,9 +1517,9 @@
 	},
 
 	"Dijkstra": {
-		"Dijkstra": {
+		"Dijkstra's": {
 			"all cases": {
-				"big_o": "O((|V|+|E|) log|V|)",
+				"big_o": "O(|E|log|E|)",
 				"explanation": "For each vertex, we iterate through all of its adjacent edges like in BFS. We add edges to a priority queue to decide in what order to explore, which is logarithmic for each step (it uses a heap!)",
 				"example": "A -(2)-> B; B -(2)-> C; A -(3)-> C: shortest path from A to C"
 			}
@@ -1527,9 +1527,9 @@
 	},
 
 	"Prim": {
-		"Prim": {
+		"Prim's": {
 			"all cases": {
-				"big_o": "O((|V|+|E|) log|V|)",
+				"big_o": "O(|E|log|E|)",
 				"explanation": "For each vertex, we iterate through all of its adjacent edges like in BFS. We add edges to a priority queue to decide in what order to explore, which is logarithmic for each step (it uses a heap!)",
 				"example": "A connects to B; B connects to C; C connects to A"
 			}
@@ -1537,7 +1537,7 @@
 	},
 
 	"Kruskal": {
-		"Kruskal": {
+		"Kruskal's": {
 			"all cases": {
 				"big_o": "O(|E|log|E|)",
 				"explanation": "We use a priority queue to incrementally add edges to the MST, which is logarithmic for each step (it uses a heap!)",
