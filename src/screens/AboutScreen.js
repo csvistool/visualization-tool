@@ -7,6 +7,7 @@ const AboutScreen = ({ theme, toggleTheme }) => (
 	<div className="container">
 		<Header theme={theme} toggleTheme={toggleTheme} />
 		<div className="about">
+			<h1>About this Tool</h1>
 			<p>
 				This tool is designed to help you visualize and understand the data structures and
 				algorithms covered in Georgia Tech's CS 1332 course. It is based on the{' '}

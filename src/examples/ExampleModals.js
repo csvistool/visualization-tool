@@ -80,9 +80,9 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
-				<a className="equation">
+				<span className="equation">
 					n + (n - 1) + (n - 2) + ... = n<sup>2</sup>
-				</a>
+				</span>
 				comparisons)
 			</li>
 		</ul>
@@ -92,12 +92,12 @@ const Modals = {
 			<li>This is a singly circular LinkedList with no tail.</li>
 			<li>
 				Adding to the front, adding to the back, and removing from the front can all be done
-				in <a className="equation">O(1)</a> using data movement tricks and pointer
+				in <span className="equation">O(1)</span> using data movement tricks and pointer
 				manipulation.
 			</li>
 			<li>
 				Removing from the back requires a traversal to the node before the last node making
-				it <a className="equation">O(n)</a>
+				it <span className="equation">O(n)</span>
 			</li>
 		</ul>
 	),
@@ -120,9 +120,9 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
-				<a className="equation">
+				<span className="equation">
 					n + (n - 1) + (n - 2) + ... = n<sup>2</sup>
-				</a>
+				</span>
 				comparisons)
 			</li>
 			<li>
@@ -142,7 +142,7 @@ const Modals = {
 			</li>
 			<li>
 				Since this is a DLL with a tail, all operations acting at the front and back of the
-				list are <a className="equation">O(1)</a>
+				list are <span className="equation">O(1)</span>
 			</li>
 		</ul>
 	),
@@ -151,9 +151,9 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
-				<a className="equation">
+				<span className="equation">
 					n + (n - 1) + (n - 2) + ... = n<sup>2</sup>
-				</a>
+				</span>
 				comparisons)
 			</li>
 		</ul>
@@ -194,16 +194,16 @@ const Modals = {
 			</li>
 			<li>
 				LinkedLists are designed to operate at the head. So all operations acting at the
-				front are <a className="equation">O(1).</a>
+				front are <span className="equation">O(1).</span>
 			</li>
 			<li>
-				Without the tail, adding to the back is <a className="equation">O(n)</a> since we
-				must traverse from the head to the last node.
+				Without the tail, adding to the back is <span className="equation">O(n)</span> since
+				we must traverse from the head to the last node.
 			</li>
 			<li>
-				With the tail, adding to the back becomes <a className="equation">O(1)</a> since we
-				can set the next pointer of the tail to the new node and then have the tail point to
-				the new node.
+				With the tail, adding to the back becomes <span className="equation">O(1)</span>{' '}
+				since we can set the next pointer of the tail to the new node and then have the tail
+				point to the new node.
 			</li>
 		</ul>
 	),

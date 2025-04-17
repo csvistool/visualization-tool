@@ -27,26 +27,26 @@ class Header extends React.Component {
 				<div className="header">
 					<div id="menu">
 						<IconContext.Provider value={{ className: 'menu-bar' }}>
-							<RxHamburgerMenu onClick={this.toggleMenu} />
+							<RxHamburgerMenu onClick={this.toggleMenu} size={24} />
 						</IconContext.Provider>
 					</div>
 					<div id="title">
-						<h1>CS 1332 Data Structures and Algorithms Visualization Tool</h1>
+						<h1>CS 1332 Data Structures & Algorithms Visualization Tool</h1>
 					</div>
 					<div className="gimmicks">
 						<div id="theme">
 							{theme === 'light' ? (
 								<BsFillSunFill
-									size={31}
+									size={28}
 									onClick={toggleTheme}
 									color="#f9c333"
 									className="rotate-effect"
 								/>
 							) : (
 								<BsMoonFill
-									size={29}
+									size={26}
 									onClick={toggleTheme}
-									color="#d4f1f1"
+									color="#3498db"
 									className="rotate-effect"
 								/>
 							)}
