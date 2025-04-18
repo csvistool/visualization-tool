@@ -410,12 +410,18 @@ export default class Algorithm {
 			} else if (
 				!sizeGood ||
 				(intOnly &&
-					!((keyASCII >= 48 && keyASCII <= 57) || (keyASCII >= 96 && keyASCII <= 105)))
+					!(
+						(keyASCII >= 48 && keyASCII <= 57) ||
+						(keyASCII === 189 && field.value.length === 0) ||
+						(keyASCII >= 96 && keyASCII <= 105)
+					))
 			) {
 				if (!controlKey(keyASCII)) return false;
 			}
 		};
 	}
+
+	parseInput(input, intOnly, ignoreMaxSize = false) {}
 
 	// Abstract methods - these should be implemented in the base class
 
