@@ -40,5 +40,11 @@
 	},
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
+	},
+	"github.copilot.enable": {
+		"*": false,
+		"plaintext": false,
+		"markdown": false,
+		"scminput": false
 	}
 }
