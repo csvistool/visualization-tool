@@ -2168,7 +2168,7 @@
 		"run": {
 			"code": [
 				["procedure Kruskals(Graph g):"],
-				["  initialize DisjointSet, DS, with all vertices in G"],
+				["  initialize DisjointSet, DS"],
 				["  initialize MST EdgeSet, MST"],
 				["  initialize PriorityQueue, PQ with all edges in G"],
 				["  while PQ is not empty and MST has fewer than n-1 edges:"],
