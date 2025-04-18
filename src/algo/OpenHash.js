@@ -206,7 +206,8 @@ export default class OpenHash extends Hash {
 		this.cmd(act.setText, this.ExplainLabel, 'Inserting element: ' + elem);
 		this.cmd(act.step);
 
-		let index = (this.doHash(key) % this.table_size) + this.table_size;
+		let index = this.doHash(key) % this.table_size;
+		console.log(`index: ${index}`)
 
 		index = this.getEmptyIndex(index, key);
 
