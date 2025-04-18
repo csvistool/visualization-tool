@@ -2182,7 +2182,7 @@
 			],
 			"english": [
 				["procedure Kruskals(Graph g):"],
-				["  initialize a disjoint set with all vertices in graph"],
+				["  initialize a disjoint set"],
 				["  initialize an edge set MST"],
 				["  initialize a priority queue with all edges in graph"],
 				["  while (queue is not empty and MST has fewer than n-1 edges):"],
