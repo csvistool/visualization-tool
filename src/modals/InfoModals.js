@@ -81,7 +81,7 @@ const Modals = {
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
 				<span className="equation">
-					n + (n - 1) + (n - 2) + ... = n<suspan>2</suspan>
+					n + (n - 1) + (n - 2) + ... = n²
 				</span>
 				comparisons)
 			</li>
@@ -121,7 +121,7 @@ const Modals = {
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
 				<span className="equation">
-					n + (n - 1) + (n - 2) + ... = n<suspan>2</suspan>
+					n + (n - 1) + (n - 2) + ... = n²
 				</span>
 				comparisons)
 			</li>
@@ -152,7 +152,7 @@ const Modals = {
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
 				<span className="equation">
-					n + (n - 1) + (n - 2) + ... = n<suspan>2</suspan>
+					n + (n - 1) + (n - 2) + ... = n²
 				</span>
 				comparisons)
 			</li>
