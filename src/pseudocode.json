@@ -2074,7 +2074,7 @@
 				["    (u, d1) ← PQ.dequeue()"],
 				["    if u not in VS:"],
 				["      VS.add(u)"],
-				["      DM.put(w, d1)"],
+				["      DM.put(u, d1)"],
 				["      for all (w, d2) adjacent to u:"],
 				["        if w not in VS:"],
 				["          PQ.enqueue((w, d1 + d2))"],
