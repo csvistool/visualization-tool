@@ -1,4 +1,5 @@
 import * as algos from './algo';
+const isAprilFools = new Date().getMonth() === 3 && new Date().getDate() <= 2; // April 1st or 2nd
 
 // After adding the export in algos/index.js, add new algorithms in the following format:
 // AlgorithmName: ['Menu Display Name', algos.ClassName, hasPseudoCode, 'Verbose Display Name (optional)', 'Rainbow Color (optional)'],
@@ -10,12 +11,12 @@ export const algoMap = {
 		'Non-Linear Probing',
 		true,
 	],
-	LVA: ['LVA', algos.LVA, false, 'Landis-Velsky-Adelson Tree', true],
-	BogoSort: ['Bogo Sort', algos.BogoSort, false, 'Bogo Sort', true],
-	DropSort: ['Drop Sort', algos.DropSort, false, 'Drop Sort', true],
-	SleepSort: ['Sleep Sort', algos.SleepSort, false, 'Sleep Sort', true],
-	MiracleSort: ['Miracle Sort', algos.MiracleSort, false, 'Miracle Sort', true],
-	FredSort: ['Fred Sort', algos.FredSort, false, 'Fred Sort', true],
+	LVA: ['LVA', algos.LVA, false, 'Landis-Velsky-Adelson Tree', isAprilFools],
+	BogoSort: ['Bogo Sort', algos.BogoSort, false, 'Bogo Sort', isAprilFools],
+	DropSort: ['Drop Sort', algos.DropSort, false, 'Drop Sort', isAprilFools],
+	SleepSort: ['Sleep Sort', algos.SleepSort, false, 'Sleep Sort', isAprilFools],
+	MiracleSort: ['Miracle Sort', algos.MiracleSort, false, 'Miracle Sort', isAprilFools],
+	FredSort: ['Fred Sort', algos.FredSort, false, 'Fred Sort', isAprilFools],
 	ArrayList: ['ArrayList', algos.ArrayList, true],
 	LinkedList: ['Singly LinkedList', algos.LinkedList, true],
 	DoublyLinkedList: ['Doubly LinkedList', algos.DoublyLinkedList, true],
@@ -60,13 +61,7 @@ export const algoMap = {
 const aprilFoolsAlgos = [
 	'LVA',
 	'NonLinearProbing',
-	'DropSort',
-	'SleepSort',
-	'MiracleSort',
-	'BogoSort',
-	'FredSort',
 ];
-const isAprilFools = new Date().getMonth() === 3 && new Date().getDate() <= 2; // April 1st or 2nd
 export const algoList = [
 	...(isAprilFools ? aprilFoolsAlgos : []),
 	'Lists',
@@ -86,7 +81,6 @@ export const algoList = [
 	'Heap',
 	'AVL',
 	'BTree',
-	'SplayTree',
 	'SkipList',
 	'HashMaps',
 	'ClosedHash',
@@ -107,15 +101,22 @@ export const algoList = [
 	'KMP',
 	'RabinKarp',
 	'Graph Algorithms',
-	'CreateGraph',
 	'BFS',
 	'DFS',
 	'Dijkstra',
 	'Prim',
 	'Kruskal',
-	'Dynamic Programming',
 	'LCS',
+	'---',
+	'DP & Extras',
+	'CreateGraph',
+	'SplayTree',
 	'Floyd',
+	'DropSort',
+	'SleepSort',
+	'MiracleSort',
+	'BogoSort',
+	'FredSort',
 ];
 
 export const relatedSearches = {
@@ -245,10 +246,6 @@ export const algoFilter = [
 		category: 'Trees and SkipList',
 	},
 	{
-		id: 'SplayTree',
-		category: 'Trees and SkipList',
-	},
-	{
 		id: 'SkipList',
 		category: 'Trees and SkipList',
 	},
@@ -334,26 +331,34 @@ export const algoFilter = [
 	},
 	{
 		id: 'LCS',
-		category: 'Dynamic Programming',
+		category: 'DP & Extras',
 	},
 	{
 		id: 'Floyd',
-		category: 'Dynamic Programming',
+		category: 'DP & Extras',
+	},
+	{
+		id: 'CreateGraph',
+		category: 'DP & Extras',
+	},
+	{
+		id: 'SplayTree',
+		category: 'DP & Extras',
 	},
 	{
 		id: 'FredSort',
-		category: 'Sorting and Quickselect',
+		category: 'DP & Extras',
 	},
 	{
 		id: 'SleepSort',
-		category: 'Sorting and Quickselect',
+		category: 'DP & Extras',
 	},
 	{
 		id: 'MiracleSort',
-		category: 'Sorting and Quickselect',
+		category: 'DP & Extras',
 	},
 	{
 		id: 'DropSort',
-		category: 'Sorting and Quickselect',
+		category: 'DP & Extras',
 	},
 ];
