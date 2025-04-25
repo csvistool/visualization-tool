@@ -471,7 +471,7 @@ div.content {
 	color: var(--text-primary);
 	background: var(--buttons);
 	width: 85%;
-	height: 80%;
+	height: 210px;
 	padding: 10px;
 	margin: 5% 5% 5% 15%;
 	cursor: pointer;
@@ -501,8 +501,6 @@ div.content {
 }
 
 .algo-picture {
-	width: 90%;
-	height: 150px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -510,7 +508,7 @@ div.content {
 }
 
 .algo-picture img {
-	max-width: 100%;
+	max-width: 90%;
 	max-height: 100%;
 	object-fit: contain;
 	transition: transform var(--transition-speed) ease;
@@ -559,6 +557,7 @@ div.content {
 	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
+	max-width: 100%;
 }
 
 .mid-flex {
