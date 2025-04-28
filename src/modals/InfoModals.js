@@ -80,9 +80,7 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
-				<span className="equation">
-					n + (n - 1) + (n - 2) + ... = n²
-				</span>
+				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>
 				comparisons)
 			</li>
 		</ul>
@@ -120,9 +118,7 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
-				<span className="equation">
-					n + (n - 1) + (n - 2) + ... = n²
-				</span>
+				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>
 				comparisons)
 			</li>
 			<li>
@@ -151,9 +147,7 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform
-				<span className="equation">
-					n + (n - 1) + (n - 2) + ... = n²
-				</span>
+				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>
 				comparisons)
 			</li>
 		</ul>

@@ -58,10 +58,7 @@ export const algoMap = {
 	Floyd: ['Floyd-Warshall', algos.Floyd],
 };
 
-const aprilFoolsAlgos = [
-	'LVA',
-	'NonLinearProbing',
-];
+const aprilFoolsAlgos = ['LVA', 'NonLinearProbing'];
 export const algoList = [
 	...(isAprilFools ? aprilFoolsAlgos : []),
 	'Lists',

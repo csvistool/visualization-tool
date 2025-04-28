@@ -355,7 +355,7 @@ export default class Hash extends Algorithm {
 			const labelID1 = this.nextIndex++;
 			const labelID2 = this.nextIndex++;
 			const highlightID = this.nextIndex++;
-			const index = ((parseInt(input) % this.table_size) + this.table_size)  % this.table_size;
+			const index = ((parseInt(input) % this.table_size) + this.table_size) % this.table_size;
 			this.currHash = parseInt(input);
 
 			this.cmd(

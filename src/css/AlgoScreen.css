@@ -667,7 +667,7 @@ input[type='checkbox'] {
 	font-size: 16px;
 	cursor: pointer;
 	transition: all 0.2s ease;
-  display: flex;
+	display: flex;
 	border-bottom: 2px solid transparent;
 }
 
@@ -713,7 +713,7 @@ input[type='checkbox'] {
 }
 
 .tab-text {
-  padding-left: 0.3rem;
+	padding-left: 0.3rem;
 }
 
 .code-toggle-button:hover {

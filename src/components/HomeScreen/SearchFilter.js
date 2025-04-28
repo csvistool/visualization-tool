@@ -6,7 +6,16 @@ const SearchFilter = React.memo(function SearchFilter({ filteredAlgoList }) {
 	return filteredAlgoList.length ? (
 		filteredAlgoList.map((name, idx) =>
 			name === '---' ? (
-				<hr key={`divider-${idx}`} style={{ width: '90%', border: '3px solid #ccc', margin: '10px auto', marginBottom: '2%', marginRight: '2%' }} />
+				<hr
+					key={`divider-${idx}`}
+					style={{
+						width: '90%',
+						border: '3px solid #ccc',
+						margin: '10px auto',
+						marginBottom: '2%',
+						marginRight: '2%',
+					}}
+				/>
 			) : (
 				algoMap[name] && (
 					<Link to={`/${name}`} key={idx} style={{ textDecoration: 'none' }}>
