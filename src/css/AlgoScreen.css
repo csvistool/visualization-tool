@@ -652,7 +652,7 @@ input[type='checkbox'] {
 /* Modal Tabs */
 .modal-tabs {
 	display: flex;
-	gap: 20px;
+	gap: 5px;
 	margin-bottom: 20px;
 	border-bottom: 1px solid var(--border);
 	padding-bottom: 10px;
@@ -667,6 +667,7 @@ input[type='checkbox'] {
 	font-size: 16px;
 	cursor: pointer;
 	transition: all 0.2s ease;
+	display: flex;
 	border-bottom: 2px solid transparent;
 }
 
@@ -709,6 +710,10 @@ input[type='checkbox'] {
 	cursor: pointer;
 	transition: all 0.2s ease;
 	padding: 0;
+}
+
+.tab-text {
+	padding-left: 0.3rem;
 }
 
 .code-toggle-button:hover {
