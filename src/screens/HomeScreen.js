@@ -91,7 +91,6 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 						path="*"
 						element={
 							<>
-								<FinalsBanner></FinalsBanner>
 								<div className="outer-flex">
 									{/* Side Navigator*/}
 									<div className="side-panel">
