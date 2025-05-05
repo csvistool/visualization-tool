@@ -59,7 +59,7 @@ const ToggleBlurCell = ({ text, width, force }) => {
 			style={{ width: width }}
 			className={isBlurred ? 'blur big_o_cell' : 'big_o_cell'}
 			onMouseEnter={() => setIsBlurred(false)}
-			onMouseLeave={() => setIsBlurred(true && blurEnabled)}
+			onMouseLeave={() => setIsBlurred(blurEnabled)}
 		>
 			{applyEquationClass(text, force)}
 		</td>
