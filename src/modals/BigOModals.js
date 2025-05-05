@@ -29,11 +29,11 @@ const renderRows = data => {
 					<tbody>
 						{Object.keys(operationData).map(complexity => (
 							<tr key={complexity}>
-								<td style={{ width: '13%' }}>
+								<td style={{ width: '15%' }}>
 									{complexity[0].toUpperCase() + complexity.slice(1)}
 								</td>
-								<ToggleBlurCell text={operationData[complexity].big_o} width={'5%'} force={true} />
-								<ToggleBlurCell text={operationData[complexity].explanation} width={'20%'} force={false} />
+								<ToggleBlurCell text={operationData[complexity].big_o} width={'25%'} force={true} />
+								<ToggleBlurCell text={operationData[complexity].explanation} width={'60%'} force={false} />
 							</tr>
 						))}
 					</tbody>
