@@ -32,8 +32,16 @@ const renderRows = data => {
 								<td style={{ width: '15%' }}>
 									{complexity[0].toUpperCase() + complexity.slice(1)}
 								</td>
-								<ToggleBlurCell text={operationData[complexity].big_o} width={'25%'} force={true} />
-								<ToggleBlurCell text={operationData[complexity].explanation} width={'60%'} force={false} />
+								<ToggleBlurCell
+									text={operationData[complexity].big_o}
+									width={'25%'}
+									force={true}
+								/>
+								<ToggleBlurCell
+									text={operationData[complexity].explanation}
+									width={'60%'}
+									force={false}
+								/>
 							</tr>
 						))}
 					</tbody>
@@ -46,15 +54,12 @@ const renderRows = data => {
 const ToggleBlurCell = ({ text, width, force }) => {
 	const [isBlurred, setIsBlurred] = useState(true);
 
-	const handleMouseEnter = () => {
-		setIsBlurred(false);
-	};
-
 	return (
 		<td
 			style={{ width: width }}
 			className={isBlurred ? 'blur big_o_cell' : 'big_o_cell'}
-			onMouseEnter={handleMouseEnter}
+			onMouseEnter={() => setIsBlurred(false)}
+			onMouseLeave={() => setIsBlurred(true && blurEnabled)}
 		>
 			{applyEquationClass(text, force)}
 		</td>
