@@ -29,11 +29,19 @@ const renderRows = data => {
 					<tbody>
 						{Object.keys(operationData).map(complexity => (
 							<tr key={complexity}>
-								<td style={{ width: '13%' }}>
+								<td style={{ width: '15%' }}>
 									{complexity[0].toUpperCase() + complexity.slice(1)}
 								</td>
-								<ToggleBlurCell text={operationData[complexity].big_o} />
-								<td>{applyEquationClass(operationData[complexity].explanation)}</td>
+								<ToggleBlurCell
+									text={operationData[complexity].big_o}
+									width={'25%'}
+									force={true}
+								/>
+								<ToggleBlurCell
+									text={operationData[complexity].explanation}
+									width={'60%'}
+									force={false}
+								/>
 							</tr>
 						))}
 					</tbody>
@@ -43,20 +51,16 @@ const renderRows = data => {
 	});
 };
 
-const ToggleBlurCell = ({ text }) => {
+const ToggleBlurCell = ({ text, width, force }) => {
 	const [isBlurred, setIsBlurred] = useState(true);
-
-	const handleMouseEnter = () => {
-		setIsBlurred(false);
-	};
 
 	return (
 		<td
-			style={{ width: '16%' }}
+			style={{ width: width }}
 			className={isBlurred ? 'blur big_o_cell' : 'big_o_cell'}
-			onMouseEnter={handleMouseEnter}
+			onClick={() => isBlurred ? setIsBlurred(false) : setIsBlurred(true)}
 		>
-			{applyEquationClass(text, true)}
+			{applyEquationClass(text, force)}
 		</td>
 	);
 };
@@ -86,6 +90,7 @@ const Modals = page => {
 			<div className="button-container">
 				<button onClick={toggleBlur}>Reveal All Big-O</button>
 			</div>
+			<text> Click to reveal answer </text>
 			{renderRows(timeComplexities[page])}
 		</div>
 	) : null;
