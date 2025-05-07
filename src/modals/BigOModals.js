@@ -58,8 +58,7 @@ const ToggleBlurCell = ({ text, width, force }) => {
 		<td
 			style={{ width: width }}
 			className={isBlurred ? 'blur big_o_cell' : 'big_o_cell'}
-			onMouseEnter={() => setIsBlurred(false)}
-			onMouseLeave={() => setIsBlurred(blurEnabled)}
+			onClick={() => isBlurred ? setIsBlurred(false) : setIsBlurred(true)}
 		>
 			{applyEquationClass(text, force)}
 		</td>
@@ -91,6 +90,7 @@ const Modals = page => {
 			<div className="button-container">
 				<button onClick={toggleBlur}>Reveal All Big-O</button>
 			</div>
+			<text> Click to reveal answer </text>
 			{renderRows(timeComplexities[page])}
 		</div>
 	) : null;
