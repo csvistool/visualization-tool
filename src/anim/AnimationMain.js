@@ -312,45 +312,10 @@ export default class AnimationManager extends EventListener {
 
 		addDivisorToAnimationBar(animBarRef);
 
-		let width = getCookie('VisualizationWidth');
-		width = width == null || width === '' ? 1500 : parseInt(width);
-
-		let height = getCookie('VisualizationHeight');
-		height = height == null || height === '' ? 555 : parseInt(height);
-
-		canvas.width = width;
-		canvas.height = height;
-
-		tableEntry = document.createElement('td');
-		txtNode = document.createTextNode('Canvas height:');
-		tableEntry.classList.add('txt-node');
-		tableEntry.appendChild(txtNode);
-		controlBar.appendChild(tableEntry);
-
-		this.heightEntry = addControlToAnimationBar(animBarRef, 'Text', canvas.height, () =>
-			returnSubmit(
-				this.heightEntry,
-				() =>
-					this.changeSize(
-						document.documentElement.clientWidth,
-						parseInt(this.heightEntry.value),
-					),
-				4,
-				true,
-			),
-		);
-
-		this.heightEntry.size = 4;
-		this.sizeButton = addControlToAnimationBar(animBarRef, 'Button', 'Change Canvas Size', () =>
-			this.changeSize(),
-		);
-
 		this.addListener('AnimationStarted', this, this.animStarted);
 		this.addListener('AnimationEnded', this, this.animEnded);
 		this.addListener('AnimationWaiting', this, this.animWaiting);
 		this.addListener('AnimationUndoUnavailable', this, this.animUndoUnavailable);
-		this.objectManager.width = canvas.width;
-		this.objectManager.height = canvas.height;
 	}
 
 	lerp(from, to, percent) {
@@ -397,14 +362,11 @@ export default class AnimationManager extends EventListener {
 		if (width > 100) {
 			canvas.width = width;
 			this.animatedObjects.width = width;
-			setCookie('VisualizationWidth', String(width), 30);
 		}
 		if (height > 100) {
 			canvas.height = height;
 			this.animatedObjects.height = height;
-			setCookie('VisualizationHeight', String(height), 30);
 		}
-		this.heightEntry.value = canvas.height;
 
 		this.animatedObjects.draw();
 		this.fireEvent('CanvasSizeChanged', { width: canvas.width, height: canvas.height });

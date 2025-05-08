@@ -71,14 +71,17 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 			}
 
 			const updateDimensions = () => {
-				animManagRef.current.changeSize(document.body.clientWidth);
+				animManagRef.current.changeSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);
 			};
 
 			window.addEventListener('resize', updateDimensions);
 
+      updateDimensions();
+
 			return () => {
 				window.removeEventListener('resize', updateDimensions);
 			};
+
 		}
 	}, [algoName, algoDetails, searchParams]);
 
@@ -284,7 +287,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 					</div>
 
 					<div className="viewport">
-						<canvas id="canvas" width={0} height="505" ref={canvasRef}></canvas>
+						<canvas id="canvas" ref={canvasRef}></canvas>
 						{infoModalEnabled && (
 							<div
 								className={`modal info-modal ${
