@@ -84,55 +84,6 @@ function setCookie(cookieName, value, expireDays) {
 
 const ANIMATION_SPEED_DEFAULT = 75;
 
-// TODO:  Move these out of global space into animation manager?
-
-function controlKey(keyASCII) {
-	return (
-		keyASCII === 8 ||
-		keyASCII === 9 ||
-		keyASCII === 37 ||
-		keyASCII === 38 ||
-		keyASCII === 39 ||
-		keyASCII === 40 ||
-		keyASCII === 46
-	);
-}
-
-function returnSubmit(field, func, maxSize, intOnly) {
-	if (maxSize !== undefined) {
-		field.size = maxSize;
-	}
-	return function (event) {
-		let keyASCII = 0;
-		if (window.event) {
-			// IE
-			keyASCII = event.keyCode;
-		} else if (event.which) {
-			// Netscape/Firefox/Opera
-			keyASCII = event.which;
-		}
-
-		if (keyASCII === 13) {
-			func();
-			return false;
-		} else if (
-			keyASCII === 59 ||
-			keyASCII === 45 ||
-			keyASCII === 46 ||
-			keyASCII === 190 ||
-			keyASCII === 173
-		) {
-			return false;
-		} else if (
-			(maxSize !== undefined && field.value.length >= maxSize) ||
-			(intOnly && (keyASCII < 48 || keyASCII > 57))
-		) {
-			if (!controlKey(keyASCII)) return false;
-		}
-		return true;
-	};
-}
-
 function addControlToAnimationBar(animBarRef, type, name, callback) {
 	const element = document.createElement('input');
 
@@ -276,7 +227,7 @@ export default class AnimationManager extends EventListener {
 			/>
 		);
 
-		let tableEntry = document.createElement('td');
+		const tableEntry = document.createElement('td');
 
 		const controlBar = document.getElementById('GeneralAnimationControls');
 
@@ -295,7 +246,7 @@ export default class AnimationManager extends EventListener {
 		midLevel = document.createElement('tr');
 		bottomLevel = document.createElement('td');
 		bottomLevel.align = 'center';
-		let txtNode = document.createTextNode('Animation Speed');
+		const txtNode = document.createTextNode('Animation Speed');
 		midLevel.appendChild(bottomLevel);
 		bottomLevel.classList.add('txt-node');
 		bottomLevel.appendChild(txtNode);

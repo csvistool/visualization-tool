@@ -71,17 +71,19 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 			}
 
 			const updateDimensions = () => {
-				animManagRef.current.changeSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);
+				animManagRef.current.changeSize(
+					canvasRef.current.clientWidth,
+					canvasRef.current.clientHeight,
+				);
 			};
 
 			window.addEventListener('resize', updateDimensions);
 
-      updateDimensions();
+			updateDimensions();
 
 			return () => {
 				window.removeEventListener('resize', updateDimensions);
 			};
-
 		}
 	}, [algoName, algoDetails, searchParams]);
 

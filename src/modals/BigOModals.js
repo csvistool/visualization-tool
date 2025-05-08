@@ -58,7 +58,7 @@ const ToggleBlurCell = ({ text, width, force }) => {
 		<td
 			style={{ width: width }}
 			className={isBlurred ? 'blur big_o_cell' : 'big_o_cell'}
-			onClick={() => isBlurred ? setIsBlurred(false) : setIsBlurred(true)}
+			onClick={() => (isBlurred ? setIsBlurred(false) : setIsBlurred(true))}
 		>
 			{applyEquationClass(text, force)}
 		</td>
