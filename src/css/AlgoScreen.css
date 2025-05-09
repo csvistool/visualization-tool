@@ -627,6 +627,10 @@ input[type='checkbox'] {
 		flex-direction: column;
 		gap: 8px;
 	}
+
+	.VisualizationMainPage #mainContent {
+		overflow-x: auto;
+	}
 }
 
 /* Pseudocode Icon */

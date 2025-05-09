@@ -676,10 +676,34 @@ input::placeholder {
 
 	.side-panel {
 		width: 100%;
+		position: static;
+		padding: 0;
+		border: none;
 	}
 
 	.content a {
 		width: 100%;
+	}
+
+	.outer-flex {
+		flex-direction: column;
+		width: 100%;
+		margin: 0;
+	}
+
+	.inner-flex button.button {
+		margin: 5% 0 0 0;
+		width: 100%;
+		border: none;
+	}
+
+	.dsa-filter {
+		border: none;
+	}
+
+	#blob-container {
+		position: static;
+		padding-bottom: 1rem;
 	}
 }
 
