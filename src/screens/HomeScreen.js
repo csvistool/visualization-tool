@@ -109,10 +109,6 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 											}
 										/>
 									</div>
-									{/* Blob Gimmick */}
-									<div id="blob-container">
-										<Blob />
-									</div>
 									<div className="mid-flex">
 										<div className="inner-flex">
 											<SearchFilter filteredAlgoList={filteredAlgoList} />
@@ -131,9 +127,15 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 										)}
 									</div>
 								</div>
+
+								{/* Blob Gimmick */}
+								<div id="blob-container">
+									<Blob />
+								</div>
 							</>
 						}
 					/>
+
 					<Route path="/about" element={<AboutScreen />} />
 				</Routes>
 			</div>

@@ -84,55 +84,6 @@ function setCookie(cookieName, value, expireDays) {
 
 const ANIMATION_SPEED_DEFAULT = 75;
 
-// TODO:  Move these out of global space into animation manager?
-
-function controlKey(keyASCII) {
-	return (
-		keyASCII === 8 ||
-		keyASCII === 9 ||
-		keyASCII === 37 ||
-		keyASCII === 38 ||
-		keyASCII === 39 ||
-		keyASCII === 40 ||
-		keyASCII === 46
-	);
-}
-
-function returnSubmit(field, func, maxSize, intOnly) {
-	if (maxSize !== undefined) {
-		field.size = maxSize;
-	}
-	return function (event) {
-		let keyASCII = 0;
-		if (window.event) {
-			// IE
-			keyASCII = event.keyCode;
-		} else if (event.which) {
-			// Netscape/Firefox/Opera
-			keyASCII = event.which;
-		}
-
-		if (keyASCII === 13) {
-			func();
-			return false;
-		} else if (
-			keyASCII === 59 ||
-			keyASCII === 45 ||
-			keyASCII === 46 ||
-			keyASCII === 190 ||
-			keyASCII === 173
-		) {
-			return false;
-		} else if (
-			(maxSize !== undefined && field.value.length >= maxSize) ||
-			(intOnly && (keyASCII < 48 || keyASCII > 57))
-		) {
-			if (!controlKey(keyASCII)) return false;
-		}
-		return true;
-	};
-}
-
 function addControlToAnimationBar(animBarRef, type, name, callback) {
 	const element = document.createElement('input');
 
@@ -276,7 +227,7 @@ export default class AnimationManager extends EventListener {
 			/>
 		);
 
-		let tableEntry = document.createElement('td');
+		const tableEntry = document.createElement('td');
 
 		const controlBar = document.getElementById('GeneralAnimationControls');
 
@@ -295,7 +246,7 @@ export default class AnimationManager extends EventListener {
 		midLevel = document.createElement('tr');
 		bottomLevel = document.createElement('td');
 		bottomLevel.align = 'center';
-		let txtNode = document.createTextNode('Animation Speed');
+		const txtNode = document.createTextNode('Animation Speed');
 		midLevel.appendChild(bottomLevel);
 		bottomLevel.classList.add('txt-node');
 		bottomLevel.appendChild(txtNode);
@@ -312,45 +263,10 @@ export default class AnimationManager extends EventListener {
 
 		addDivisorToAnimationBar(animBarRef);
 
-		let width = getCookie('VisualizationWidth');
-		width = width == null || width === '' ? 1500 : parseInt(width);
-
-		let height = getCookie('VisualizationHeight');
-		height = height == null || height === '' ? 555 : parseInt(height);
-
-		canvas.width = width;
-		canvas.height = height;
-
-		tableEntry = document.createElement('td');
-		txtNode = document.createTextNode('Canvas height:');
-		tableEntry.classList.add('txt-node');
-		tableEntry.appendChild(txtNode);
-		controlBar.appendChild(tableEntry);
-
-		this.heightEntry = addControlToAnimationBar(animBarRef, 'Text', canvas.height, () =>
-			returnSubmit(
-				this.heightEntry,
-				() =>
-					this.changeSize(
-						document.documentElement.clientWidth,
-						parseInt(this.heightEntry.value),
-					),
-				4,
-				true,
-			),
-		);
-
-		this.heightEntry.size = 4;
-		this.sizeButton = addControlToAnimationBar(animBarRef, 'Button', 'Change Canvas Size', () =>
-			this.changeSize(),
-		);
-
 		this.addListener('AnimationStarted', this, this.animStarted);
 		this.addListener('AnimationEnded', this, this.animEnded);
 		this.addListener('AnimationWaiting', this, this.animWaiting);
 		this.addListener('AnimationUndoUnavailable', this, this.animUndoUnavailable);
-		this.objectManager.width = canvas.width;
-		this.objectManager.height = canvas.height;
 	}
 
 	lerp(from, to, percent) {
@@ -397,14 +313,11 @@ export default class AnimationManager extends EventListener {
 		if (width > 100) {
 			canvas.width = width;
 			this.animatedObjects.width = width;
-			setCookie('VisualizationWidth', String(width), 30);
 		}
 		if (height > 100) {
 			canvas.height = height;
 			this.animatedObjects.height = height;
-			setCookie('VisualizationHeight', String(height), 30);
 		}
-		this.heightEntry.value = canvas.height;
 
 		this.animatedObjects.draw();
 		this.fireEvent('CanvasSizeChanged', { width: canvas.width, height: canvas.height });
