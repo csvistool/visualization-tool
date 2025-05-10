@@ -155,7 +155,7 @@ export default class LSDRadix extends Algorithm {
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
-		this.pseudocode = pseudocodeText.LSDRadixSort;
+		this.pseudocode = pseudocodeText.LSDRadix;
 		this.codeID = this.addCodeToCanvasBaseAll(
 			this.pseudocode,
 			'find',

@@ -99,36 +99,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
   // Update pseudocode data when algorithm changes
   useEffect(() => {
-    const findPseudocode = () => {
-      // Function to normalize and standardize algorithm names for comparison
-      const normalizeAlgoName = name => {
-        return name
-          .toLowerCase()
-          .replace(/['\s-]+/g, '') // Remove apostrophes, spaces, hyphens
-          .replace(/s$/, '') // Remove trailing 's' for plurals
-          .replace(/^(singly|doubly|circularly)/, ''); // Remove prefixes like "singly", "doubly"
-      };
-
-      const normalizedAlgoName = normalizeAlgoName(algoName);
-
-      // First try exact match
-      if (pseudocodeText[algoName]) {
-        return pseudocodeText[algoName];
-      }
-
-      // Then try normalized matching
-      const algoKey = Object.keys(pseudocodeText).find(key => {
-        return normalizeAlgoName(key) === normalizedAlgoName;
-      });
-
-      if (algoKey) {
-        return pseudocodeText[algoKey];
-      }
-
-      return null;
-    };
-
-    const data = findPseudocode();
+    const data = pseudocodeText[algoName];
     setPseudocodeData(data);
 
     if (data) {
@@ -211,167 +182,158 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
   const header = verboseDisplayName || menuDisplayName;
 
   const AlgoFooter = () => {
-    return (<div id="footer">
-      <p>
-        <Link to="/">Return to Home Page</Link>
-      </p>
-    </div>)
+    return (
+      <div id="footer">
+        <p>
+          <Link to="/">Return to Home Page</Link>
+        </p>
+      </div>
+    );
   };
 
   const complexities = timeComplexities[algoName];
 
   const AlgoHeader = () => {
-    return (<div id="header">
-      <h1>
-        <Link to="/">&#x3008;</Link>&nbsp;&nbsp;
-        {isQuickselect ? (
-          <>
-            Quickselect / k<sup>th</sup> Select
-          </>
-        ) : (
-          <>{header}</>
-        )}
-        <div id="toggle">
-          {theme === 'light' ? (
-            <BsFillSunFill
-              size={31}
-              onClick={toggleTheme}
-              color="#f9c333"
-              className="rotate-effect" />
+    return (
+      <div id="header">
+        <h1>
+          <Link to="/">&#x3008;</Link>&nbsp;&nbsp;
+          {isQuickselect ? (
+            <>
+              Quickselect / k<sup>th</sup> Select
+            </>
           ) : (
-            <BsMoonFill
-              size={29}
-              onClick={toggleTheme}
-              color="#d4f1f1"
-              className="rotate-effect" />
+            <>{header}</>
           )}
-        </div>
-      </h1>
-    </div>);
+          <div id="toggle">
+            {theme === 'light' ? (
+              <BsFillSunFill
+                size={31}
+                onClick={toggleTheme}
+                color="#f9c333"
+                className="rotate-effect"
+              />
+            ) : (
+              <BsMoonFill
+                size={29}
+                onClick={toggleTheme}
+                color="#d4f1f1"
+                className="rotate-effect"
+              />
+            )}
+          </div>
+        </h1>
+      </div>
+    );
   };
 
   const SidebarModal = () => {
-    return (<div
-      className={`modal info-modal ${theme === 'dark' ? 'dark-theme' : ''}`}
-    >
-      <div className="modal-content">
-        <div className="modal-tabs">
-          {infoModals[algoName] && (
-            <button
-              className={`tab-button ${infoModalTab === 'about' ? 'active' : ''}`}
-              onClick={() => setInfoModalTab('about')}
-            >
-              <BsInfoCircle size={18} />
-              <span className="tab-text">About</span>
-            </button>
-          )}
-          {pseudocodeData && (
-            <button
-              className={`tab-button ${infoModalTab === 'code' ? 'active' : ''}`}
-              onClick={() => setInfoModalTab('code')}
-            >
-              <BsCodeSlash size={18} />
-              <span className="tab-text">Pseudocode</span>
-            </button>
-          )}
-          {complexities && (
-            <button
-              className={`tab-button ${infoModalTab === 'bigo' ? 'active' : ''}`}
-              onClick={() => setInfoModalTab('bigo')}
-            >
-              <BsClock size={18} />
-              <span className="tab-text">Big O</span>
-            </button>
-          )}
-        </div>
-
-        {infoModalTab === 'about' && infoModals[algoName] && (
-          <div className="tab-content about-content">
-            {infoModals[algoName]}
-          </div>
-        )}
-
-        {infoModalTab === 'code' && pseudocodeData && (
-          <div className="tab-content code-content">
-            <div className="pseudocode-header">
-              <div className="pseudocode-title">
-                {Object.keys(pseudocodeData).length > 1 && (
-                  <select
-                    value={selectedSection}
-                    onChange={e => setSelectedSection(e.target.value)}
-                    className="pseudocode-section-selector"
-                  >
-                    {Object.keys(pseudocodeData).map(
-                      section => (
-                        <option
-                          key={section}
-                          value={section}
-                        >
-                          {section
-                            .charAt(0)
-                            .toUpperCase() +
-                            section
-                              .slice(1)
-                              .replace(
-                                /([A-Z])/g,
-                                ' $1'
-                              )}
-                        </option>
-                      )
-                    )}
-                  </select>
-                )}
-              </div>
+    return (
+      <div className={`modal info-modal ${theme === 'dark' ? 'dark-theme' : ''}`}>
+        <div className="modal-content">
+          <div className="modal-tabs">
+            {infoModals[algoName] && (
               <button
-                className="code-toggle-button"
-                onClick={togglePseudocodeType}
-                title={pseudocodeType === 'english'
-                  ? 'Show Code Format'
-                  : 'Show English Format'}
+                className={`tab-button ${infoModalTab === 'about' ? 'active' : ''}`}
+                onClick={() => setInfoModalTab('about')}
               >
-                {pseudocodeType === 'english' ? (
-                  <BsCodeSlash size={20} />
-                ) : (
-                  <BsTranslate size={20} />
-                )}
+                <BsInfoCircle size={18} />
+                <span className="tab-text">About</span>
               </button>
-            </div>
-
-            {pseudocodeContent && (
-              <div className="pseudocode-modal-content">
-                {pseudocodeContent.map((line, i) => {
-                  // Calculate indentation level by counting leading spaces
-                  const content = line[0];
-                  const indentMatch = content.match(/^(\s+)/);
-                  const indentLevel = indentMatch
-                    ? indentMatch[0].length / 2
-                    : 0;
-
-                  return (
-                    <div
-                      key={i}
-                      className="pseudocode-line"
-                      style={{
-                        paddingLeft: `${indentLevel * 20}px`,
-                      }}
-                      dangerouslySetInnerHTML={highlightSyntax(
-                        content
-                      )}
-                    ></div>
-                  );
-                })}
-              </div>
+            )}
+            {pseudocodeData && (
+              <button
+                className={`tab-button ${infoModalTab === 'code' ? 'active' : ''}`}
+                onClick={() => setInfoModalTab('code')}
+              >
+                <BsCodeSlash size={18} />
+                <span className="tab-text">Pseudocode</span>
+              </button>
+            )}
+            {complexities && (
+              <button
+                className={`tab-button ${infoModalTab === 'bigo' ? 'active' : ''}`}
+                onClick={() => setInfoModalTab('bigo')}
+              >
+                <BsClock size={18} />
+                <span className="tab-text">Big O</span>
+              </button>
             )}
           </div>
-        )}
 
-        {infoModalTab === 'bigo' && (
-          <div className="tab-content bigo-content">
-            <BigOModal complexities={complexities} />
-          </div>
-        )}
+          {infoModalTab === 'about' && infoModals[algoName] && (
+            <div className="tab-content about-content">{infoModals[algoName]}</div>
+          )}
+
+          {infoModalTab === 'code' && pseudocodeData && (
+            <div className="tab-content code-content">
+              <div className="pseudocode-header">
+                <div className="pseudocode-title">
+                  {Object.keys(pseudocodeData).length > 1 && (
+                    <select
+                      value={selectedSection}
+                      onChange={e => setSelectedSection(e.target.value)}
+                      className="pseudocode-section-selector"
+                    >
+                      {Object.keys(pseudocodeData).map(section => (
+                        <option key={section} value={section}>
+                          {section.charAt(0).toUpperCase() +
+                            section.slice(1).replace(/([A-Z])/g, ' $1')}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+                <button
+                  className="code-toggle-button"
+                  onClick={togglePseudocodeType}
+                  title={
+                    pseudocodeType === 'english'
+                      ? 'Show Code Format'
+                      : 'Show English Format'
+                  }
+                >
+                  {pseudocodeType === 'english' ? (
+                    <BsCodeSlash size={20} />
+                  ) : (
+                    <BsTranslate size={20} />
+                  )}
+                </button>
+              </div>
+
+              {pseudocodeContent && (
+                <div className="pseudocode-modal-content">
+                  {pseudocodeContent.map((line, i) => {
+                    const content = line[0];
+                    const indentMatch = content.match(/^(\s+)/);
+                    const indentLevel = indentMatch
+                      ? indentMatch[0].length / 2
+                      : 0;
+
+                    return (
+                      <div
+                        key={i}
+                        className="pseudocode-line"
+                        style={{
+                          paddingLeft: `${indentLevel * 20}px`,
+                        }}
+                        dangerouslySetInnerHTML={highlightSyntax(content)}
+                      ></div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {infoModalTab === 'bigo' && (
+            <div className="tab-content bigo-content">
+              <BigOModal complexities={complexities} />
+            </div>
+          )}
+        </div>
       </div>
-    </div>)
+    );
   };
 
   return (
@@ -389,38 +351,15 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
                   size={30}
                   onClick={toggleInfoModal}
                   opacity={infoModalEnabled ? '100%' : '40%'}
-                  title="Information & Documentation" />
-              )}
-              {hasPseudoCode && pseudocodeType === 'none' && (
-                <BsFileEarmarkFill
-                  className="pseudocode-toggle"
-                  size={32}
-                  onClick={togglePseudocode}
-                  opacity={'40%'}
-                  title="Code: Hidden" />
-              )}
-              {hasPseudoCode && pseudocodeType === 'english' && (
-                <BsFileEarmarkFontFill
-                  className="pseudocode-toggle"
-                  size={32}
-                  onClick={togglePseudocode}
-                  title="Code: English" />
-              )}
-              {hasPseudoCode && pseudocodeType === 'code' && (
-                <BsFileEarmarkCodeFill
-                  className="pseudocode-toggle"
-                  size={32}
-                  onClick={togglePseudocode}
-                  title="Code: Pseudo" />
+                  title="Information & Documentation"
+                />
               )}
             </div>
           </div>
 
           <div className="viewport">
             <canvas id="canvas" width={0} height="505" ref={canvasRef}></canvas>
-            {infoModalEnabled && (
-              <SidebarModal />
-            )}
+            {infoModalEnabled && <SidebarModal />}
           </div>
           <div id="generalAnimationControlSection">
             <table id="GeneralAnimationControls" ref={animBarRef}></table>

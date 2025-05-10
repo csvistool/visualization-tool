@@ -112,7 +112,7 @@ export default class Dijkstras extends Graph {
 
 		this.pq = new PriorityQueue();
 
-		this.pseudocode = pseudocodeText.Dijkstras;
+		this.pseudocode = pseudocodeText.Dijkstra;
 		this.codeID = this.addCodeToCanvasBaseAll(
 			this.pseudocode,
 			'run',

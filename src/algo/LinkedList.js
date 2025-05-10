@@ -329,7 +329,7 @@ export default class LinkedList extends Algorithm {
 		}
 
 		// Pseudocode
-		this.pseudocode = pseudocodeText.SinglyLinkedList;
+		this.pseudocode = pseudocodeText.LinkedList;
 
 		this.resetIndex = this.nextIndex;
 

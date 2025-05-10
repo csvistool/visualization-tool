@@ -102,7 +102,7 @@ export default class Prims extends Graph {
 		this.visitedID = [];
 		this.pq = new PriorityQueue();
 
-		this.pseudocode = pseudocodeText.Prims;
+		this.pseudocode = pseudocodeText.Prim;
 		this.codeID = this.addCodeToCanvasBaseAll(
 			this.pseudocode,
 			'run',
