@@ -254,8 +254,6 @@ export default class ArrayList extends Algorithm {
 		this.length = SIZE;
 		this.commands = [];
 
-		this.pseudocode = pseudocodeText.ArrayList;
-
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 		this.resetIndex = this.nextIndex;
@@ -469,21 +467,6 @@ export default class ArrayList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		if (!skipPseudocode) {
-			this.addFBCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addFB',
-				CODE_START_X,
-				CODE_START_Y,
-			);
-			this.addIndexCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addIndex',
-				CODE_START_X + 300,
-				CODE_START_Y,
-			);
-		}
-
 		const labPushID = this.nextIndex++;
 		const labPushValID = this.nextIndex++;
 
@@ -583,30 +566,12 @@ export default class ArrayList extends Algorithm {
 
 		this.size = this.size + 1;
 
-		if (!skipPseudocode) {
-			this.removeCode(this.addFBCodeID);
-			this.removeCode(this.addIndexCodeID);
-		}
-
 		return this.commands;
 	}
 
 	remove(index, isRemoveFront, isRemoveBack, isRemoveIndex) {
 		this.commands = [];
 		this.setInfoText('');
-
-		this.removeFBCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeFB',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-		this.removeIndexCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeIndex',
-			CODE_START_X + 300,
-			CODE_START_Y,
-		);
 
 		if (isRemoveFront) {
 			this.highlight(0, 0, this.removeFBCodeID);
@@ -705,19 +670,6 @@ export default class ArrayList extends Algorithm {
 	resize(elemToAdd, index, isAddFront, isAddBack, isAddIndex) {
 		this.commands = [];
 		this.setInfoText('');
-
-		this.addFBCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'addFB',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-		this.addIndexCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'addIndex',
-			CODE_START_X + 300,
-			CODE_START_Y,
-		);
 
 		const labPushID = this.nextIndex++;
 		const labPushValID = this.nextIndex++;

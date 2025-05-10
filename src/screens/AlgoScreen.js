@@ -19,6 +19,7 @@ import AlgorithmNotFound404 from '../components/AlgorithmNotFound404';
 import AnimationManager from '../anim/AnimationMain';
 import BigOModal from '../modals/BigOModal';
 import PropTypes from 'prop-types';
+import Pseudocode from "../components/AlgoScreen/Pseudocode"
 import ReactGA from 'react-ga4';
 import { algoMap } from '../AlgoList';
 import infoModals from '../modals/InfoModals';
@@ -97,7 +98,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
     }
   }, [pseudocodeType]);
 
-  // Update pseudocode data when algorithm changes
   useEffect(() => {
     const data = pseudocodeText[algoName];
     setPseudocodeData(data);
@@ -301,28 +301,8 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
                 </button>
               </div>
 
-              {pseudocodeContent && (
-                <div className="pseudocode-modal-content">
-                  {pseudocodeContent.map((line, i) => {
-                    const content = line[0];
-                    const indentMatch = content.match(/^(\s+)/);
-                    const indentLevel = indentMatch
-                      ? indentMatch[0].length / 2
-                      : 0;
+              <Pseudocode algoName={algoName} />
 
-                    return (
-                      <div
-                        key={i}
-                        className="pseudocode-line"
-                        style={{
-                          paddingLeft: `${indentLevel * 20}px`,
-                        }}
-                        dangerouslySetInnerHTML={highlightSyntax(content)}
-                      ></div>
-                    );
-                  })}
-                </div>
-              )}
             </div>
           )}
 
