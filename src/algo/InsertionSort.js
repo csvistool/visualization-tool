@@ -145,12 +145,6 @@ export default class InsertionSort extends Algorithm {
 		);
 
 		this.pseudocode = pseudocodeText.InsertionSort;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'find',
-			CODE_START_X,
-			CODE_START_Y,
-		);
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);
@@ -305,52 +299,52 @@ export default class InsertionSort extends Algorithm {
 			ARRAY_START_Y,
 		);
 		this.cmd(act.setHighlight, this.jPointerID, 1);
-		this.highlight(0, 0, this.codeID);
+		this.highlight(0, 0, 'find');
 		this.cmd(act.step);
-		this.unhighlight(0, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
+		this.highlight(2, 0, 'find');
 
 		for (let i = 1; i < this.arrayData.length; i++) {
 			this.cmd(act.step);
-			this.highlight(3, 0, this.codeID);
+			this.highlight(3, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(3, 0, this.codeID);
-			this.highlight(4, 0, this.codeID);
+			this.unhighlight(3, 0, 'find');
+			this.highlight(4, 0, 'find');
 			for (let j = i; j >= 1; j--) {
 				this.movePointers(j - 1, j);
-				this.unhighlight(3, 0, this.codeID);
-				this.unhighlight(6, 0, this.codeID);
-				this.highlight(4, 2, this.codeID);
+				this.unhighlight(3, 0, 'find');
+				this.unhighlight(6, 0, 'find');
+				this.highlight(4, 2, 'find');
 				this.cmd(act.step);
-				this.unhighlight(4, 2, this.codeID);
-				this.highlight(4, 4, this.codeID);
+				this.unhighlight(4, 2, 'find');
+				this.highlight(4, 4, 'find');
 				this.cmd(
 					act.setText,
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
 				this.cmd(act.step);
-				this.unhighlight(4, 4, this.codeID);
+				this.unhighlight(4, 4, 'find');
 				if (this.arrayData[j] < this.arrayData[j - 1]) {
-					this.highlight(5, 0, this.codeID);
+					this.highlight(5, 0, 'find');
 					this.swap(j, j - 1);
 					this.cmd(act.step);
-					this.unhighlight(5, 0, this.codeID);
-					this.highlight(6, 0, this.codeID);
+					this.unhighlight(5, 0, 'find');
+					this.highlight(6, 0, 'find');
 					this.cmd(act.step);
 				} else {
 					break;
 				}
 			}
 			this.cmd(act.step);
-			this.unhighlight(3, 0, this.codeID);
-			this.unhighlight(4, 0, this.codeID);
-			this.unhighlight(6, 0, this.codeID);
+			this.unhighlight(3, 0, 'find');
+			this.unhighlight(4, 0, 'find');
+			this.unhighlight(6, 0, 'find');
 			if (i === 1) this.cmd(act.setBackgroundColor, this.arrayID[0], '#2ECC71');
 			this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
 			this.cmd(act.step);
 		}
-		this.unhighlight(2, 0, this.codeID);
+		this.unhighlight(2, 0, 'find');
 
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);

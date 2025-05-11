@@ -467,15 +467,15 @@ export default class LinkedList extends Algorithm {
 	}
 
 	traverse(startIndex, endIndex, runningBack, runningRemove) {
-		this.unhighlight(4, 0, this.addBackCodeID);
-		this.unhighlight(6, 0, this.addIndexCodeID);
-		this.unhighlight(4, 0, this.removeBackCodeID);
-		this.unhighlight(6, 0, this.removeIndexCodeID);
+		this.unhighlight(4, 0, 'addBack');
+		this.unhighlight(6, 0, 'addIndex');
+		this.unhighlight(4, 0, 'removeBack');
+		this.unhighlight(6, 0, 'removeIndex');
 		for (let i = startIndex; i <= endIndex; i++) {
-			this.unhighlight(6, 0, this.addBackCodeID);
-			this.unhighlight(8, 0, this.addIndexCodeID);
-			this.unhighlight(6, 0, this.removeBackCodeID);
-			this.unhighlight(8, 0, this.removeIndexCodeID);
+			this.unhighlight(6, 0, 'addBack');
+			this.unhighlight(8, 0, 'addIndex');
+			this.unhighlight(6, 0, 'removeBack');
+			this.unhighlight(8, 0, 'removeIndex');
 			this.cmd(act.step);
 
 			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
@@ -485,12 +485,12 @@ export default class LinkedList extends Algorithm {
 
 			if (runningBack) {
 				runningRemove
-					? this.highlight(6, 0, this.removeBackCodeID)
-					: this.highlight(6, 0, this.addBackCodeID);
+					? this.highlight(6, 0, 'removeBack')
+					: this.highlight(6, 0, 'addBack');
 			} else {
 				runningRemove
-					? this.highlight(8, 0, this.removeIndexCodeID)
-					: this.highlight(8, 0, this.addIndexCodeID);
+					? this.highlight(8, 0, 'removeIndex')
+					: this.highlight(8, 0, 'addIndex');
 			}
 			this.cmd(act.step);
 		}
@@ -501,33 +501,12 @@ export default class LinkedList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		if (!skipPseudocode) {
-			this.addIndexCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addIndex',
-				CODE_START_X,
-				CODE_START_Y,
-			);
-			this.addFrontCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addFront',
-				CODE_START_X + 370,
-				CODE_START_Y,
-			);
-			this.addBackCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addBack',
-				CODE_START_X + 640,
-				CODE_START_Y,
-			);
-		}
-
 		if (isAddFront) {
-			this.highlight(0, 0, this.addFrontCodeID);
+			this.highlight(0, 0, 'addFront');
 		} else if (isAddBack) {
-			this.highlight(0, 0, this.addBackCodeID);
+			this.highlight(0, 0, 'addBack');
 		} else if (isAddIndex) {
-			this.highlight(0, 0, this.addIndexCodeID);
+			this.highlight(0, 0, 'addIndex');
 		}
 
 		const runningAddFront = isAddFront || (isAddIndex && index === 0); // addfront is called directly or addindex
@@ -537,14 +516,14 @@ export default class LinkedList extends Algorithm {
 		if (isAddIndex) {
 			if (runningAddFront) {
 				this.cmd(act.step);
-				this.highlight(1, 0, this.addIndexCodeID);
-				this.highlight(2, 0, this.addIndexCodeID);
-				this.highlight(0, 0, this.addFrontCodeID);
+				this.highlight(1, 0, 'addIndex');
+				this.highlight(2, 0, 'addIndex');
+				this.highlight(0, 0, 'addFront');
 			} else if (runningAddBack) {
 				this.cmd(act.step);
-				this.highlight(3, 0, this.addIndexCodeID);
-				this.highlight(4, 0, this.addIndexCodeID);
-				this.highlight(0, 0, this.addBackCodeID);
+				this.highlight(3, 0, 'addIndex');
+				this.highlight(4, 0, 'addIndex');
+				this.highlight(0, 0, 'addBack');
 			}
 		}
 
@@ -554,27 +533,27 @@ export default class LinkedList extends Algorithm {
 		const labPushValID = this.nextIndex++;
 
 		if (runningAddFront) {
-			this.highlight(1, 0, this.addFrontCodeID);
+			this.highlight(1, 0, 'addFront');
 		} else if (runningAddBack) {
-			this.highlight(1, 0, this.addBackCodeID);
+			this.highlight(1, 0, 'addBack');
 		} else {
-			this.highlight(5, 0, this.addIndexCodeID);
+			this.highlight(5, 0, 'addIndex');
 		}
 
 		this.cmd(act.step);
 
 		if (runningAddBack && this.size > 0) {
-			this.unhighlight(1, 0, this.addBackCodeID);
-			this.highlight(3, 0, this.addBackCodeID);
+			this.unhighlight(1, 0, 'addBack');
+			this.highlight(3, 0, 'addBack');
 			this.cmd(act.step);
-			this.highlight(4, 0, this.addBackCodeID);
+			this.highlight(4, 0, 'addBack');
 			this.cmd(act.step);
-			this.unhighlight(4, 0, this.addBackCodeID);
-			this.highlight(5, 0, this.addBackCodeID);
+			this.unhighlight(4, 0, 'addBack');
+			this.highlight(5, 0, 'addBack');
 		} else if (runningAddIndexOnly) {
-			this.highlight(6, 0, this.addIndexCodeID);
+			this.highlight(6, 0, 'addIndex');
 			this.cmd(act.step);
-			this.highlight(7, 0, this.addIndexCodeID);
+			this.highlight(7, 0, 'addIndex');
 		}
 		for (let i = this.size - 1; i >= index; i--) {
 			this.arrayData[i + 1] = this.arrayData[i];
@@ -609,25 +588,25 @@ export default class LinkedList extends Algorithm {
 
 		if (runningAddFront) {
 			if (this.size === 0) {
-				this.highlight(2, 0, this.addFrontCodeID);
+				this.highlight(2, 0, 'addFront');
 			} else {
-				this.unhighlight(1, 0, this.addFrontCodeID);
-				this.highlight(3, 0, this.addFrontCodeID);
+				this.unhighlight(1, 0, 'addFront');
+				this.highlight(3, 0, 'addFront');
 				this.cmd(act.step);
-				this.highlight(4, 0, this.addFrontCodeID);
-				this.highlight(5, 0, this.addFrontCodeID);
-				this.highlight(6, 0, this.addFrontCodeID);
+				this.highlight(4, 0, 'addFront');
+				this.highlight(5, 0, 'addFront');
+				this.highlight(6, 0, 'addFront');
 			}
 		} else if (runningAddBack) {
 			if (this.size === 0) {
-				this.highlight(2, 0, this.addBackCodeID);
+				this.highlight(2, 0, 'addBack');
 			}
 		} else {
-			this.unhighlight(7, 0, this.addIndexCodeID);
-			this.unhighlight(8, 0, this.addIndexCodeID);
-			this.highlight(10, 0, this.addIndexCodeID);
-			this.highlight(11, 0, this.addIndexCodeID);
-			this.highlight(12, 0, this.addIndexCodeID);
+			this.unhighlight(7, 0, 'addIndex');
+			this.unhighlight(8, 0, 'addIndex');
+			this.highlight(10, 0, 'addIndex');
+			this.highlight(11, 0, 'addIndex');
+			this.highlight(12, 0, 'addIndex');
 		}
 
 		this.cmd(act.step);
@@ -662,9 +641,9 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index],
 				);
 				if (runningAddBack) {
-					this.unhighlight(5, 0, this.addBackCodeID);
-					this.unhighlight(6, 0, this.addBackCodeID);
-					this.highlight(7, 0, this.addBackCodeID);
+					this.unhighlight(5, 0, 'addBack');
+					this.unhighlight(6, 0, 'addBack');
+					this.highlight(7, 0, 'addBack');
 				}
 			} else {
 				this.cmd(
@@ -692,37 +671,31 @@ export default class LinkedList extends Algorithm {
 		this.cmd(act.step);
 
 		if (runningAddFront) {
-			this.unhighlight(1, 0, this.addFrontCodeID);
-			this.unhighlight(2, 0, this.addFrontCodeID);
-			this.unhighlight(3, 0, this.addFrontCodeID);
-			this.unhighlight(4, 0, this.addFrontCodeID);
-			this.unhighlight(5, 0, this.addFrontCodeID);
-			this.unhighlight(6, 0, this.addFrontCodeID);
-			this.highlight(8, 0, this.addFrontCodeID);
+			this.unhighlight(1, 0, 'addFront');
+			this.unhighlight(2, 0, 'addFront');
+			this.unhighlight(3, 0, 'addFront');
+			this.unhighlight(4, 0, 'addFront');
+			this.unhighlight(5, 0, 'addFront');
+			this.unhighlight(6, 0, 'addFront');
+			this.highlight(8, 0, 'addFront');
 		} else if (runningAddBack) {
-			this.unhighlight(1, 0, this.addBackCodeID);
-			this.unhighlight(2, 0, this.addBackCodeID);
-			this.unhighlight(3, 0, this.addBackCodeID);
-			this.unhighlight(7, 0, this.addBackCodeID);
-			this.highlight(9, 0, this.addBackCodeID);
+			this.unhighlight(1, 0, 'addBack');
+			this.unhighlight(2, 0, 'addBack');
+			this.unhighlight(3, 0, 'addBack');
+			this.unhighlight(7, 0, 'addBack');
+			this.highlight(9, 0, 'addBack');
 		} else {
-			this.unhighlight(8, 0, this.addIndexCodeID);
-			this.unhighlight(10, 0, this.addIndexCodeID);
-			this.unhighlight(11, 0, this.addIndexCodeID);
-			this.unhighlight(12, 0, this.addIndexCodeID);
-			this.highlight(13, 0, this.addIndexCodeID);
+			this.unhighlight(8, 0, 'addIndex');
+			this.unhighlight(10, 0, 'addIndex');
+			this.unhighlight(11, 0, 'addIndex');
+			this.unhighlight(12, 0, 'addIndex');
+			this.highlight(13, 0, 'addIndex');
 		}
 
 		this.size = this.size + 1;
 		this.resetNodePositions();
 		this.cmd(act.delete, labPushID);
 		this.cmd(act.step);
-
-		if (!skipPseudocode) {
-			this.removeCode(this.addFrontCodeID);
-			this.removeCode(this.addBackCodeID);
-			this.removeCode(this.addIndexCodeID);
-		}
 
 		return this.commands;
 	}
@@ -731,31 +704,12 @@ export default class LinkedList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		this.removeIndexCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeIndex',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-		this.removeFrontCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeFront',
-			CODE_START_X + 325,
-			CODE_START_Y,
-		);
-		this.removeBackCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeBack',
-			CODE_START_X + 620,
-			CODE_START_Y,
-		);
-
 		if (isRemoveFront) {
-			this.highlight(0, 0, this.removeFrontCodeID);
+			this.highlight(0, 0, 'removeFront');
 		} else if (isRemoveBack) {
-			this.highlight(0, 0, this.removeBackCodeID);
+			this.highlight(0, 0, 'removeBack');
 		} else if (isRemoveIndex) {
-			this.highlight(0, 0, this.removeIndexCodeID);
+			this.highlight(0, 0, 'removeIndex');
 		}
 
 		const runningRemoveFront = isRemoveFront || (isRemoveIndex && index === 0); // removefront is called directly or removeindex
@@ -766,14 +720,14 @@ export default class LinkedList extends Algorithm {
 		if (isRemoveIndex) {
 			if (runningRemoveFront) {
 				this.cmd(act.step);
-				this.highlight(1, 0, this.removeIndexCodeID);
-				this.highlight(2, 0, this.removeIndexCodeID);
-				this.highlight(0, 0, this.removeFrontCodeID);
+				this.highlight(1, 0, 'removeIndex');
+				this.highlight(2, 0, 'removeIndex');
+				this.highlight(0, 0, 'removeFront');
 			} else if (runningRemoveBack) {
 				this.cmd(act.step);
-				this.highlight(3, 0, this.removeIndexCodeID);
-				this.highlight(4, 0, this.removeIndexCodeID);
-				this.highlight(0, 0, this.removeBackCodeID);
+				this.highlight(3, 0, 'removeIndex');
+				this.highlight(4, 0, 'removeIndex');
+				this.highlight(0, 0, 'removeBack');
 			}
 		}
 
@@ -786,39 +740,39 @@ export default class LinkedList extends Algorithm {
 		this.cmd(act.setText, this.leftoverLabelID, '');
 
 		if (runningRemoveFront) {
-			this.highlight(1, 0, this.removeFrontCodeID);
+			this.highlight(1, 0, 'removeFront');
 		} else if (runningRemoveBack) {
-			this.highlight(1, 0, this.removeBackCodeID);
+			this.highlight(1, 0, 'removeBack');
 		} else {
-			this.highlight(5, 0, this.removeIndexCodeID);
+			this.highlight(5, 0, 'removeIndex');
 		}
 
 		this.cmd(act.step);
 
 		if (runningRemoveBack && this.size > 0) {
-			this.unhighlight(1, 0, this.removeBackCodeID);
-			this.highlight(3, 0, this.removeBackCodeID);
+			this.unhighlight(1, 0, 'removeBack');
+			this.highlight(3, 0, 'removeBack');
 			this.cmd(act.step);
-			this.highlight(4, 0, this.removeBackCodeID);
+			this.highlight(4, 0, 'removeBack');
 			this.cmd(act.step);
-			this.unhighlight(4, 0, this.removeBackCodeID);
-			this.highlight(5, 0, this.removeBackCodeID);
+			this.unhighlight(4, 0, 'removeBack');
+			this.highlight(5, 0, 'removeBack');
 		} else if (runningRemoveIndexOnly) {
-			this.highlight(6, 0, this.removeIndexCodeID);
+			this.highlight(6, 0, 'removeIndex');
 			this.cmd(act.step);
-			this.highlight(7, 0, this.removeIndexCodeID);
+			this.highlight(7, 0, 'removeIndex');
 		}
 
 		this.traverse(0, index - 1, runningRemoveBack, true);
 
 		if (runningRemoveIndexOnly) {
-			this.unhighlight(7, 0, this.removeIndexCodeID);
-			this.unhighlight(8, 0, this.removeIndexCodeID);
-			this.highlight(10, 0, this.removeIndexCodeID);
+			this.unhighlight(7, 0, 'removeIndex');
+			this.unhighlight(8, 0, 'removeIndex');
+			this.highlight(10, 0, 'removeIndex');
 		} else if (runningRemoveBack) {
-			this.unhighlight(5, 0, this.removeBackCodeID);
-			this.unhighlight(6, 0, this.removeBackCodeID);
-			this.highlight(8, 0, this.removeBackCodeID);
+			this.unhighlight(5, 0, 'removeBack');
+			this.unhighlight(6, 0, 'removeBack');
+			this.highlight(8, 0, 'removeBack');
 		}
 
 		const nodePosX = LINKED_LIST_START_X + LINKED_LIST_ELEM_SPACING * index;
@@ -830,20 +784,20 @@ export default class LinkedList extends Algorithm {
 		this.cmd(act.step);
 
 		if (runningRemoveFront) {
-			this.unhighlight(1, 0, this.removeFrontCodeID);
+			this.unhighlight(1, 0, 'removeFront');
 		}
 
 		if (this.size !== 1) {
 			if (index === 0) {
-				this.highlight(2, 0, this.removeFrontCodeID);
+				this.highlight(2, 0, 'removeFront');
 				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index]);
 				this.cmd(act.connect, this.topID, this.linkedListElemID[index + 1]);
 				this.cmd(act.step);
 				this.cmd(act.disconnect, this.linkedListElemID[0], this.linkedListElemID[1]);
 				this.cmd(act.setNull, this.linkedListElemID[0], 1);
 			} else if (index === this.size - 1) {
-				this.unhighlight(8, 0, this.removeBackCodeID);
-				this.highlight(9, 0, this.removeBackCodeID);
+				this.unhighlight(8, 0, 'removeBack');
+				this.highlight(9, 0, 'removeBack');
 				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
 				this.cmd(act.connect, this.tailID, this.linkedListElemID[index - 1]);
 				this.cmd(act.step);
@@ -855,8 +809,8 @@ export default class LinkedList extends Algorithm {
 				this.cmd(act.setNull, this.linkedListElemID[index - 1], 1);
 				this.cmd(act.step);
 			} else {
-				this.unhighlight(10, 0, this.removeIndexCodeID);
-				this.highlight(11, 0, this.removeIndexCodeID);
+				this.unhighlight(10, 0, 'removeIndex');
+				this.highlight(11, 0, 'removeIndex');
 				const xPos =
 					(index % LINKED_LIST_ELEMS_PER_LINE) * LINKED_LIST_ELEM_SPACING +
 					LINKED_LIST_START_X;
@@ -881,14 +835,14 @@ export default class LinkedList extends Algorithm {
 				);
 			}
 		}
-		this.unhighlight(2, 0, this.removeFrontCodeID);
-		this.unhighlight(9, 0, this.removeBackCodeID);
-		this.unhighlight(11, 0, this.removeIndexCodeID);
+		this.unhighlight(2, 0, 'removeFront');
+		this.unhighlight(9, 0, 'removeBack');
+		this.unhighlight(11, 0, 'removeIndex');
 		runningRemoveIndexOnly
-			? this.highlight(12, 0, this.removeIndexCodeID)
+			? this.highlight(12, 0, 'removeIndex')
 			: runningRemoveBack
-			? this.highlight(10, 0, this.removeBackCodeID)
-			: this.highlight(3, 0, this.removeFrontCodeID);
+			? this.highlight(10, 0, 'removeBack')
+			: this.highlight(3, 0, 'removeFront');
 
 		this.cmd(act.step);
 		this.cmd(act.delete, this.linkedListElemID[index]);
@@ -906,19 +860,15 @@ export default class LinkedList extends Algorithm {
 		this.cmd(act.delete, labPopID);
 
 		this.cmd(act.step);
-		this.unhighlight(3, 0, this.removeFrontCodeID);
-		this.unhighlight(10, 0, this.removeBackCodeID);
-		this.unhighlight(12, 0, this.removeIndexCodeID);
+		this.unhighlight(3, 0, 'removeFront');
+		this.unhighlight(10, 0, 'removeBack');
+		this.unhighlight(12, 0, 'removeIndex');
 		runningRemoveIndexOnly
-			? this.highlight(13, 0, this.removeIndexCodeID)
+			? this.highlight(13, 0, 'removeIndex')
 			: runningRemoveBack
-			? this.highlight(11, 0, this.removeBackCodeID)
-			: this.highlight(4, 0, this.removeFrontCodeID);
+			? this.highlight(11, 0, 'removeBack')
+			: this.highlight(4, 0, 'removeFront');
 		this.cmd(act.step);
-
-		this.removeCode(this.removeFrontCodeID);
-		this.removeCode(this.removeBackCodeID);
-		this.removeCode(this.removeIndexCodeID);
 
 		return this.commands;
 	}

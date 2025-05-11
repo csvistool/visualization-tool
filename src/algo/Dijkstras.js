@@ -113,13 +113,6 @@ export default class Dijkstras extends Graph {
 		this.pq = new PriorityQueue();
 
 		this.pseudocode = pseudocodeText.Dijkstra;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'run',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-
 		this.tableEntryHeight = this.isLarge ? LARGE_TABLE_ENTRY_HEIGHT : SMALL_TABLE_ENTRY_HEIGHT;
 		for (let i = 0; i < this.size; i++) {
 			this.vertexID[i] = this.nextIndex++;
@@ -227,26 +220,26 @@ export default class Dijkstras extends Graph {
 			this.infoLabelID,
 			'Enqueueing ' + this.toStr(current) + ' with distance 0 and updating distance map',
 		);
-		this.highlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
-		this.highlight(3, 0, this.codeID);
+		this.highlight(1, 0, 'run');
+		this.highlight(2, 0, 'run');
+		this.highlight(3, 0, 'run');
 		this.cmd(act.step);
-		this.unhighlight(1, 0, this.codeID);
-		this.unhighlight(2, 0, this.codeID);
-		this.unhighlight(3, 0, this.codeID);
-		this.highlight(4, 0, this.codeID);
-		this.highlight(5, 0, this.codeID);
+		this.unhighlight(1, 0, 'run');
+		this.unhighlight(2, 0, 'run');
+		this.unhighlight(3, 0, 'run');
+		this.highlight(4, 0, 'run');
+		this.highlight(5, 0, 'run');
 		this.cmd(act.step);
-		this.unhighlight(4, 0, this.codeID);
-		this.unhighlight(5, 0, this.codeID);
-		this.highlight(7, 0, this.codeID);
-		this.highlight(8, 0, this.codeID);
+		this.unhighlight(4, 0, 'run');
+		this.unhighlight(5, 0, 'run');
+		this.highlight(7, 0, 'run');
+		this.highlight(8, 0, 'run');
 		this.cmd(act.step);
-		this.unhighlight(7, 0, this.codeID);
-		this.unhighlight(8, 0, this.codeID);
+		this.unhighlight(7, 0, 'run');
+		this.unhighlight(8, 0, 'run');
 
 		while (this.visited.includes(false) && this.pq.size() !== 0) {
-			this.unhighlight(15, 0, this.codeID);
+			this.unhighlight(15, 0, 'run');
 			[current, currentID] = this.pq.dequeue();
 			this.cmd(act.setText, this.infoLabelID, 'Dequeueing ' + this.toStr(current));
 			this.cmd(act.move, currentID, CURRENT_VERTEX_X, CURRENT_VERTEX_Y);
@@ -263,18 +256,18 @@ export default class Dijkstras extends Graph {
 			}
 
 			this.visitVertex(current);
-			this.highlight(9, 0, this.codeID);
+			this.highlight(9, 0, 'run');
 			this.cmd(act.step);
-			this.highlight(10, 0, this.codeID);
+			this.highlight(10, 0, 'run');
 			this.cmd(act.step);
-			this.unhighlight(10, 0, this.codeID);
-			this.highlight(11, 0, this.codeID);
+			this.unhighlight(10, 0, 'run');
+			this.highlight(11, 0, 'run');
 			this.cmd(act.step);
 
 			if (!this.visited[current]) {
-				this.unhighlight(11, 0, this.codeID);
-				this.highlight(12, 0, this.codeID);
-				this.highlight(13, 0, this.codeID);
+				this.unhighlight(11, 0, 'run');
+				this.highlight(12, 0, 'run');
+				this.highlight(13, 0, 'run');
 				this.visited[current] = true;
 				this.cmd(
 					act.setText,
@@ -296,13 +289,13 @@ export default class Dijkstras extends Graph {
 					this.infoLabelID,
 					'Updating neighbors of vertex ' + this.toStr(current),
 				);
-				this.unhighlight(12, 0, this.codeID);
-				this.unhighlight(13, 0, this.codeID);
-				this.highlight(14, 0, this.codeID);
+				this.unhighlight(12, 0, 'run');
+				this.unhighlight(13, 0, 'run');
+				this.highlight(14, 0, 'run');
 
 				for (let neighbor = 0; neighbor < this.size; neighbor++) {
-					this.unhighlight(16, 0, this.codeID);
-					this.highlight(15, 0, this.codeID);
+					this.unhighlight(16, 0, 'run');
+					this.highlight(15, 0, 'run');
 					if (this.adj_matrix[current][neighbor] >= 0) {
 						this.highlightEdge(current, neighbor, 1);
 						if (this.visited[neighbor]) {
@@ -342,9 +335,9 @@ export default class Dijkstras extends Graph {
 									TABLE_START_Y + neighbor * this.tableEntryHeight - 5,
 									0,
 								);
-								this.highlight(16, 0, this.codeID);
+								this.highlight(16, 0, 'run');
 								this.cmd(act.step);
-								this.unhighlight(15, 0, this.codeID);
+								this.unhighlight(15, 0, 'run');
 
 								this.cmd(act.setText, this.infoLabelID, 'Updating distance');
 								this.cmd(
@@ -375,7 +368,7 @@ export default class Dijkstras extends Graph {
 											PQ_LINE_SPACING,
 									0,
 								);
-								this.unhighlight(16, 0, this.codeID);
+								this.unhighlight(16, 0, 'run');
 								this.cmd(act.step);
 
 								const newPqIDs = this.pq.getIDs();
@@ -418,7 +411,7 @@ export default class Dijkstras extends Graph {
 						this.highlightEdge(current, neighbor, 0);
 					}
 				}
-				this.unhighlight(14, 0, this.codeID);
+				this.unhighlight(14, 0, 'run');
 			} else {
 				this.cmd(
 					act.setText,
@@ -429,14 +422,14 @@ export default class Dijkstras extends Graph {
 			}
 			this.leaveVertex();
 			this.cmd(act.delete, currentID);
-			this.unhighlight(5, 0, this.codeID);
+			this.unhighlight(5, 0, 'run');
 		}
 
-		this.unhighlight(9, 0, this.codeID);
-		this.unhighlight(15, 0, this.codeID);
-		this.highlight(21, 0, this.codeID);
+		this.unhighlight(9, 0, 'run');
+		this.unhighlight(15, 0, 'run');
+		this.highlight(21, 0, 'run');
 		this.cmd(act.step);
-		this.unhighlight(21, 0, this.codeID);
+		this.unhighlight(21, 0, 'run');
 
 		if (this.pq.size() > 0) {
 			this.cmd(act.setText, this.infoLabelID, 'All vertices have been visited, done');

@@ -24,6 +24,9 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
+// TODO: not easily portable due to separate pseudocode; just needs fancy
+// replace
+
 import {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
@@ -545,49 +548,49 @@ export default class DFS extends Graph {
 
 	// Add this new method in the class
 	/*openCreateGraphModal() {
-		// Create modal container
-		const modal = document.createElement('div');
-		modal.style.position = 'fixed';
-		modal.style.top = '50%';
-		modal.style.left = '50%';
-		modal.style.transform = 'translate(-50%, -50%)';
-		modal.style.zIndex = '1000';
-		modal.style.width = '80%';
-		modal.style.height = '80%';
-		modal.style.backgroundColor = '#fff';
-		modal.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
-		modal.style.padding = '20px';
-		modal.style.overflow = 'hidden';
+  // Create modal container
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '50%';
+  modal.style.left = '50%';
+  modal.style.transform = 'translate(-50%, -50%)';
+  modal.style.zIndex = '1000';
+  modal.style.width = '80%';
+  modal.style.height = '80%';
+  modal.style.backgroundColor = '#fff';
+  modal.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
+  modal.style.padding = '20px';
+  modal.style.overflow = 'hidden';
 
-		// Create iframe for the webpage
-		const iframe = document.createElement('iframe');
-		iframe.src = '../CreateGraph'; // Path to CreateGraph page
-		iframe.style.width = '100%';
-		iframe.style.height = '90%';
-		iframe.style.border = 'none';
+  // Create iframe for the webpage
+  const iframe = document.createElement('iframe');
+  iframe.src = '../CreateGraph'; // Path to CreateGraph page
+  iframe.style.width = '100%';
+  iframe.style.height = '90%';
+  iframe.style.border = 'none';
 
-		// Add iframe to modal
-		modal.appendChild(iframe);
+  // Add iframe to modal
+  modal.appendChild(iframe);
 
-		// Create a close button
-		const closeButton = document.createElement('button');
-		closeButton.innerText = 'Close';
-		closeButton.style.position = 'absolute';
-		closeButton.style.top = '10px';
-		closeButton.style.right = '10px';
-		closeButton.style.backgroundColor = '#f44336';
-		closeButton.style.color = '#fff';
-		closeButton.style.border = 'none';
-		closeButton.style.padding = '10px';
-		closeButton.style.cursor = 'pointer';
-		closeButton.onclick = () => {
-			document.body.removeChild(modal);
-		};
+  // Create a close button
+  const closeButton = document.createElement('button');
+  closeButton.innerText = 'Close';
+  closeButton.style.position = 'absolute';
+  closeButton.style.top = '10px';
+  closeButton.style.right = '10px';
+  closeButton.style.backgroundColor = '#f44336';
+  closeButton.style.color = '#fff';
+  closeButton.style.border = 'none';
+  closeButton.style.padding = '10px';
+  closeButton.style.cursor = 'pointer';
+  closeButton.onclick = () => {
+    document.body.removeChild(modal);
+  };
 
-		// Add close button to modal
-		modal.appendChild(closeButton);
+  // Add close button to modal
+  modal.appendChild(closeButton);
 
-		// Append modal to the document body
-		document.body.appendChild(modal);
-	}*/
+  // Append modal to the document body
+  document.body.appendChild(modal);
+}*/
 }

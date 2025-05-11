@@ -156,12 +156,6 @@ export default class LSDRadix extends Algorithm {
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
 		this.pseudocode = pseudocodeText.LSDRadix;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'find',
-			CODE_START_X,
-			CODE_START_Y,
-		);
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);
@@ -226,37 +220,33 @@ export default class LSDRadix extends Algorithm {
 		negativeNumbersEnabled = !negativeNumbersEnabled;
 		this.implementAction(this.clear.bind(this));
 		if (negativeNumbersEnabled) {
-			this.cmd(act.setText, this.codeID.code[1][0], '  buckets ← array of 19 lists');
-			this.cmd(act.setText, this.codeID.code[7][0], '      b ← array[j] / div % 10 + 9');
-			this.cmd(act.setText, this.codeID.code[11][0], '    for b ← 0, 18:');
+			this.cmd(act.setText, 'find'.code[1][0], '  buckets ← array of 19 lists');
+			this.cmd(act.setText, 'find'.code[7][0], '      b ← array[j] / div % 10 + 9');
+			this.cmd(act.setText, 'find'.code[11][0], '    for b ← 0, 18:');
 
 			this.cmd(
 				act.setText,
-				this.codeID.english[1][0],
+				'find'.english[1][0],
 				'  buckets is an array containing 19 lists',
 			);
 			this.cmd(
 				act.setText,
-				this.codeID.english[7][0],
+				'find'.english[7][0],
 				'      b is (num at array[j] / base % 10 + 9)',
 			);
-			this.cmd(act.setText, this.codeID.english[11][0], '    for each bucket:');
+			this.cmd(act.setText, 'find'.english[11][0], '    for each bucket:');
 		} else {
-			this.cmd(act.setText, this.codeID.code[1][0], '  buckets ← array of 10 lists');
-			this.cmd(act.setText, this.codeID.code[7][0], '      b ← array[j] / div % 10');
-			this.cmd(act.setText, this.codeID.code[11][0], '    for b ← 0, 9:');
+			this.cmd(act.setText, 'find'.code[1][0], '  buckets ← array of 10 lists');
+			this.cmd(act.setText, 'find'.code[7][0], '      b ← array[j] / div % 10');
+			this.cmd(act.setText, 'find'.code[11][0], '    for b ← 0, 9:');
 
 			this.cmd(
 				act.setText,
-				this.codeID.english[1][0],
+				'find'.english[1][0],
 				'  buckets is an array containing 10 lists',
 			);
-			this.cmd(
-				act.setText,
-				this.codeID.english[7][0],
-				'      b is (num at array[j] / base % 10)',
-			);
-			this.cmd(act.setText, this.codeID.english[11][0], '    for each bucket:');
+			this.cmd(act.setText, 'find'.english[7][0], '      b is (num at array[j] / base % 10)');
+			this.cmd(act.setText, 'find'.english[11][0], '    for each bucket:');
 		}
 	}
 
@@ -273,7 +263,7 @@ export default class LSDRadix extends Algorithm {
 
 		if (!keepInput) this.listField.value = '';
 		this.cmd(act.setText, this.infoLabelID, '');
-		// this.cmd(act.setText, this.codeID[0][0], 'procedure LSDRadixSort(array):'); // dummy line to start animation
+		// this.cmd(act.setText, "find"[0][0], 'procedure LSDRadixSort(array):'); // dummy line to start animation
 
 		this.arrayData = [];
 		this.arrayID = [];
@@ -285,7 +275,7 @@ export default class LSDRadix extends Algorithm {
 	}
 
 	sort(list) {
-		this.highlight(0, 0, this.codeID);
+		this.highlight(0, 0, 'find');
 		this.commands = [];
 
 		// User input validation
@@ -368,8 +358,8 @@ export default class LSDRadix extends Algorithm {
 		this.bucketsID = [];
 
 		this.cmd(act.step);
-		this.unhighlight(0, 0, this.codeID);
-		this.highlight(1, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
+		this.highlight(1, 0, 'find');
 
 		// Create buckets
 		if (negativeNumbersEnabled) {
@@ -434,8 +424,8 @@ export default class LSDRadix extends Algorithm {
 		this.cmd(act.setHighlight, this.jPointerID, 1);
 
 		this.cmd(act.step);
-		this.unhighlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
+		this.unhighlight(1, 0, 'find');
+		this.highlight(2, 0, 'find');
 		let greatest = 0;
 		for (let i = 1; i < this.arrayData.length; i++) {
 			this.movePointers(greatest, i);
@@ -459,9 +449,9 @@ export default class LSDRadix extends Algorithm {
 			longData + ' the has largest magnitude with a number of digits k = ' + digits,
 		);
 		this.cmd(act.step);
-		this.unhighlight(2, 0, this.codeID);
+		this.unhighlight(2, 0, 'find');
 		this.cmd(act.setBackgroundColor, this.arrayID[greatest], '#FFFFFF');
-		this.highlight(5, 0, this.codeID);
+		this.highlight(5, 0, 'find');
 
 		// Run algorithm
 		for (let i = 0; i < digits; i++) {
@@ -480,7 +470,7 @@ export default class LSDRadix extends Algorithm {
 			);
 			this.cmd(act.setHighlight, this.iPointerID, 1);
 			this.cmd(act.step);
-			this.highlight(6, 0, this.codeID);
+			this.highlight(6, 0, 'find');
 			for (let j = 0; j < this.arrayData.length; j++) {
 				this.cmd(
 					act.move,
@@ -489,10 +479,10 @@ export default class LSDRadix extends Algorithm {
 					ARRAY_START_Y,
 				);
 				this.cmd(act.step);
-				this.highlight(7, 0, this.codeID);
+				this.highlight(7, 0, 'find');
 				this.cmd(act.step);
-				this.unhighlight(7, 0, this.codeID);
-				this.highlight(8, 0, this.codeID);
+				this.unhighlight(7, 0, 'find');
+				this.highlight(8, 0, 'find');
 				const id = this.nextIndex++;
 				const data = this.arrayData[j];
 				const display = this.arrayDisplay[j];
@@ -535,14 +525,14 @@ export default class LSDRadix extends Algorithm {
 					2,
 				);
 				this.cmd(act.step);
-				this.unhighlight(8, 0, this.codeID);
+				this.unhighlight(8, 0, 'find');
 			}
-			this.unhighlight(6, 0, this.codeID);
+			this.unhighlight(6, 0, 'find');
 			this.cmd(act.delete, this.iPointerID);
-			this.highlight(10, 0, this.codeID);
+			this.highlight(10, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(10, 0, this.codeID);
-			this.highlight(11, 0, this.codeID);
+			this.unhighlight(10, 0, 'find');
+			this.highlight(11, 0, 'find');
 			let index = 0;
 			this.cmd(act.step);
 			if (negativeNumbersEnabled) {
@@ -550,10 +540,10 @@ export default class LSDRadix extends Algorithm {
 					const idBucket = this.bucketsID[j];
 					const dataBucket = this.bucketsData[j];
 					const displayBucket = this.bucketsDisplay[j];
-					this.highlight(12, 0, this.codeID);
+					this.highlight(12, 0, 'find');
 					while (dataBucket.length) {
 						this.cmd(act.step);
-						this.highlight(13, 0, this.codeID);
+						this.highlight(13, 0, 'find');
 						const labelID = this.nextIndex++;
 						const nodeID = idBucket.splice(1, 1)[0];
 						const data = dataBucket.shift();
@@ -575,8 +565,8 @@ export default class LSDRadix extends Algorithm {
 						this.cmd(act.setText, this.arrayID[index], display);
 						this.cmd(act.delete, labelID);
 						this.cmd(act.delete, nodeID);
-						this.unhighlight(13, 0, this.codeID);
-						this.highlight(14, 0, this.codeID);
+						this.unhighlight(13, 0, 'find');
+						this.highlight(14, 0, 'find');
 						if (dataBucket.length) {
 							this.cmd(act.connect, idBucket[0], idBucket[1]);
 							for (let k = 1; k < idBucket.length; k++) {
@@ -594,20 +584,20 @@ export default class LSDRadix extends Algorithm {
 						this.arrayData[index] = data;
 						this.arrayDisplay[index] = display;
 						index++;
-						this.unhighlight(14, 0, this.codeID);
+						this.unhighlight(14, 0, 'find');
 					}
-					this.unhighlight(12, 0, this.codeID);
+					this.unhighlight(12, 0, 'find');
 				}
-				this.unhighlight(11, 0, this.codeID);
+				this.unhighlight(11, 0, 'find');
 			} else {
 				for (let j = 0; j < 10; j++) {
 					const idBucket = this.bucketsID[j];
 					const dataBucket = this.bucketsData[j];
 					const displayBucket = this.bucketsDisplay[j];
-					this.highlight(12, 0, this.codeID);
+					this.highlight(12, 0, 'find');
 					while (dataBucket.length) {
 						this.cmd(act.step);
-						this.highlight(13, 0, this.codeID);
+						this.highlight(13, 0, 'find');
 						const labelID = this.nextIndex++;
 						const nodeID = idBucket.splice(1, 1)[0];
 						const data = dataBucket.shift();
@@ -629,8 +619,8 @@ export default class LSDRadix extends Algorithm {
 						this.cmd(act.setText, this.arrayID[index], display);
 						this.cmd(act.delete, labelID);
 						this.cmd(act.delete, nodeID);
-						this.unhighlight(13, 0, this.codeID);
-						this.highlight(14, 0, this.codeID);
+						this.unhighlight(13, 0, 'find');
+						this.highlight(14, 0, 'find');
 						if (dataBucket.length) {
 							this.cmd(act.connect, idBucket[0], idBucket[1]);
 							for (let k = 1; k < idBucket.length; k++) {
@@ -648,17 +638,17 @@ export default class LSDRadix extends Algorithm {
 						this.arrayData[index] = data;
 						this.arrayDisplay[index] = display;
 						index++;
-						this.unhighlight(14, 0, this.codeID);
+						this.unhighlight(14, 0, 'find');
 					}
-					this.unhighlight(12, 0, this.codeID);
+					this.unhighlight(12, 0, 'find');
 				}
-				this.unhighlight(11, 0, this.codeID);
-				this.highlight(17, 0, this.codeID);
+				this.unhighlight(11, 0, 'find');
+				this.highlight(17, 0, 'find');
 				this.cmd(act.step);
-				this.unhighlight(17, 0, this.codeID);
+				this.unhighlight(17, 0, 'find');
 			}
 		}
-		this.unhighlight(5, 0, this.codeID);
+		this.unhighlight(5, 0, 'find');
 
 		this.cmd(act.setText, this.infoLabelID, '');
 		return this.commands;

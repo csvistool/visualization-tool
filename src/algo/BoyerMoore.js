@@ -166,7 +166,6 @@ export default class BoyerMoore extends Algorithm {
 		this.lastTableLabelID = this.nextIndex++;
 		this.lastTableCharacterID = [];
 		this.lastTableValueID = [];
-		this.codeID = [];
 		this.galilRuleEnabled = false;
 		// this.failureTableLabelID = this.nextIndex++;
 		// this.failureTableCharacterID = [];
@@ -200,7 +199,6 @@ export default class BoyerMoore extends Algorithm {
 		this.lastTableLabelID = this.nextIndex++;
 		this.lastTableCharacterID = [];
 		this.lastTableValueID = [];
-		this.codeID = [];
 		// this.failureTableLabelID = this.nextIndex++;
 		// this.failureTableCharacterID = [];
 		// this.failureTableValueID = [];
@@ -281,9 +279,6 @@ export default class BoyerMoore extends Algorithm {
 	}
 
 	find(text, pattern) {
-		if (this.codeID) {
-			this.removeCode(this.codeID);
-		}
 		this.commands = [];
 
 		// User input validation
@@ -366,7 +361,8 @@ export default class BoyerMoore extends Algorithm {
 		}
 
 		const lastTable = this.buildLastTable(text.length, pattern);
-		this.removeCode(this.codeID);
+
+		// TODO: fancy replace for codeid
 		if (this.galilRuleEnabled) {
 			this.buildFailureTable(text.length, pattern);
 			this.codeID = this.addCodeToCanvasBaseAll(
@@ -943,7 +939,6 @@ export default class BoyerMoore extends Algorithm {
 
 		this.cmd(act.delete, iPointerID);
 		this.cmd(act.delete, jPointerID);
-		this.removeCode(this.codeID);
 
 		this.nextIndex = startIndex;
 
@@ -986,17 +981,6 @@ export default class BoyerMoore extends Algorithm {
 			this.cmd(act.delete, this.lastTableValueID[i]);
 		}
 
-		this.removeCode(this.codeID);
-
-		// if (this.failureTableValueID.length !== 0) {
-		// 	this.cmd(act.delete, this.failureTableLabelID);
-		// }
-
-		// for (let i = 0; i < this.failureTableCharacterID.length; i++) {
-		// 	this.cmd(act.delete, this.failureTableCharacterID[i]);
-		// 	this.cmd(act.delete, this.failureTableValueID[i]);
-		// }
-
 		if (!keepInput) {
 			this.textField.value = '';
 			this.patternField.value = '';
@@ -1010,7 +994,6 @@ export default class BoyerMoore extends Algorithm {
 		this.lastTableValueID = [];
 		this.failureTableCharacterID = [];
 		this.failureTableValueID = [];
-		this.codeID = [];
 		this.period = 1;
 		return this.commands;
 	}

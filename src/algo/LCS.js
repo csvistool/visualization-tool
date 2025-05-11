@@ -140,6 +140,7 @@ export default class LCS extends Algorithm {
 			['end procedure'],
 		];
 
+		// TODO: clean this up and move it to the pseudocode table
 		this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 
 		// this.codeID = Array(this.code.length);

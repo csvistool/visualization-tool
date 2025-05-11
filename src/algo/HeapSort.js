@@ -142,12 +142,6 @@ export default class HeapSort extends Algorithm {
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
 		this.pseudocode = pseudocodeText.HeapSort;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'find',
-			CODE_START_X,
-			CODE_START_Y,
-		);
 
 		this.resetIndex = this.nextIndex;
 
@@ -182,7 +176,7 @@ export default class HeapSort extends Algorithm {
 			return this.commands;
 		}
 
-		this.highlight(0, 0, this.codeID);
+		this.highlight(0, 0, 'find');
 
 		this.arrayData = list
 			.map(Number)
@@ -225,10 +219,10 @@ export default class HeapSort extends Algorithm {
 		}
 		this.arrayData = displayDataTemp;
 		this.cmd(act.step);
-		this.unhighlight(0, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
 
 		//Create a new heap
-		this.highlight(1, 0, this.codeID);
+		this.highlight(1, 0, 'find');
 		this.createHeap(this.arrayData);
 		this.cmd(act.step);
 
@@ -241,20 +235,20 @@ export default class HeapSort extends Algorithm {
 		}
 		this.cmd(act.step);
 
-		this.unhighlight(1, 0, this.codeID);
+		this.unhighlight(1, 0, 'find');
 		this.cmd(act.setText, this.infoLabelID, '');
 
 		//Remove all of the elements from the heap
-		this.highlight(2, 0, this.codeID);
+		this.highlight(2, 0, 'find');
 		while (this.currentHeapSize > 0) {
-			this.highlight(3, 0, this.codeID);
+			this.highlight(3, 0, 'find');
 			this.remove();
-			this.unhighlight(3, 0, this.codeID);
+			this.unhighlight(3, 0, 'find');
 			this.cmd(act.step);
 		}
-		this.unhighlight(2, 0, this.codeID);
+		this.unhighlight(2, 0, 'find');
 
-		this.highlight(4, 0, this.codeID);
+		this.highlight(4, 0, 'find');
 		this.cmd(act.setText, this.infoLabelID, '');
 		this.cmd(act.step);
 
@@ -262,11 +256,11 @@ export default class HeapSort extends Algorithm {
 			this.cmd(act.delete, this.heapArrayID[i]);
 			this.cmd(act.delete, this.heapArrayLabelID[i]);
 		}
-		this.unhighlight(4, 0, this.codeID);
-		this.highlight(5, 0, this.codeID);
+		this.unhighlight(4, 0, 'find');
+		this.highlight(5, 0, 'find');
 		this.cmd(act.step);
 
-		this.unhighlight(5, 0, this.codeID);
+		this.unhighlight(5, 0, 'find');
 
 		return this.commands;
 	}

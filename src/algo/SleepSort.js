@@ -215,8 +215,6 @@ export default class MergeSort extends Algorithm {
 			return this.commands;
 		}
 
-		this.highlight(0, 0, this.codeID);
-
 		this.arrayID = [];
 		this.arrayData = list
 			.map(Number)
