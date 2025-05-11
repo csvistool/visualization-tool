@@ -266,8 +266,6 @@ export default class Algorithm {
 	}
 
 	highlight(ind1, ind2, codeID, type) {
-		console.log('request to highlight', ind1, ind2, codeID, type);
-
 		if (!codeID) return;
 		// Type specified
 		if (type) {
@@ -298,7 +296,6 @@ export default class Algorithm {
 
 		if (typeof codeID === 'string') {
 			this.cmd(act.unhighlightLine, codeID, ind1);
-			console.log('attempting unhighlight of text');
 			return;
 		}
 		// Type specified

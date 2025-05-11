@@ -5,9 +5,6 @@ import {
 	BsBookHalf,
 	BsClock,
 	BsCodeSlash,
-	BsFileEarmarkCodeFill,
-	BsFileEarmarkFill,
-	BsFileEarmarkFontFill,
 	BsFillSunFill,
 	BsInfoCircle,
 	BsMoonFill,
@@ -37,7 +34,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
 	const [infoModalEnabled, setInfoModalEnabled] = useState(false);
 	const [infoModalTab, setInfoModalTab] = useState('about'); // 'about' or 'code' or 'bigo'
-	const [bigOEnabled, setBigOEnabled] = useState(false);
 	const [pseudocodeType, setPseudocodeType] = useState('english');
 	const [selectedSection, setSelectedSection] = useState(null);
 	const [pseudocodeData, setPseudocodeData] = useState(null);
@@ -45,12 +41,8 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const [highlighted, setHighlighted] = useState({});
 
 	const setHighlightedLine = useCallback((methodName, line) => {
-		console.log('attempting to highlight data', methodName, line);
-
 		setHighlighted(prevHighlights => {
 			const newHighlights = { ...prevHighlights };
-
-      console.log({newHighlights});
 
 			const methodLines = newHighlights[methodName] ? [...newHighlights[methodName]] : [];
 
@@ -137,20 +129,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 		}
 	}, [algoName, algoDetails, searchParams]);
 
-	// Update pseudocode layers when pseudocode type changes
-	useEffect(() => {
-		if (animManagRef.current) {
-			animManagRef.current.updateLayer(32, false); // Hide English
-			animManagRef.current.updateLayer(33, false); // Hide Pseudocode
-
-			if (pseudocodeType === 'english') {
-				animManagRef.current.updateLayer(32, true);
-			} else if (pseudocodeType === 'code') {
-				animManagRef.current.updateLayer(33, true);
-			}
-		}
-	}, [pseudocodeType]);
-
 	useEffect(() => {
 		const data = pseudocodeText[algoName];
 		setPseudocodeData(data);
@@ -165,8 +143,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 		pseudocodeData && selectedSection ? pseudocodeData[selectedSection][pseudocodeType] : null;
 
 	const toggleInfoModal = () => {
-		setBigOEnabled(false);
-
 		// When opening the modal, set the appropriate tab
 		if (!infoModalEnabled) {
 			// Choose the tab based on available content

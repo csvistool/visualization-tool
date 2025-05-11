@@ -1110,7 +1110,6 @@ export const act = {
 		// TODO: Replace with more robust system
 		// if we're a string, we're a method name; set state
 		//
-		console.log('attempting highlight with ', params);
 		if (typeof params[0] === 'string') {
 			const [methodName, line] = params;
 
