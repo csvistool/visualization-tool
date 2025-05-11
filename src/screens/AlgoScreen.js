@@ -50,25 +50,41 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 		setHighlighted(prevHighlights => {
 			const newHighlights = { ...prevHighlights };
 
+      console.log({newHighlights});
+
 			const methodLines = newHighlights[methodName] ? [...newHighlights[methodName]] : [];
 
 			methodLines.push(line);
 
 			newHighlights[methodName] = methodLines;
 
+      //console.log("highlight", newHighlights);
+
 			return newHighlights;
 		});
 	}, []);
 
 	const unhighlightLine = useCallback((methodName, line) => {
-		console.log('attempting to unhighlight data', methodName, line);
-
 		setHighlighted(prevHighlights => {
+      // There are some situations where we might be trying to 
+      // unhighlight a non-highlighted line. An example of this 
+      // is the recursive BST preorder traversal, where the first 
+      // iteration contains no highlights. Note that this has to 
+      // be inside the setState, otherwise highlights can enter 
+      // a race condition
+      if (!prevHighlights[methodName]) {
+        return prevHighlights;
+      }
+
 			const newHighlights = { ...prevHighlights };
+
+
 
 			const methodLines = newHighlights[methodName].filter(i => i !== line);
 
 			newHighlights[methodName] = methodLines;
+
+      //console.log("unhighlight", methodName, line, newHighlights);
 
 			return newHighlights;
 		});
