@@ -27,169 +27,169 @@
 import { act } from '../anim/AnimationMain';
 
 export function addLabelToAlgorithmBar(labelName, group) {
-	const element = document.createElement('p');
-	element.appendChild(document.createTextNode(labelName));
+  const element = document.createElement('p');
+  element.appendChild(document.createTextNode(labelName));
 
-	if (!group) {
-		const tableEntry = document.createElement('td');
-		tableEntry.appendChild(element);
+  if (!group) {
+    const tableEntry = document.createElement('td');
+    tableEntry.appendChild(element);
 
-		const controlBar = document.getElementById('AlgorithmSpecificControls');
-		// Append the element in page (in span)
-		controlBar.appendChild(tableEntry);
-	} else {
-		group.appendChild(element);
-		element.setAttribute('class', 'groupChild');
-	}
+    const controlBar = document.getElementById('AlgorithmSpecificControls');
+    // Append the element in page (in span)
+    controlBar.appendChild(tableEntry);
+  } else {
+    group.appendChild(element);
+    element.setAttribute('class', 'groupChild');
+  }
 
-	return element;
+  return element;
 }
 
 export function addCheckboxToAlgorithmBar(boxLabel, checked, group) {
-	const element = document.createElement('input');
+  const element = document.createElement('input');
 
-	element.setAttribute('type', 'checkbox');
-	element.setAttribute('id', boxLabel);
-	element.setAttribute('name', boxLabel);
-	element.setAttribute('value', boxLabel);
-	checked && element.setAttribute('checked', 'true');
+  element.setAttribute('type', 'checkbox');
+  element.setAttribute('id', boxLabel);
+  element.setAttribute('name', boxLabel);
+  element.setAttribute('value', boxLabel);
+  checked && element.setAttribute('checked', 'true');
 
-	const label = document.createElement('label');
-	label.setAttribute('for', boxLabel);
-	const txtNode = document.createTextNode(boxLabel);
-	label.appendChild(txtNode);
+  const label = document.createElement('label');
+  label.setAttribute('for', boxLabel);
+  const txtNode = document.createTextNode(boxLabel);
+  label.appendChild(txtNode);
 
-	if (!group) {
-		const tableEntry = document.createElement('td');
-		tableEntry.appendChild(element);
-		tableEntry.appendChild(label);
+  if (!group) {
+    const tableEntry = document.createElement('td');
+    tableEntry.appendChild(element);
+    tableEntry.appendChild(label);
 
-		const controlBar = document.getElementById('AlgorithmSpecificControls');
-		controlBar.appendChild(tableEntry);
-	} else {
-		const span = document.createElement('span');
-		span.appendChild(element);
-		span.appendChild(label);
+    const controlBar = document.getElementById('AlgorithmSpecificControls');
+    controlBar.appendChild(tableEntry);
+  } else {
+    const span = document.createElement('span');
+    span.appendChild(element);
+    span.appendChild(label);
 
-		group.appendChild(span);
-		span.setAttribute('class', 'groupChild');
-	}
+    group.appendChild(span);
+    span.setAttribute('class', 'groupChild');
+  }
 
-	return element;
+  return element;
 }
 
 export function addDropDownGroupToAlgorithmBar(optionNames, groupName, group) {
-	const dropDown = document.createElement('select');
-	dropDown.name = groupName;
-	for (let i = 0; i < optionNames.length; i++) {
-		const option = document.createElement('option');
-		option.value = optionNames[i][0];
-		option.text = optionNames[i][1];
-		dropDown.add(option);
-	}
+  const dropDown = document.createElement('select');
+  dropDown.name = groupName;
+  for (let i = 0; i < optionNames.length; i++) {
+    const option = document.createElement('option');
+    option.value = optionNames[i][0];
+    option.text = optionNames[i][1];
+    dropDown.add(option);
+  }
 
-	if (!group) {
-		const tableEntry = document.createElement('td');
-		tableEntry.appendChild(dropDown);
+  if (!group) {
+    const tableEntry = document.createElement('td');
+    tableEntry.appendChild(dropDown);
 
-		const controlBar = document.getElementById('AlgorithmSpecificControls');
-		controlBar.appendChild(tableEntry);
-	} else {
-		const span = document.createElement('span');
-		span.appendChild(dropDown);
+    const controlBar = document.getElementById('AlgorithmSpecificControls');
+    controlBar.appendChild(tableEntry);
+  } else {
+    const span = document.createElement('span');
+    span.appendChild(dropDown);
 
-		group.appendChild(span);
-		span.setAttribute('class', 'groupChild');
-	}
-	return dropDown;
+    group.appendChild(span);
+    span.setAttribute('class', 'groupChild');
+  }
+  return dropDown;
 }
 
 export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group) {
-	const buttonList = [];
-	const newTable = document.createElement('table');
+  const buttonList = [];
+  const newTable = document.createElement('table');
 
-	for (let i = 0; i < buttonNames.length; i++) {
-		const midLevel = document.createElement('tr');
-		const bottomLevel = document.createElement('td');
+  for (let i = 0; i < buttonNames.length; i++) {
+    const midLevel = document.createElement('tr');
+    const bottomLevel = document.createElement('td');
 
-		const button = document.createElement('input');
-		button.setAttribute('type', 'radio');
-		button.setAttribute('name', groupName);
-		button.setAttribute('id', buttonNames[i]);
-		button.setAttribute('value', buttonNames[i]);
-		bottomLevel.appendChild(button);
-		midLevel.appendChild(bottomLevel);
-		const label = document.createElement('label');
-		label.setAttribute('for', buttonNames[i]);
-		const txtNode = document.createTextNode(' ' + buttonNames[i]);
-		label.appendChild(txtNode);
-		bottomLevel.appendChild(label);
-		newTable.appendChild(midLevel);
-		buttonList.push(button);
-	}
+    const button = document.createElement('input');
+    button.setAttribute('type', 'radio');
+    button.setAttribute('name', groupName);
+    button.setAttribute('id', buttonNames[i]);
+    button.setAttribute('value', buttonNames[i]);
+    bottomLevel.appendChild(button);
+    midLevel.appendChild(bottomLevel);
+    const label = document.createElement('label');
+    label.setAttribute('for', buttonNames[i]);
+    const txtNode = document.createTextNode(' ' + buttonNames[i]);
+    label.appendChild(txtNode);
+    bottomLevel.appendChild(label);
+    newTable.appendChild(midLevel);
+    buttonList.push(button);
+  }
 
-	if (!group) {
-		const topLevelTableEntry = document.createElement('td');
-		topLevelTableEntry.appendChild(newTable);
+  if (!group) {
+    const topLevelTableEntry = document.createElement('td');
+    topLevelTableEntry.appendChild(newTable);
 
-		const controlBar = document.getElementById('AlgorithmSpecificControls');
-		controlBar.appendChild(topLevelTableEntry);
-	} else {
-		group.appendChild(newTable);
-		newTable.setAttribute('class', 'groupChild');
-	}
+    const controlBar = document.getElementById('AlgorithmSpecificControls');
+    controlBar.appendChild(topLevelTableEntry);
+  } else {
+    group.appendChild(newTable);
+    newTable.setAttribute('class', 'groupChild');
+  }
 
-	return buttonList;
+  return buttonList;
 }
 
 export function addControlToAlgorithmBar(type, value, group) {
-	const element = document.createElement('input');
+  const element = document.createElement('input');
 
-	element.setAttribute('type', type);
-	element.setAttribute('value', value);
+  element.setAttribute('type', type);
+  element.setAttribute('value', value);
 
-	if (!group) {
-		const tableEntry = document.createElement('td');
-		tableEntry.appendChild(element);
+  if (!group) {
+    const tableEntry = document.createElement('td');
+    tableEntry.appendChild(element);
 
-		const controlBar = document.getElementById('AlgorithmSpecificControls');
-		controlBar.appendChild(tableEntry);
-	} else {
-		group.appendChild(element);
-		element.setAttribute('class', 'groupChild');
-	}
+    const controlBar = document.getElementById('AlgorithmSpecificControls');
+    controlBar.appendChild(tableEntry);
+  } else {
+    group.appendChild(element);
+    element.setAttribute('class', 'groupChild');
+  }
 
-	return element;
+  return element;
 }
 
 export function addDivisorToAlgorithmBar() {
-	const divisorLeft = document.createElement('td');
-	divisorLeft.setAttribute('class', 'divisorLeft');
+  const divisorLeft = document.createElement('td');
+  divisorLeft.setAttribute('class', 'divisorLeft');
 
-	const divisorRight = document.createElement('td');
-	divisorRight.setAttribute('class', 'divisorRight');
+  const divisorRight = document.createElement('td');
+  divisorRight.setAttribute('class', 'divisorRight');
 
-	const controlBar = document.getElementById('AlgorithmSpecificControls');
-	controlBar.appendChild(divisorLeft);
-	controlBar.appendChild(divisorRight);
+  const controlBar = document.getElementById('AlgorithmSpecificControls');
+  controlBar.appendChild(divisorLeft);
+  controlBar.appendChild(divisorRight);
 }
 
 export function addGroupToAlgorithmBar(horizontal, parentGroup) {
-	const group = document.createElement('div');
+  const group = document.createElement('div');
 
-	group.setAttribute('class', horizontal ? 'hgroup' : 'vgroup');
+  group.setAttribute('class', horizontal ? 'hgroup' : 'vgroup');
 
-	if (!parentGroup) {
-		const tableEntry = document.createElement('td');
-		tableEntry.appendChild(group);
+  if (!parentGroup) {
+    const tableEntry = document.createElement('td');
+    tableEntry.appendChild(group);
 
-		const controlBar = document.getElementById('AlgorithmSpecificControls');
-		controlBar.appendChild(tableEntry);
-	} else {
-		parentGroup.appendChild(group);
-	}
+    const controlBar = document.getElementById('AlgorithmSpecificControls');
+    controlBar.appendChild(tableEntry);
+  } else {
+    parentGroup.appendChild(group);
+  }
 
-	return group;
+  return group;
 }
 
 const CODE_LINE_HEIGHT = 15;
@@ -197,317 +197,320 @@ const CODE_HIGHLIGHT_COLOR = '#FF0000';
 const CODE_STANDARD_COLOR = '#000000';
 
 export default class Algorithm {
-	constructor(am, w, h) {
-		if (am == null) {
-			return;
-		}
-		this.animationManager = am;
-		am.addListener('AnimationStarted', this, this.disableUI);
-		am.addListener('AnimationEnded', this, this.enableUI);
-		am.addListener('AnimationUndo', this, this.undo);
-		this.canvasWidth = w;
-		this.canvasHeight = h;
+  constructor(am, w, h, setHighlighted) {
+    if (am == null) {
+      return;
+    }
+    this.animationManager = am;
+    am.addListener('AnimationStarted', this, this.disableUI);
+    am.addListener('AnimationEnded', this, this.enableUI);
+    am.addListener('AnimationUndo', this, this.undo);
+    this.canvasWidth = w;
+    this.canvasHeight = h;
+    this.setHighlighted = setHighlighted;
 
-		this.actionHistory = [];
-		this.recordAnimation = true;
-		this.commands = [];
-	}
+    this.actionHistory = [];
+    this.recordAnimation = true;
+    this.commands = [];
+  }
 
-	addCodeToCanvasBaseAll(code, key, start_x = 0, start_y = 0, line_height = CODE_LINE_HEIGHT) {
-		return {
-			english: this.addCodeToCanvasBase(
-				code[key]['english'],
-				start_x,
-				start_y,
-				line_height,
-				CODE_STANDARD_COLOR,
-				32,
-			),
-			code: this.addCodeToCanvasBase(
-				code[key]['code'],
-				start_x,
-				start_y,
-				line_height,
-				CODE_STANDARD_COLOR,
-				33,
-			),
-		};
-	}
+  addCodeToCanvasBaseAll(code, key, start_x = 0, start_y = 0, line_height = CODE_LINE_HEIGHT) {
+    return {
+      english: this.addCodeToCanvasBase(
+        code[key]['english'],
+        start_x,
+        start_y,
+        line_height,
+        CODE_STANDARD_COLOR,
+        32,
+      ),
+      code: this.addCodeToCanvasBase(
+        code[key]['code'],
+        start_x,
+        start_y,
+        line_height,
+        CODE_STANDARD_COLOR,
+        33,
+      ),
+    };
+  }
 
-	addCodeToCanvasBase(code, start_x, start_y, line_height, standard_color, layer) {
-		line_height = typeof line_height !== 'undefined' ? line_height : CODE_LINE_HEIGHT;
-		standard_color =
-			typeof standard_color !== 'undefined' ? standard_color : CODE_STANDARD_COLOR;
-		layer = typeof layer != 'undefined' ? layer : 32;
-		const isCode = true;
-		const codeID = Array(code.length);
-		let i, j;
-		for (i = 0; i < code.length; i++) {
-			codeID[i] = new Array(code[i].length);
-			for (j = 0; j < code[i].length; j++) {
-				codeID[i][j] = this.nextIndex++;
-				this.cmd(
-					act.createLabel,
-					codeID[i][j],
-					code[i][j],
-					start_x,
-					start_y + i * line_height,
-					0,
-					isCode,
-				);
-				this.cmd(act.setForegroundColor, codeID[i][j], standard_color);
-				this.cmd(act.setLayer, codeID[i][j], layer);
-				if (j > 0) {
-					this.cmd(act.alignRight, codeID[i][j], codeID[i][j - 1]);
-				}
-			}
-		}
-		return codeID;
-	}
+  addCodeToCanvasBase(code, start_x, start_y, line_height, standard_color, layer) {
+    line_height = typeof line_height !== 'undefined' ? line_height : CODE_LINE_HEIGHT;
+    standard_color =
+      typeof standard_color !== 'undefined' ? standard_color : CODE_STANDARD_COLOR;
+    layer = typeof layer != 'undefined' ? layer : 32;
+    const isCode = true;
+    const codeID = Array(code.length);
+    let i, j;
+    for (i = 0; i < code.length; i++) {
+      codeID[i] = new Array(code[i].length);
+      for (j = 0; j < code[i].length; j++) {
+        codeID[i][j] = this.nextIndex++;
+        this.cmd(
+          act.createLabel,
+          codeID[i][j],
+          code[i][j],
+          start_x,
+          start_y + i * line_height,
+          0,
+          isCode,
+        );
+        this.cmd(act.setForegroundColor, codeID[i][j], standard_color);
+        this.cmd(act.setLayer, codeID[i][j], layer);
+        if (j > 0) {
+          this.cmd(act.alignRight, codeID[i][j], codeID[i][j - 1]);
+        }
+      }
+    }
+    return codeID;
+  }
 
-	highlight(ind1, ind2, codeID, type) {
-		if (!codeID) return;
-		// Type specified
-		if (type) {
-			this.highlight(ind1, ind2, codeID[type]);
-			return;
-		}
-		// Single pseudocode type
-		if (codeID[0] !== undefined) {
-			this.cmd(act.setForegroundColor, codeID[ind1][ind2], CODE_HIGHLIGHT_COLOR);
-			return;
-		}
-		// Multiple pseudocode types
-		if (codeID.english.length)
-			this.cmd(act.setForegroundColor, codeID.english[ind1][ind2], CODE_HIGHLIGHT_COLOR);
-		if (codeID.code.length)
-			this.cmd(act.setForegroundColor, codeID.code[ind1][ind2], CODE_HIGHLIGHT_COLOR);
-	}
+  highlight(ind1, ind2, codeID, type) {
+    console.log("request to highlight", ind1, ind2, codeID, type);
 
-	unhighlight(ind1, ind2, codeID, type) {
-		if (!codeID) return;
-		// Type specified
-		if (type) {
-			this.unhighlight(ind1, ind2, codeID[type]);
-			return;
-		}
-		// Single pseudocode type
-		if (codeID[0] !== undefined) {
-			this.cmd(act.setForegroundColor, codeID[ind1][ind2], CODE_STANDARD_COLOR);
-			return;
-		}
-		// Multiple pseudocode types
-		if (codeID.english.length)
-			this.cmd(act.setForegroundColor, codeID.english[ind1][ind2], CODE_STANDARD_COLOR);
-		if (codeID.code.length)
-			this.cmd(act.setForegroundColor, codeID.code[ind1][ind2], CODE_STANDARD_COLOR);
-	}
+    if (!codeID) return;
+    // Type specified
+    if (type) {
+      this.highlight(ind1, ind2, codeID[type]);
+      return;
+    }
+    // Single pseudocode type
+    if (codeID[0] !== undefined) {
+      this.cmd(act.setForegroundColor, codeID[ind1][ind2], CODE_HIGHLIGHT_COLOR);
+      return;
+    }
+    // Multiple pseudocode types
+    if (codeID.english.length)
+      this.cmd(act.setForegroundColor, codeID.english[ind1][ind2], CODE_HIGHLIGHT_COLOR);
+    if (codeID.code.length)
+      this.cmd(act.setForegroundColor, codeID.code[ind1][ind2], CODE_HIGHLIGHT_COLOR);
+  }
 
-	removeCode(codeID) {
-		if (!codeID) return;
-		if (codeID.english) {
-			this.removeCode(codeID.english);
-			this.removeCode(codeID.code);
-			return;
-		}
-		for (let i = 0; i < codeID.length; i++) {
-			for (let j = 0; j < codeID[i].length; j++) {
-				this.cmd(act.delete, codeID[i][j]);
-			}
-		}
-	}
+  unhighlight(ind1, ind2, codeID, type) {
+    if (!codeID) return;
+    // Type specified
+    if (type) {
+      this.unhighlight(ind1, ind2, codeID[type]);
+      return;
+    }
+    // Single pseudocode type
+    if (codeID[0] !== undefined) {
+      this.cmd(act.setForegroundColor, codeID[ind1][ind2], CODE_STANDARD_COLOR);
+      return;
+    }
+    // Multiple pseudocode types
+    if (codeID.english.length)
+      this.cmd(act.setForegroundColor, codeID.english[ind1][ind2], CODE_STANDARD_COLOR);
+    if (codeID.code.length)
+      this.cmd(act.setForegroundColor, codeID.code[ind1][ind2], CODE_STANDARD_COLOR);
+  }
 
-	setCodeAlpha(code, newAlpha) {
-		for (let i = 0; i < code.length; i++) {
-			for (let j = 0; j < code[i].length; j++) {
-				this.cmd(act.setAlpha, code[i][j], newAlpha);
-			}
-		}
-	}
+  removeCode(codeID) {
+    if (!codeID) return;
+    if (codeID.english) {
+      this.removeCode(codeID.english);
+      this.removeCode(codeID.code);
+      return;
+    }
+    for (let i = 0; i < codeID.length; i++) {
+      for (let j = 0; j < codeID[i].length; j++) {
+        this.cmd(act.delete, codeID[i][j]);
+      }
+    }
+  }
 
-	shake(button) {
-		button.classList.add('shake');
-		setTimeout(() => {
-			button.classList.remove('shake');
-		}, 750);
-	}
+  setCodeAlpha(code, newAlpha) {
+    for (let i = 0; i < code.length; i++) {
+      for (let j = 0; j < code[i].length; j++) {
+        this.cmd(act.setAlpha, code[i][j], newAlpha);
+      }
+    }
+  }
 
-	cmd(act, ...params) {
-		// Helper method to add command to stack
-		if (this.recordAnimation) {
-			this.commands.push([act, params]);
-		}
-	}
+  shake(button) {
+    button.classList.add('shake');
+    setTimeout(() => {
+      button.classList.remove('shake');
+    }, 750);
+  }
 
-	clearHistory() {
-		this.actionHistory = [];
-	}
+  cmd(act, ...params) {
+    // Helper method to add command to stack
+    if (this.recordAnimation) {
+      this.commands.push([act, params]);
+    }
+  }
 
-	undo() {
-		// Remove the last action (the one that we are going to undo)
-		this.actionHistory.pop();
-		// Clear out our data structure.  Be sure to implement reset in
-		// every AlgorithmAnimation subclass!
-		this.reset();
-		//  Redo all actions from the beginning, throwing out the animation
-		//  commands (the animation manager will update the animation on its own).
-		//  Note that if you do something non-deterministic, you might cause problems!
-		//  Be sure if you do anything non-deterministic (that is, calls to a random
-		//  number generator) you clear out the undo stack here and in the animation
-		//  manager.
+  clearHistory() {
+    this.actionHistory = [];
+  }
 
-		//  If this seems horribly inefficient -- it is! However, it seems to work well
-		//  in practice, and you get undo for free for all algorithms, which is a non-trivial
-		//  gain.
-		const len = this.actionHistory.length;
-		this.recordAnimation = false;
-		for (let i = 0; i < len; i++) {
-			this.actionHistory[i][0](...this.actionHistory[i][1]);
-		}
-		this.recordAnimation = true;
-	}
+  undo() {
+    // Remove the last action (the one that we are going to undo)
+    this.actionHistory.pop();
+    // Clear out our data structure.  Be sure to implement reset in
+    // every AlgorithmAnimation subclass!
+    this.reset();
+    //  Redo all actions from the beginning, throwing out the animation
+    //  commands (the animation manager will update the animation on its own).
+    //  Note that if you do something non-deterministic, you might cause problems!
+    //  Be sure if you do anything non-deterministic (that is, calls to a random
+    //  number generator) you clear out the undo stack here and in the animation
+    //  manager.
 
-	implementAction(func, ...args) {
-		const next = [func, args];
-		this.actionHistory.push(next);
-		const retVal = func(...args);
-		this.animationManager.startNewAnimation(retVal);
-	}
+    //  If this seems horribly inefficient -- it is! However, it seems to work well
+    //  in practice, and you get undo for free for all algorithms, which is a non-trivial
+    //  gain.
+    const len = this.actionHistory.length;
+    this.recordAnimation = false;
+    for (let i = 0; i < len; i++) {
+      this.actionHistory[i][0](...this.actionHistory[i][1]);
+    }
+    this.recordAnimation = true;
+  }
 
-	normalizeNumber(input, maxLen) {
-		const isAllDigits = str => !/\D/.test(str);
-		if (!isAllDigits(input) || input === '') {
-			return input;
-		}
-		return input.substr(-maxLen);
-	}
+  implementAction(func, ...args) {
+    const next = [func, args];
+    this.actionHistory.push(next);
+    const retVal = func(...args);
+    this.animationManager.startNewAnimation(retVal);
+  }
 
-	returnSubmit(field, funct, maxsize, intOnly, ignoreMaxSize = false) {
-		if (maxsize !== undefined) {
-			field.size = maxsize;
-		}
-		return function (event) {
-			let keyASCII = 0;
-			if (window.event) {
-				// IE
-				keyASCII = event.keyCode;
-			} else if (event.which) {
-				// Netscape/Firefox/Opera
-				keyASCII = event.which;
-			}
-			const sizeGood = ignoreMaxSize || field.value.length < maxsize;
+  normalizeNumber(input, maxLen) {
+    const isAllDigits = str => !/\D/.test(str);
+    if (!isAllDigits(input) || input === '') {
+      return input;
+    }
+    return input.substr(-maxLen);
+  }
 
-			if (keyASCII === 13 && funct != null) {
-				funct();
-			} else if (
-				keyASCII === 32 || // space
-				keyASCII === 190 ||
-				keyASCII === 59 ||
-				keyASCII === 173
-				// keyASCII === 189
-			) {
-				return false;
-			} else if (
-				!sizeGood ||
-				(intOnly &&
-					!(
-						(keyASCII >= 48 && keyASCII <= 57) ||
-						(keyASCII === 189 && field.value.length === 0) ||
-						(keyASCII >= 96 && keyASCII <= 105)
-					))
-			) {
-				if (!controlKey(keyASCII)) return false;
-			}
-		};
-	}
+  returnSubmit(field, funct, maxsize, intOnly, ignoreMaxSize = false) {
+    if (maxsize !== undefined) {
+      field.size = maxsize;
+    }
+    return function (event) {
+      let keyASCII = 0;
+      if (window.event) {
+        // IE
+        keyASCII = event.keyCode;
+      } else if (event.which) {
+        // Netscape/Firefox/Opera
+        keyASCII = event.which;
+      }
+      const sizeGood = ignoreMaxSize || field.value.length < maxsize;
 
-	parseInput(input, intOnly, ignoreMaxSize = false) {}
+      if (keyASCII === 13 && funct != null) {
+        funct();
+      } else if (
+        keyASCII === 32 || // space
+        keyASCII === 190 ||
+        keyASCII === 59 ||
+        keyASCII === 173
+        // keyASCII === 189
+      ) {
+        return false;
+      } else if (
+        !sizeGood ||
+        (intOnly &&
+          !(
+            (keyASCII >= 48 && keyASCII <= 57) ||
+            (keyASCII === 189 && field.value.length === 0) ||
+            (keyASCII >= 96 && keyASCII <= 105)
+          ))
+      ) {
+        if (!controlKey(keyASCII)) return false;
+      }
+    };
+  }
 
-	// Abstract methods - these should be implemented in the base class
+  parseInput(input, intOnly, ignoreMaxSize = false) { }
 
-	// eslint-disable-next-line no-unused-vars
-	sizeChanged(newWidth, newHeight) {
-		throw new Error('sizeChanged() should be implemented in base class');
-	}
+  // Abstract methods - these should be implemented in the base class
 
-	// eslint-disable-next-line no-unused-vars
-	disableUI(event) {
-		throw new Error('disableUI() should be implemented in base class');
-	}
+  // eslint-disable-next-line no-unused-vars
+  sizeChanged(newWidth, newHeight) {
+    throw new Error('sizeChanged() should be implemented in base class');
+  }
 
-	// eslint-disable-next-line no-unused-vars
-	enableUI(event) {
-		throw new Error('enableUI() should be implemented in base class');
-	}
+  // eslint-disable-next-line no-unused-vars
+  disableUI(event) {
+    throw new Error('disableUI() should be implemented in base class');
+  }
 
-	reset() {
-		throw new Error('reset() should be implemented in base class');
-	}
+  // eslint-disable-next-line no-unused-vars
+  enableUI(event) {
+    throw new Error('enableUI() should be implemented in base class');
+  }
+
+  reset() {
+    throw new Error('reset() should be implemented in base class');
+  }
 }
 
 export function controlKey(keyASCII) {
-	return (
-		keyASCII === 8 || // backspace
-		keyASCII === 9 || // tab
-		keyASCII === 37 || // % percent
-		keyASCII === 38 || // & ampersand
-		keyASCII === 39 || // ' apostrophe
-		keyASCII === 40 || // ( left parenthesis
-		keyASCII === 46 // . period
-	);
+  return (
+    keyASCII === 8 || // backspace
+    keyASCII === 9 || // tab
+    keyASCII === 37 || // % percent
+    keyASCII === 38 || // & ampersand
+    keyASCII === 39 || // ' apostrophe
+    keyASCII === 40 || // ( left parenthesis
+    keyASCII === 46 // . period
+  );
 }
 
 Algorithm.prototype.returnSubmitFloat = function (field, funct, maxsize) {
-	if (maxsize !== undefined) {
-		field.size = maxsize;
-	}
-	return function (event) {
-		let keyASCII = 0;
-		if (window.event) {
-			// IE
-			keyASCII = event.keyCode;
-		} else if (event.which) {
-			// Netscape/Firefox/Opera
-			keyASCII = event.which;
-		}
-		// Submit on return
-		if (keyASCII === 13) {
-			funct();
-		}
-		// Control keys (arrows, del, etc) are always OK
-		else if (controlKey(keyASCII)) {
-			return;
-		}
-		// - (minus sign) only OK at beginning of number
-		//  (For now we will allow anywhere -- hard to see where the beginning of the
-		//   number is ...)
-		//else if (keyASCII == 109 && field.value.length  == 0)
-		else if (keyASCII === 109) {
-			return;
-		}
-		// Digis are OK if we have enough space
-		else if (
-			(maxsize !== undefined || field.value.length < maxsize) &&
-			keyASCII >= 48 &&
-			keyASCII <= 57
-		) {
-			return;
-		}
-		// . (Decimal point) is OK if we haven't had one yet, and there is space
-		else if (
-			(maxsize !== undefined || field.value.length < maxsize) &&
-			keyASCII === 190 &&
-			field.value.indexOf('.') === -1
-		) {
-			return;
-		}
-		// Nothing else is OK
-		else {
-			return false;
-		}
-	};
+  if (maxsize !== undefined) {
+    field.size = maxsize;
+  }
+  return function (event) {
+    let keyASCII = 0;
+    if (window.event) {
+      // IE
+      keyASCII = event.keyCode;
+    } else if (event.which) {
+      // Netscape/Firefox/Opera
+      keyASCII = event.which;
+    }
+    // Submit on return
+    if (keyASCII === 13) {
+      funct();
+    }
+    // Control keys (arrows, del, etc) are always OK
+    else if (controlKey(keyASCII)) {
+      return;
+    }
+    // - (minus sign) only OK at beginning of number
+    //  (For now we will allow anywhere -- hard to see where the beginning of the
+    //   number is ...)
+    //else if (keyASCII == 109 && field.value.length  == 0)
+    else if (keyASCII === 109) {
+      return;
+    }
+    // Digis are OK if we have enough space
+    else if (
+      (maxsize !== undefined || field.value.length < maxsize) &&
+      keyASCII >= 48 &&
+      keyASCII <= 57
+    ) {
+      return;
+    }
+    // . (Decimal point) is OK if we haven't had one yet, and there is space
+    else if (
+      (maxsize !== undefined || field.value.length < maxsize) &&
+      keyASCII === 190 &&
+      field.value.indexOf('.') === -1
+    ) {
+      return;
+    }
+    // Nothing else is OK
+    else {
+      return false;
+    }
+  };
 };
 
 Algorithm.prototype.addReturnSubmit = function (field, action) {
-	field.onkeydown = this.returnSubmit(field, action, 4, false);
+  field.onkeydown = this.returnSubmit(field, action, 4, false);
 };

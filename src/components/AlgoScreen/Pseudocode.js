@@ -37,14 +37,14 @@ const highlightSyntax = content => {
     .replace(keywordPattern, '<span class="pseudocode-keyword">$1</span>')
 
   // Handle parameters separately to avoid nested replacements
-  highlighted = highlighted.replace(paramPattern, function (match, p1) {
+  highlighted = highlighted.replace(paramPattern, function (_, p1) {
     return '(<span class="pseudocode-param">' + p1 + '</span>)';
   });
 
   return { indentLevel: indentLevel, __html: highlighted };
 };
 
-const Pseudocode = ({ algoName }) => {
+const Pseudocode = ({ algoName, highlightedLines }) => {
   // we don't want to keep re-parsing the psuedocode every line animation, so cache it
 
   const [pseudocode, setPseudocode] = useState(null);
@@ -72,19 +72,17 @@ const Pseudocode = ({ algoName }) => {
     return processPseudocode();
   }, [pseudocode])
 
-  // syntax highlighting 
-
-
-  console.log({ mappedPseudocode });
-
 
   return (<div className="pseudocode-modal-content">
     {pseudocode && Object.keys(mappedPseudocode).map(methodName => {
       return mappedPseudocode[methodName]["english"].map((line, i) => {
+        // contains array of highlight indices; add highlighted class if true
+        const methodHighlightedLines = highlightedLines[methodName] ?? [];
+
         return (
           <div
-            key={i}
-            className="pseudocode-line"
+            key={methodName + i}
+            className={`pseudocode-line ${methodHighlightedLines.includes(i) ? "pseudocode-line-highlighted" : ""}`}
             style={{
               paddingLeft: `${line.indentLevel * 20}px`,
             }}

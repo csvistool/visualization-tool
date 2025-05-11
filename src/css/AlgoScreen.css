@@ -555,6 +555,10 @@ input[type='checkbox'] {
 	transition: background-color 0.2s;
 }
 
+.pseudocode-line-highlighted {
+	background-color: #cd0000;
+}
+
 .pseudocode-line:hover {
 	background-color: rgba(0, 0, 0, 0.05);
 	border-radius: 3px;

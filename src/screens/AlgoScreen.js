@@ -42,6 +42,8 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
   const [selectedSection, setSelectedSection] = useState(null);
   const [pseudocodeData, setPseudocodeData] = useState(null);
 
+  const [highlighted, setHighlighted] = useState({});
+
   // Handle page view and animation setup
   useEffect(() => {
     ReactGA.send({ hitType: 'pageview', page: algoName });
@@ -56,6 +58,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
         animManagRef.current,
         canvasRef.current.width,
         canvasRef.current.height,
+        setHighlighted
       );
       if (searchParams.toString()) {
         try {
@@ -134,42 +137,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
   const togglePseudocodeType = () => {
     setPseudocodeType(prev => (prev === 'english' ? 'code' : 'english'));
-  };
-
-  // Function to apply syntax highlighting to pseudocode
-  const highlightSyntax = content => {
-    // Create a safe version of the content by escaping HTML
-    const escapeHtml = unsafe => {
-      return unsafe
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    };
-
-    const escaped = escapeHtml(content);
-
-    // Define regex patterns for different code elements
-    const keywordPattern = /\b(if|else|for|while|return)\b/g;
-    const procedureStartPattern = /\b(procedure)\s+(\w+)/g;
-    const endProcedurePattern = /\b(end)\s+(procedure)\b/g;
-    const commentPattern = /\/\/.+$/g;
-    const paramPattern = /\(([^)]+)\)/g;
-
-    // Apply highlighting with span elements
-    let highlighted = escaped
-      .replace(endProcedurePattern, '<span class="pseudocode-end">$1 $2</span>')
-      .replace(procedureStartPattern, '<span class="pseudocode-procedure">$1 $2</span>')
-      .replace(keywordPattern, '<span class="pseudocode-keyword">$1</span>')
-      .replace(commentPattern, '<span class="pseudocode-comment">$&</span>');
-
-    // Handle parameters separately to avoid nested replacements
-    highlighted = highlighted.replace(paramPattern, function (match, p1) {
-      return '(<span class="pseudocode-param">' + p1 + '</span>)';
-    });
-
-    return { __html: highlighted };
   };
 
   if (!algoDetails) {
@@ -301,7 +268,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
                 </button>
               </div>
 
-              <Pseudocode algoName={algoName} />
+              <Pseudocode algoName={algoName} highlightedLines={{ "addFB": [0, 1] }} />
 
             </div>
           )}
