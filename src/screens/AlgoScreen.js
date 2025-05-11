@@ -37,41 +37,45 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 		);
 	};
 
+	const AlgoHeader = () => {
+		return (
+			<div id="header">
+				<h1>
+					<Link to="/">&#x3008;</Link>&nbsp;&nbsp;
+					{isQuickselect ? (
+						<>
+							Quickselect / k<sup>th</sup> Select
+						</>
+					) : (
+						<>{header}</>
+					)}
+					<div id="toggle">
+						{theme === 'light' ? (
+							<BsFillSunFill
+								size={31}
+								onClick={toggleTheme}
+								color="#f9c333"
+								className="rotate-effect"
+							/>
+						) : (
+							<BsMoonFill
+								size={29}
+								onClick={toggleTheme}
+								color="#d4f1f1"
+								className="rotate-effect"
+							/>
+						)}
+					</div>
+				</h1>
+			</div>
+		);
+	};
+
 	return (
 		<div className="VisualizationMainPage">
 			<div id="container">
-				<div id="header">
-					<h1>
-						<Link to="/">&#x3008;</Link>&nbsp;&nbsp;
-						{isQuickselect ? (
-							<>
-								Quickselect / k<sup>th</sup> Select
-							</>
-						) : (
-							<>{header}</>
-						)}
-						<div id="toggle">
-							{theme === 'light' ? (
-								<BsFillSunFill
-									size={31}
-									onClick={toggleTheme}
-									color="#f9c333"
-									className="rotate-effect"
-								/>
-							) : (
-								<BsMoonFill
-									size={29}
-									onClick={toggleTheme}
-									color="#d4f1f1"
-									className="rotate-effect"
-								/>
-							)}
-						</div>
-					</h1>
-				</div>
-
+				<AlgoHeader />
 				<AlgoSection theme={theme} />
-
 				<AlgoFooter />
 			</div>
 		</div>
