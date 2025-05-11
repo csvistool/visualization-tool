@@ -65,9 +65,6 @@ const LARGE_TABLE_ENTRY_HEIGHT = 17;
 const TABLE_START_X = 50;
 const TABLE_START_Y = 180;
 
-const CODE_START_X = 1015;
-const CODE_START_Y = 70;
-
 export default class Dijkstras extends Graph {
 	constructor(am, w, h) {
 		super(am, w, h, DIJKSTRAS_ADJ_LIST, false, false, true);
