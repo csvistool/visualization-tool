@@ -197,7 +197,7 @@ const CODE_HIGHLIGHT_COLOR = '#FF0000';
 const CODE_STANDARD_COLOR = '#000000';
 
 export default class Algorithm {
-  constructor(am, w, h, setHighlighted) {
+  constructor(am, w, h) {
     if (am == null) {
       return;
     }
@@ -207,7 +207,6 @@ export default class Algorithm {
     am.addListener('AnimationUndo', this, this.undo);
     this.canvasWidth = w;
     this.canvasHeight = h;
-    this.setHighlighted = setHighlighted;
 
     this.actionHistory = [];
     this.recordAnimation = true;
@@ -275,6 +274,13 @@ export default class Algorithm {
       this.highlight(ind1, ind2, codeID[type]);
       return;
     }
+
+    if (typeof codeID === "string") {
+      this.cmd(act.setHighlight, codeID, [ind1]);
+
+      return;
+    }
+
     // Single pseudocode type
     if (codeID[0] !== undefined) {
       this.cmd(act.setForegroundColor, codeID[ind1][ind2], CODE_HIGHLIGHT_COLOR);
@@ -289,6 +295,12 @@ export default class Algorithm {
 
   unhighlight(ind1, ind2, codeID, type) {
     if (!codeID) return;
+
+    if (typeof codeID === "string") {
+      this.cmd(act.unhighlightLine, codeID, ind1);
+      console.log("attempting unhighlight of text");
+      return;
+    }
     // Type specified
     if (type) {
       this.unhighlight(ind1, ind2, codeID[type]);
