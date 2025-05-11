@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import AlgorithmNotFound404 from '../components/AlgorithmNotFound404';
 import AnimationManager from '../anim/AnimationMain';
 import BigOModal from '../modals/BigOModal';
+import ModalSidebarSectionTab from '../components/AlgoScreen/ModalSidebarSectionTab';
 import PropTypes from 'prop-types';
 import Pseudocode from '../components/AlgoScreen/Pseudocode';
 import ReactGA from 'react-ga4';
@@ -35,34 +36,33 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const [infoModalEnabled, setInfoModalEnabled] = useState(false);
 	const [infoModalTab, setInfoModalTab] = useState('about'); // 'about' or 'code' or 'bigo'
 	const [pseudocodeType, setPseudocodeType] = useState('english');
-	const [selectedSection, setSelectedSection] = useState(null);
 	const [pseudocodeData, setPseudocodeData] = useState(null);
 
-  // This was originally handled via a memoized state, but the rapid state changes 
-  // were incredibly hard on the performance, especially for construction of a random 
-  // data structure (e.g. random BST). As it was already purely CSS modification, 
-  // this was moved to directly editing 
-  const getCodeElementByMethodLine = (method, line) => {
-    // each line is IDed by methodname-linenumber
-    return document.getElementById(`${method}-${line}`);
-  }
+	// This was originally handled via a memoized state, but the rapid state changes
+	// were incredibly hard on the performance, especially for construction of a random
+	// data structure (e.g. random BST). As it was already purely CSS modification,
+	// this was moved to directly editing
+	const getCodeElementByMethodLine = (method, line) => {
+		// each line is IDed by methodname-linenumber
+		return document.getElementById(`${method}-${line}`);
+	};
 
 	const setHighlightedLine = useCallback((methodName, line) => {
-    const lineElement = getCodeElementByMethodLine(methodName, line);
+		const lineElement = getCodeElementByMethodLine(methodName, line);
 
-    // edge case: psuedocode isn't open
-    if (!lineElement) return;
+		// edge case: psuedocode isn't open
+		if (!lineElement) return;
 
-    lineElement.classList.add("pseudocode-line-highlighted");
+		lineElement.classList.add('pseudocode-line-highlighted');
 	}, []);
 
 	const unhighlightLine = useCallback((methodName, line) => {
-    const lineElement = getCodeElementByMethodLine(methodName, line);
+		const lineElement = getCodeElementByMethodLine(methodName, line);
 
-    // edge case: psuedocode isn't open
-    if (!lineElement) return;
+		// edge case: psuedocode isn't open
+		if (!lineElement) return;
 
-    lineElement.classList.remove("pseudocode-line-highlighted");
+		lineElement.classList.remove('pseudocode-line-highlighted');
 	}, []);
 
 	// Handle page view and animation setup
@@ -115,10 +115,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	useEffect(() => {
 		const data = pseudocodeText[algoName];
 		setPseudocodeData(data);
-
-		if (data) {
-			setSelectedSection(Object.keys(data)[0]); // Default to first section
-		}
 	}, [algoName]);
 
 	const toggleInfoModal = () => {
@@ -216,6 +212,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
 					<div className="viewport">
 						<canvas id="canvas" width={0} height="505" ref={canvasRef}></canvas>
+
 						{infoModalEnabled && (
 							<div
 								className={`modal info-modal ${
@@ -225,37 +222,31 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 								<div className="modal-content">
 									<div className="modal-tabs">
 										{infoModals[algoName] && (
-											<button
-												className={`tab-button ${
-													infoModalTab === 'about' ? 'active' : ''
-												}`}
+											<ModalSidebarSectionTab
 												onClick={() => setInfoModalTab('about')}
-											>
-												<BsInfoCircle size={18} />
-												<span className="tab-text">About</span>
-											</button>
+												currentTab={infoModalTab}
+												title={'About'}
+												name={'about'}
+												icon={BsInfoCircle}
+											/>
 										)}
 										{pseudocodeData && (
-											<button
-												className={`tab-button ${
-													infoModalTab === 'code' ? 'active' : ''
-												}`}
+											<ModalSidebarSectionTab
 												onClick={() => setInfoModalTab('code')}
-											>
-												<BsCodeSlash size={18} />
-												<span className="tab-text">Pseudocode</span>
-											</button>
+												currentTab={infoModalTab}
+												title={'Pseudocode'}
+												name={'code'}
+												icon={BsCodeSlash}
+											/>
 										)}
 										{complexities && (
-											<button
-												className={`tab-button ${
-													infoModalTab === 'bigo' ? 'active' : ''
-												}`}
+											<ModalSidebarSectionTab
 												onClick={() => setInfoModalTab('bigo')}
-											>
-												<BsClock size={18} />
-												<span className="tab-text">Big O</span>
-											</button>
+												currentTab={infoModalTab}
+												name={'bigo'}
+												icon={BsClock}
+												title={'Big O'}
+											/>
 										)}
 									</div>
 
@@ -285,6 +276,7 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
 											<Pseudocode
 												algoName={algoName}
+												language={pseudocodeType}
 											/>
 										</div>
 									)}

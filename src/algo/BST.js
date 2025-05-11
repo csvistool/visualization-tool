@@ -292,9 +292,9 @@ export default class BST extends Algorithm {
 
 		const nextLabelID = this.nextIndex++;
 
-		this.unhighlight(3, 0, "preorder");
-		this.unhighlight(4, 0, "preorder");
-		this.highlight(2, 0, "preorder");
+		this.unhighlight(3, 0, 'preorder');
+		this.unhighlight(4, 0, 'preorder');
+		this.highlight(2, 0, 'preorder');
 
 		this.cmd(act.createLabel, nextLabelID, tree.data, tree.x, tree.y);
 		this.cmd(act.setForegroundColor, nextLabelID, BST.PRINT_COLOR);
@@ -306,26 +306,26 @@ export default class BST extends Algorithm {
 			this.xPosOfNextLabel = BST.FIRST_PRINT_POS_X;
 			this.yPosOfNextLabel += BST.PRINT_VERTICAL_GAP;
 		}
-		this.unhighlight(2, 0, "preorder");
+		this.unhighlight(2, 0, 'preorder');
 
 		if (tree.left != null) {
-			this.highlight(3, 0, "preorder");
+			this.highlight(3, 0, 'preorder');
 			this.cmd(act.move, this.highlightID, tree.left.x, tree.left.y);
 			this.preOrderRec(tree.left, passedCodeID);
 
 			this.cmd(act.move, this.highlightID, tree.x, tree.y);
 			this.cmd(act.step);
 		}
-		this.unhighlight(3, 0, "preorder");
+		this.unhighlight(3, 0, 'preorder');
 
 		if (tree.right != null) {
-			this.highlight(4, 0, "preorder");
+			this.highlight(4, 0, 'preorder');
 			this.cmd(act.move, this.highlightID, tree.right.x, tree.right.y);
 			this.preOrderRec(tree.right, passedCodeID);
 			this.cmd(act.move, this.highlightID, tree.x, tree.y);
 			this.cmd(act.step);
 		}
-		this.unhighlight(4, 0, "preorder");
+		this.unhighlight(4, 0, 'preorder');
 
 		return;
 	}
@@ -346,30 +346,30 @@ export default class BST extends Algorithm {
 		this.cmd(act.step);
 		this.cmd(act.createLabel, this.nextIndex, tree.data, tree.x, tree.y);
 		this.cmd(act.setForegroundColor, this.nextIndex, BST.PRINT_COLOR);
-		this.cmd(act.move, this.nextIndex++, QUEUE_START_X, QUEUE_START_Y, 0, "levelorder");
-		this.highlight(2, 0, "levelorder");
+		this.cmd(act.move, this.nextIndex++, QUEUE_START_X, QUEUE_START_Y, 0, 'levelorder');
+		this.highlight(2, 0, 'levelorder');
 		this.cmd(act.step);
-		this.unhighlight(2, 0, "levelorder");
+		this.unhighlight(2, 0, 'levelorder');
 
-		this.highlight(3, 0, "levelorder");
+		this.highlight(3, 0, 'levelorder');
 		this.cmd(act.step);
 
 		while (queue.length !== 0) {
 			const curr = queue.shift();
 
 			this.cmd(act.move, this.highlightID, curr.x, curr.y);
-			this.unhighlight(3, 0, "levelorder");
+			this.unhighlight(3, 0, 'levelorder');
 
 			const currId = queueID.shift();
 			this.cmd(act.move, currId, this.xPosOfNextLabel, this.yPosOfNextLabel);
-			this.highlight(4, 0, "levelorder");
-			this.highlight(5, 0, "levelorder");
+			this.highlight(4, 0, 'levelorder');
+			this.highlight(5, 0, 'levelorder');
 			for (let i = 0; i < queueID.length; i++) {
 				this.cmd(act.move, queueID[i], QUEUE_START_X + i * QUEUE_SPACING, QUEUE_START_Y);
 			}
 			this.cmd(act.step);
-			this.unhighlight(4, 0, "levelorder");
-			this.unhighlight(5, 0, "levelorder");
+			this.unhighlight(4, 0, 'levelorder');
+			this.unhighlight(5, 0, 'levelorder');
 
 			this.xPosOfNextLabel += BST.PRINT_HORIZONTAL_GAP;
 			if (this.xPosOfNextLabel > this.print_max) {
@@ -377,11 +377,11 @@ export default class BST extends Algorithm {
 				this.yPosOfNextLabel += BST.PRINT_VERTICAL_GAP;
 			}
 
-			this.highlight(6, 0, "levelorder");
+			this.highlight(6, 0, 'levelorder');
 			if (curr.left != null) {
 				this.cmd(act.step);
-				this.unhighlight(6, 0, "levelorder");
-				this.highlight(7, 0, "levelorder");
+				this.unhighlight(6, 0, 'levelorder');
+				this.highlight(7, 0, 'levelorder');
 				queue.push(curr.left);
 				queueID.push(this.nextIndex);
 				this.cmd(act.createLabel, this.nextIndex, curr.left.data, curr.left.x, curr.left.y);
@@ -393,17 +393,17 @@ export default class BST extends Algorithm {
 					QUEUE_START_Y,
 				);
 				this.cmd(act.step);
-				this.unhighlight(7, 0, "levelorder");
+				this.unhighlight(7, 0, 'levelorder');
 			} else {
 				this.cmd(act.step);
-				this.unhighlight(6, 0, "levelorder");
+				this.unhighlight(6, 0, 'levelorder');
 			}
 
-			this.highlight(8, 0, "levelorder");
+			this.highlight(8, 0, 'levelorder');
 			if (curr.right != null) {
 				this.cmd(act.step);
-				this.unhighlight(8, 0, "levelorder");
-				this.highlight(9, 0, "levelorder");
+				this.unhighlight(8, 0, 'levelorder');
+				this.highlight(9, 0, 'levelorder');
 				queue.push(curr.right);
 				queueID.push(this.nextIndex);
 				this.cmd(
@@ -421,15 +421,15 @@ export default class BST extends Algorithm {
 					QUEUE_START_Y,
 				);
 				this.cmd(act.step);
-				this.unhighlight(9, 0, "levelorder");
+				this.unhighlight(9, 0, 'levelorder');
 			} else {
 				this.cmd(act.step);
-				this.unhighlight(8, 0, "levelorder");
+				this.unhighlight(8, 0, 'levelorder');
 			}
-			this.highlight(3, 0, "levelorder");
+			this.highlight(3, 0, 'levelorder');
 			this.cmd(act.step);
 		}
-		this.unhighlight(3, 0, "levelorder");
+		this.unhighlight(3, 0, 'levelorder');
 	}
 
 	traverse() {
@@ -475,26 +475,26 @@ export default class BST extends Algorithm {
 	postOrderRec(tree, passedCodeID) {
 		this.cmd(act.step);
 		if (tree.left != null) {
-			this.unhighlight(3, 0, "postorder");
-			this.highlight(2, 0, "postorder");
+			this.unhighlight(3, 0, 'postorder');
+			this.highlight(2, 0, 'postorder');
 			this.cmd(act.move, this.highlightID, tree.left.x, tree.left.y);
 			this.postOrderRec(tree.left, passedCodeID);
 			this.cmd(act.move, this.highlightID, tree.x, tree.y);
 			this.cmd(act.step);
 		}
-		this.unhighlight(2, 0, "postorder");
+		this.unhighlight(2, 0, 'postorder');
 
 		if (tree.right != null) {
-			this.unhighlight(2, 0, "postorder");
-			this.highlight(3, 0, "postorder");
+			this.unhighlight(2, 0, 'postorder');
+			this.highlight(3, 0, 'postorder');
 			this.cmd(act.move, this.highlightID, tree.right.x, tree.right.y);
 			this.postOrderRec(tree.right, passedCodeID);
 			this.cmd(act.move, this.highlightID, tree.x, tree.y);
 			this.cmd(act.step);
 		}
-		this.unhighlight(3, 0, "postorder");
+		this.unhighlight(3, 0, 'postorder');
 
-		this.highlight(4, 0, "postorder");
+		this.highlight(4, 0, 'postorder');
 		const nextLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, nextLabelID, tree.data, tree.x, tree.y);
 		this.cmd(act.setForegroundColor, nextLabelID, BST.PRINT_COLOR);
@@ -506,7 +506,7 @@ export default class BST extends Algorithm {
 			this.xPosOfNextLabel = BST.FIRST_PRINT_POS_X;
 			this.yPosOfNextLabel += BST.PRINT_VERTICAL_GAP;
 		}
-		this.unhighlight(4, 0, "postorder");
+		this.unhighlight(4, 0, 'postorder');
 
 		return;
 	}
@@ -514,18 +514,18 @@ export default class BST extends Algorithm {
 	printTreeRec(tree, passedCodeID) {
 		this.cmd(act.step);
 		if (tree.left != null) {
-			this.unhighlight(3, 0, "inorder");
-			this.unhighlight(4, 0, "inorder");
-			this.highlight(2, 0, "inorder");
+			this.unhighlight(3, 0, 'inorder');
+			this.unhighlight(4, 0, 'inorder');
+			this.highlight(2, 0, 'inorder');
 			this.cmd(act.move, this.highlightID, tree.left.x, tree.left.y);
 			this.printTreeRec(tree.left, passedCodeID);
 			this.cmd(act.move, this.highlightID, tree.x, tree.y);
 			this.cmd(act.step);
 		}
-		this.unhighlight(2, 0, "inorder");
+		this.unhighlight(2, 0, 'inorder');
 
-		this.unhighlight(4, 0, "inorder");
-		this.highlight(3, 0, "inorder");
+		this.unhighlight(4, 0, 'inorder');
+		this.highlight(3, 0, 'inorder');
 		const nextLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, nextLabelID, tree.data, tree.x, tree.y);
 		this.cmd(act.setForegroundColor, nextLabelID, BST.PRINT_COLOR);
@@ -537,18 +537,18 @@ export default class BST extends Algorithm {
 			this.xPosOfNextLabel = BST.FIRST_PRINT_POS_X;
 			this.yPosOfNextLabel += BST.PRINT_VERTICAL_GAP;
 		}
-		this.unhighlight(3, 0, "inorder");
+		this.unhighlight(3, 0, 'inorder');
 
 		if (tree.right != null) {
-			this.unhighlight(2, 0, "inorder");
-			this.unhighlight(3, 0, "inorder");
-			this.highlight(4, 0, "inorder");
+			this.unhighlight(2, 0, 'inorder');
+			this.unhighlight(3, 0, 'inorder');
+			this.highlight(4, 0, 'inorder');
 			this.cmd(act.move, this.highlightID, tree.right.x, tree.right.y);
 			this.printTreeRec(tree.right, passedCodeID);
 			this.cmd(act.move, this.highlightID, tree.x, tree.y);
 			this.cmd(act.step);
 		}
-		this.unhighlight(4, 0, "inorder");
+		this.unhighlight(4, 0, 'inorder');
 
 		return;
 	}
@@ -563,16 +563,16 @@ export default class BST extends Algorithm {
 
 		this.highlightID = this.nextIndex++;
 
-		this.highlight(0, 0, "find");
-		this.highlight(1, 0, "find");
-		this.highlight(4, 0, "find");
+		this.highlight(0, 0, 'find');
+		this.highlight(1, 0, 'find');
+		this.highlight(4, 0, 'find');
 		this.cmd(act.step);
 
 		this.doFind(this.treeRoot, findValue);
 
-		this.unhighlight(0, 0, "find");
-		this.unhighlight(1, 0, "find");
-		this.unhighlight(4, 0, "find");
+		this.unhighlight(0, 0, 'find');
+		this.unhighlight(1, 0, 'find');
+		this.unhighlight(4, 0, 'find');
 
 		return this.commands;
 	}
@@ -582,8 +582,8 @@ export default class BST extends Algorithm {
 		if (tree != null) {
 			this.cmd(act.setHighlight, tree.graphicID, 1);
 			if (tree.data === value) {
-				this.highlight(11, 0, "find");
-				this.highlight(12, 0, "find");
+				this.highlight(11, 0, 'find');
+				this.highlight(12, 0, 'find');
 				this.cmd(
 					act.setText,
 					0,
@@ -591,14 +591,14 @@ export default class BST extends Algorithm {
 				);
 				this.cmd(act.step);
 
-				this.unhighlight(11, 0, "find");
-				this.unhighlight(12, 0, "find");
+				this.unhighlight(11, 0, 'find');
+				this.unhighlight(12, 0, 'find');
 				this.cmd(act.setText, 0, 'Found: ' + value);
-				this.cmd(act.setHighlight, tree.graphicID, 0, "find");
+				this.cmd(act.setHighlight, tree.graphicID, 0, 'find');
 			} else {
 				if (tree.data > value) {
-					this.highlight(7, 0, "find");
-					this.highlight(8, 0, "find");
+					this.highlight(7, 0, 'find');
+					this.highlight(8, 0, 'find');
 					this.cmd(
 						act.setText,
 						0,
@@ -612,7 +612,7 @@ export default class BST extends Algorithm {
 					);
 					this.cmd(act.step);
 
-					this.cmd(act.setHighlight, tree.graphicID, 0, "find");
+					this.cmd(act.setHighlight, tree.graphicID, 0, 'find');
 					if (tree.left != null) {
 						this.cmd(
 							act.createHighlightCircle,
@@ -625,12 +625,12 @@ export default class BST extends Algorithm {
 						this.cmd(act.step);
 						this.cmd(act.delete, this.highlightID);
 					}
-					this.unhighlight(7, 0, "find");
-					this.unhighlight(8, 0, "find");
+					this.unhighlight(7, 0, 'find');
+					this.unhighlight(8, 0, 'find');
 					this.doFind(tree.left, value);
 				} else {
-					this.highlight(9, 0, "find");
-					this.highlight(10, 0, "find");
+					this.highlight(9, 0, 'find');
+					this.highlight(10, 0, 'find');
 					this.cmd(
 						act.setText,
 						0,
@@ -643,7 +643,7 @@ export default class BST extends Algorithm {
 							' (look to right subtree)',
 					);
 					this.cmd(act.step);
-					this.cmd(act.setHighlight, tree.graphicID, 0, "find");
+					this.cmd(act.setHighlight, tree.graphicID, 0, 'find');
 					if (tree.right != null) {
 						this.cmd(
 							act.createHighlightCircle,
@@ -656,19 +656,19 @@ export default class BST extends Algorithm {
 						this.cmd(act.step);
 						this.cmd(act.delete, this.highlightID);
 					}
-					this.unhighlight(9, 0, "find");
-					this.unhighlight(10, 0, "find");
+					this.unhighlight(9, 0, 'find');
+					this.unhighlight(10, 0, 'find');
 					this.doFind(tree.right, value);
 				}
 			}
 		} else {
-			this.highlight(5, 0, "find");
-			this.highlight(6, 0, "find");
+			this.highlight(5, 0, 'find');
+			this.highlight(6, 0, 'find');
 			this.cmd(act.setText, 0, 'Searching for ' + value + ' :  (Element not found)');
 			this.cmd(act.step);
 
-			this.unhighlight(5, 0, "find");
-			this.unhighlight(6, 0, "find");
+			this.unhighlight(5, 0, 'find');
+			this.unhighlight(6, 0, 'find');
 			this.cmd(act.setText, 0, 'Searching for ' + value + ' :  (Element not found)');
 		}
 	}
@@ -698,9 +698,9 @@ export default class BST extends Algorithm {
 
 		for (let i = firstLabel; i < this.nextIndex; i++) this.toClear.push(i);
 
-		this.highlight(0, 0, "add");
-		this.highlight(1, 0, "add");
-		this.highlight(4, 0, "add");
+		this.highlight(0, 0, 'add');
+		this.highlight(1, 0, 'add');
+		this.highlight(4, 0, 'add');
 		this.cmd(act.setText, 0, 'Inserting ' + data);
 		this.cmd(act.step);
 
@@ -708,22 +708,22 @@ export default class BST extends Algorithm {
 
 		this.resizeTree();
 
-		this.unhighlight(0, 0, "add");
-		this.unhighlight(1, 0, "add");
-		this.unhighlight(4, 0, "add");
-		this.unhighlight(5, 0, "add");
-		this.unhighlight(6, 0, "add");
-		this.unhighlight(7, 0, "add");
-		this.unhighlight(12, 0, "add");
+		this.unhighlight(0, 0, 'add');
+		this.unhighlight(1, 0, 'add');
+		this.unhighlight(4, 0, 'add');
+		this.unhighlight(5, 0, 'add');
+		this.unhighlight(6, 0, 'add');
+		this.unhighlight(7, 0, 'add');
+		this.unhighlight(12, 0, 'add');
 
 		return this.commands;
 	}
 
 	addH(data, curr) {
 		if (curr == null) {
-			this.highlight(5, 0, "add");
-			this.highlight(6, 0, "add");
-			this.highlight(7, 0, "add");
+			this.highlight(5, 0, 'add');
+			this.highlight(6, 0, 'add');
+			this.highlight(7, 0, 'add');
 			this.cmd(act.setText, 0, 'Null found, inserting new node');
 			const treeNodeID = this.nextIndex++;
 			this.cmd(act.createCircle, treeNodeID, data, 30, BST.STARTING_Y);
@@ -732,45 +732,45 @@ export default class BST extends Algorithm {
 			this.cmd(act.step);
 
 			this.cmd(act.setText, 0, '');
-			return new BSTNode(data, treeNodeID, 0, 0, "add");
+			return new BSTNode(data, treeNodeID, 0, 0, 'add');
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
 		if (data < curr.data) {
-			this.highlight(8, 0, "add");
-			this.highlight(9, 0, "add");
+			this.highlight(8, 0, 'add');
+			this.highlight(9, 0, 'add');
 			this.cmd(act.setText, 0, `${data} < ${curr.data}. Looking at left subtree`);
 			this.cmd(act.step);
 
-			this.unhighlight(8, 0, "add");
-			this.unhighlight(9, 0, "add");
+			this.unhighlight(8, 0, 'add');
+			this.unhighlight(9, 0, 'add');
 			curr.left = this.addH(data, curr.left);
 			curr.left.parent = curr;
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
 		} else if (data > curr.data) {
-			this.highlight(10, 0, "add");
-			this.highlight(11, 0, "add");
+			this.highlight(10, 0, 'add');
+			this.highlight(11, 0, 'add');
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking at right subtree`);
 			this.cmd(act.step);
-			this.unhighlight(10, 0, "add");
-			this.unhighlight(11, 0, "add");
+			this.unhighlight(10, 0, 'add');
+			this.unhighlight(11, 0, 'add');
 			curr.right = this.addH(data, curr.right);
 			curr.right.parent = curr;
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.right.graphicID);
 			connected && this.cmd(act.step);
 		} else {
-			this.highlight(12, 0, "add");
+			this.highlight(12, 0, 'add');
 			this.cmd(act.setText, 0, `${data} == ${curr.data}. Ignoring duplicate!`);
 			this.cmd(act.step);
 		}
-		this.unhighlight(4, 0, "add");
-		this.unhighlight(5, 0, "add");
-		this.unhighlight(6, 0, "add");
-		this.unhighlight(7, 0, "add");
-		this.highlight(12, 0, "add");
-		this.cmd(act.setHighlight, curr.graphicID, 0, "add");
+		this.unhighlight(4, 0, 'add');
+		this.unhighlight(5, 0, 'add');
+		this.unhighlight(6, 0, 'add');
+		this.unhighlight(7, 0, 'add');
+		this.highlight(12, 0, 'add');
+		this.cmd(act.setHighlight, curr.graphicID, 0, 'add');
 		this.cmd(act.setText, 0, '');
 		return curr;
 	}
@@ -793,7 +793,7 @@ export default class BST extends Algorithm {
 		this.clearOldObjects();
 
 		const firstLabel = this.nextIndex;
-		this.predSuccMethod = this.predSucc === "succ" ? "remove_successor" : "remove_predecessor"
+		this.predSuccMethod = this.predSucc === 'succ' ? 'remove_successor' : 'remove_predecessor';
 		for (let i = firstLabel; i < this.nextIndex; i++) this.toClear.push(i);
 
 		this.highlight(0, 0, this.predSuccMethod);
@@ -942,46 +942,46 @@ export default class BST extends Algorithm {
 	}
 
 	removeSucc(curr, dummy) {
-		this.unhighlight(27, 0, "remove_successor");
-		this.unhighlight(28, 0, "remove_successor");
-		this.unhighlight(23, 0, "remove_successor");
+		this.unhighlight(27, 0, 'remove_successor');
+		this.unhighlight(28, 0, 'remove_successor');
+		this.unhighlight(23, 0, 'remove_successor');
 
-		this.highlight(24, 0, "remove_successor");
-		this.highlight(29, 0, "remove_successor");
-		this.highlight(30, 0, "remove_successor");
+		this.highlight(24, 0, 'remove_successor');
+		this.highlight(29, 0, 'remove_successor');
+		this.highlight(30, 0, 'remove_successor');
 		this.cmd(act.setHighlight, curr.graphicID, 1, '#0000ff');
 		this.cmd(act.step);
 
 		if (curr.left == null) {
-			this.highlight(31, 0, "remove_successor");
+			this.highlight(31, 0, 'remove_successor');
 
 			this.cmd(act.setText, 0, 'No left child, replace with right child');
 			this.cmd(act.step);
 
 			dummy.push(curr.data);
-			this.unhighlight(31, 0, "remove_successor");
-			this.highlight(32, 0, "remove_successor");
+			this.unhighlight(31, 0, 'remove_successor');
+			this.highlight(32, 0, 'remove_successor');
 			this.deleteNode(curr);
 			this.cmd(act.step);
 
-			this.unhighlight(30, 0, "remove_successor");
-			this.unhighlight(32, 0, "remove_successor");
-			this.unhighlight(24, 0, "remove_successor");
-			this.unhighlight(29, 0, "remove_successor");
-			this.highlight(25, 0, "remove_successor");
+			this.unhighlight(30, 0, 'remove_successor');
+			this.unhighlight(32, 0, 'remove_successor');
+			this.unhighlight(24, 0, 'remove_successor');
+			this.unhighlight(29, 0, 'remove_successor');
+			this.highlight(25, 0, 'remove_successor');
 			this.cmd(act.setText, 0, '');
 			return curr.right;
 		}
 
-		this.unhighlight(30, 0, "remove_successor");
+		this.unhighlight(30, 0, 'remove_successor');
 
-		this.highlight(33, 0, "remove_successor");
-		this.highlight(34, 0, "remove_successor");
+		this.highlight(33, 0, 'remove_successor');
+		this.highlight(34, 0, 'remove_successor');
 		this.cmd(act.setText, 0, 'Left child exists, look left');
 		this.cmd(act.step);
 
-		this.unhighlight(33, 0, "remove_successor");
-		this.unhighlight(34, 0, "remove_successor");
+		this.unhighlight(33, 0, 'remove_successor');
+		this.unhighlight(34, 0, 'remove_successor');
 
 		curr.left = this.removeSucc(curr.left, dummy);
 		if (curr.left != null) {
@@ -994,45 +994,45 @@ export default class BST extends Algorithm {
 	}
 
 	removePred(curr, dummy) {
-		this.unhighlight(27, 0, "remove_predecessor");
-		this.unhighlight(28, 0, "remove_predecessor");
-		this.unhighlight(23, 0, "remove_predecessor");
+		this.unhighlight(27, 0, 'remove_predecessor');
+		this.unhighlight(28, 0, 'remove_predecessor');
+		this.unhighlight(23, 0, 'remove_predecessor');
 
-		this.highlight(24, 0, "remove_predecessor");
-		this.highlight(29, 0, "remove_predecessor");
-		this.highlight(30, 0, "remove_predecessor");
+		this.highlight(24, 0, 'remove_predecessor');
+		this.highlight(29, 0, 'remove_predecessor');
+		this.highlight(30, 0, 'remove_predecessor');
 		this.cmd(act.setHighlight, curr.graphicID, 1, '#0000ff');
 		this.cmd(act.step);
 
 		if (curr.right == null) {
-			this.highlight(31, 0, "remove_predecessor");
+			this.highlight(31, 0, 'remove_predecessor');
 			this.cmd(act.setText, 0, 'No right child, replace with right child');
 			this.cmd(act.step);
 
 			dummy.push(curr.data);
-			this.unhighlight(31, 0, "remove_predecessor");
-			this.highlight(32, 0, "remove_predecessor");
+			this.unhighlight(31, 0, 'remove_predecessor');
+			this.highlight(32, 0, 'remove_predecessor');
 			this.deleteNode(curr);
 			this.cmd(act.step);
 
-			this.unhighlight(30, 0, "remove_predecessor");
-			this.unhighlight(32, 0, "remove_predecessor");
-			this.unhighlight(24, 0, "remove_predecessor");
-			this.unhighlight(29, 0, "remove_predecessor");
-			this.highlight(25, 0, "remove_predecessor");
+			this.unhighlight(30, 0, 'remove_predecessor');
+			this.unhighlight(32, 0, 'remove_predecessor');
+			this.unhighlight(24, 0, 'remove_predecessor');
+			this.unhighlight(29, 0, 'remove_predecessor');
+			this.highlight(25, 0, 'remove_predecessor');
 			this.cmd(act.setText, 0, '');
 			return curr.left;
 		}
 
-		this.unhighlight(30, 0, "remove_predecessor");
+		this.unhighlight(30, 0, 'remove_predecessor');
 
-		this.highlight(33, 0, "remove_predecessor");
-		this.highlight(34, 0, "remove_predecessor");
+		this.highlight(33, 0, 'remove_predecessor');
+		this.highlight(34, 0, 'remove_predecessor');
 		this.cmd(act.setText, 0, 'Right child exists, look right');
 		this.cmd(act.step);
 
-		this.unhighlight(33, 0, "remove_predecessor");
-		this.unhighlight(34, 0, "remove_predecessor");
+		this.unhighlight(33, 0, 'remove_predecessor');
+		this.unhighlight(34, 0, 'remove_predecessor');
 
 		curr.right = this.removePred(curr.right, dummy);
 		if (curr.right != null) {
