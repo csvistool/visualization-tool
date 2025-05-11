@@ -32,7 +32,6 @@ import Algorithm, {
 	addLabelToAlgorithmBar,
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
-import pseudocodeText from '../pseudocode.json';
 
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
@@ -51,10 +50,6 @@ const COMP_COUNT_X = 575;
 const COMP_COUNT_Y = 15;
 
 const PERIOD_Y = 35;
-
-const BM_CODE_Y = 205;
-
-const GALIL_CODE_Y = 275;
 
 export default class BoyerMoore extends Algorithm {
 	constructor(am, w, h) {
@@ -366,9 +361,9 @@ export default class BoyerMoore extends Algorithm {
 		if (this.galilRuleEnabled) {
 			this.buildFailureTable(text.length, pattern);
 
-      this.methodName = "galil";
+			this.methodName = 'galil';
 		} else {
-      this.methodName = "find";
+			this.methodName = 'find';
 		}
 
 		const iPointerID = this.nextIndex++;
@@ -612,7 +607,7 @@ export default class BoyerMoore extends Algorithm {
 		this.cmd(act.move, this.comparisonCountID, labelsX, COMP_COUNT_Y);
 		this.cmd(act.setText, this.comparisonCountID, 'Comparison Count: ' + this.compCount);
 
-    this.methodName = "lastTable";
+		this.methodName = 'lastTable';
 
 		// Display pattern table
 		const patternTableStartX = ARRAY_START_X + textLength * this.cellSize + 80;
@@ -750,7 +745,7 @@ export default class BoyerMoore extends Algorithm {
 			'Period = pattern.length - FT[pattern.length - 1]',
 		);
 
-    this.methodName = "failureTable";
+		this.methodName = 'failureTable';
 
 		// Display empty failure table
 		const tableStartX = ARRAY_START_X + textLength * this.cellSize + 110;

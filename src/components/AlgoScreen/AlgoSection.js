@@ -101,7 +101,7 @@ const AlgoSection = ({ theme }) => {
 				window.removeEventListener('resize', updateDimensions);
 			};
 		}
-	}, [algoName, algoDetails, searchParams]);
+	}, [algoName, algoDetails, searchParams, setHighlightedLine, unhighlightLine]);
 
 	useEffect(() => {
 		const data = pseudocodeText[algoName];

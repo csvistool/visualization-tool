@@ -44,8 +44,6 @@ const MAX_LENGTH = 26;
 const COMP_COUNT_X = 575;
 const COMP_COUNT_Y = 30;
 
-const CODE_Y = 120;
-
 export default class BruteForce extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);

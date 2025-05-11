@@ -46,8 +46,6 @@ const FAILURE_TABLE_START_Y = 100;
 const COMP_COUNT_X = 575;
 const COMP_COUNT_Y = 30;
 
-const CODE_Y = 195;
-
 export default class KMP extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
