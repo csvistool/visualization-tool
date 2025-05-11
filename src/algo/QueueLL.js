@@ -57,9 +57,6 @@ const QUEUE_LABEL_Y = 30;
 const QUEUE_ELEMENT_X = 130;
 const QUEUE_ELEMENT_Y = 30;
 
-const CODE_START_X = 330;
-const CODE_START_Y = 30;
-
 const SIZE = 32;
 
 export default class QueueLL extends Algorithm {

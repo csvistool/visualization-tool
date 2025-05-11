@@ -54,9 +54,6 @@ const BUCKET_ELEM_WIDTH = 50;
 const BUCKET_ELEM_HEIGHT = 20;
 const BUCKET_ELEM_SPACING = 15;
 
-const CODE_START_X = 15;
-const CODE_START_Y = 100;
-
 const MAX_VALUE = 999999;
 
 let negativeNumbersEnabled = false;

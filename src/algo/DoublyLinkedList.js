@@ -67,9 +67,6 @@ const POINTER_ELEM_HEIGHT = 30;
 
 const SIZE = 32;
 
-const CODE_START_X = 135;
-const CODE_START_Y = 230;
-
 export default class DoublyLinkedList extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);

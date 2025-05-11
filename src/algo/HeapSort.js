@@ -39,9 +39,6 @@ const MAX_ARRAY_SIZE = 15;
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
 
-const CODE_START_X = 15;
-const CODE_START_Y = 100;
-
 const ARRAY_ELEM_WIDTH = 50;
 const ARRAY_ELEM_HEIGHT = 50;
 const ARRAY_INITIAL_X = 400;

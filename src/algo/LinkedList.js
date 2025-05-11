@@ -67,9 +67,6 @@ const TAIL_LABEL_Y = 500;
 const HEAD_ELEM_WIDTH = 30;
 const HEAD_ELEM_HEIGHT = 30;
 
-const CODE_START_X = 135;
-const CODE_START_Y = 230;
-
 const SIZE = 32;
 
 export default class LinkedList extends Algorithm {

@@ -617,25 +617,25 @@ export default class KMP extends Algorithm {
 			this.cellSize / 2,
 		);
 		this.cmd(act.setText, this.failureTableValueID[0], 0);
-		this.highlight(3, 0, 'find');
-		this.highlight(4, 0, 'find');
+		this.highlight(3, 0, 'failureTable');
+		this.highlight(4, 0, 'failureTable');
 		this.cmd(act.step);
-		this.unhighlight(3, 0, 'find');
-		this.unhighlight(4, 0, 'find');
+		this.unhighlight(3, 0, 'failureTable');
+		this.unhighlight(4, 0, 'failureTable');
 
 		const failureTable = [];
 		failureTable[0] = 0;
 		let i = 0;
 		let j = 1;
-		this.highlight(5, 0, 'find');
+		this.highlight(5, 0, 'failureTable');
 		while (j < pattern.length) {
 			this.cmd(act.setText, this.comparisonCountID, 'Comparison Count: ' + ++this.compCount);
-			this.highlight(6, 0, 'find');
+			this.highlight(6, 0, 'failureTable');
 			this.cmd(act.step);
-			this.unhighlight(6, 0, 'find');
+			this.unhighlight(6, 0, 'failureTable');
 			if (pattern.charAt(i) === pattern.charAt(j)) {
-				this.highlight(7, 0, 'find');
-				this.highlight(8, 0, 'find');
+				this.highlight(7, 0, 'failureTable');
+				this.highlight(8, 0, 'failureTable');
 				i++;
 				failureTable[j] = i;
 				this.cmd(act.setText, this.failureTableValueID[j], i);
@@ -655,18 +655,18 @@ export default class KMP extends Algorithm {
 					);
 				}
 				this.cmd(act.step);
-				this.unhighlight(7, 0, 'find');
-				this.unhighlight(8, 0, 'find');
+				this.unhighlight(7, 0, 'failureTable');
+				this.unhighlight(8, 0, 'failureTable');
 			} else {
-				this.highlight(9, 0, 'find');
+				this.highlight(9, 0, 'failureTable');
 				this.cmd(act.step);
-				this.unhighlight(9, 0, 'find');
-				this.highlight(10, 0, 'find');
+				this.unhighlight(9, 0, 'failureTable');
+				this.highlight(10, 0, 'failureTable');
 				this.cmd(act.step);
-				this.unhighlight(10, 0, 'find');
+				this.unhighlight(10, 0, 'failureTable');
 				if (i === 0) {
-					this.highlight(11, 0, 'find');
-					this.highlight(12, 0, 'find');
+					this.highlight(11, 0, 'failureTable');
+					this.highlight(12, 0, 'failureTable');
 					failureTable[j] = i;
 					this.cmd(act.setText, this.failureTableValueID[j], i);
 					j++;
@@ -679,13 +679,13 @@ export default class KMP extends Algorithm {
 						);
 					}
 					this.cmd(act.step);
-					this.unhighlight(11, 0, 'find');
-					this.unhighlight(12, 0, 'find');
+					this.unhighlight(11, 0, 'failureTable');
+					this.unhighlight(12, 0, 'failureTable');
 				} else {
-					this.highlight(13, 0, 'find');
+					this.highlight(13, 0, 'failureTable');
 					this.cmd(act.step);
-					this.unhighlight(13, 0, 'find');
-					this.highlight(14, 0, 'find');
+					this.unhighlight(13, 0, 'failureTable');
+					this.highlight(14, 0, 'failureTable');
 					i = failureTable[i - 1];
 					this.cmd(
 						act.move,
@@ -694,14 +694,14 @@ export default class KMP extends Algorithm {
 						FAILURE_TABLE_START_Y,
 					);
 					this.cmd(act.step);
-					this.unhighlight(14, 0, 'find');
+					this.unhighlight(14, 0, 'failureTable');
 				}
 			}
 		}
-		this.unhighlight(5, 0, 'find');
-		this.highlight(18, 0, 'find');
+		this.unhighlight(5, 0, 'failureTable');
+		this.highlight(18, 0, 'failureTable');
 		this.cmd(act.step);
-		this.unhighlight(18, 0, 'find');
+		this.unhighlight(18, 0, 'failureTable');
 
 		this.cmd(act.delete, iPointerID);
 		this.cmd(act.delete, jPointerID);

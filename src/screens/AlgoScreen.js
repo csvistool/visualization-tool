@@ -22,7 +22,8 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 		return <AlgorithmNotFound404 />;
 	}
 
-	const [menuDisplayName, verboseDisplayName] = algoDetails;
+	// eslint-disable-next-line no-unused-vars
+	const [menuDisplayName, _algoClass, _hasPseudocode, verboseDisplayName] = algoDetails;
 	const isQuickselect = menuDisplayName === 'Quickselect / kᵗʰ Select';
 	const header = verboseDisplayName || menuDisplayName;
 

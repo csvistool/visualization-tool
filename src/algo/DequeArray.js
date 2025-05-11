@@ -64,9 +64,6 @@ const FRONT_LABEL_OFFSET = -40;
 
 const INDEX_COLOR = '#0000FF';
 
-const CODE_START_X = 450;
-const CODE_START_Y = 20;
-
 const SIZE = 7;
 const MAX_SIZE = 30;
 

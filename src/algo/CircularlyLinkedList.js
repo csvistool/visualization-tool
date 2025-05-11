@@ -62,9 +62,6 @@ const HEAD_LABEL_Y = 165;
 const POINTER_ELEM_WIDTH = 30;
 const POINTER_ELEM_HEIGHT = 30;
 
-const CODE_START_X = 350;
-const CODE_START_Y = 10;
-
 const SIZE = 15;
 
 export default class CircularlyLinkedList extends Algorithm {

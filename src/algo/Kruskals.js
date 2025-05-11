@@ -65,9 +65,6 @@ const HIGHLIGHT_CIRCLE_RADIUS = 12;
 const MST_EDGE_COLOR = '#3399FF';
 const MST_EDGE_THICKNESS = 4;
 
-const CODE_START_X = 985;
-const CODE_START_Y = 30;
-
 export default class Kruskals extends Graph {
 	constructor(am, w, h) {
 		super(am, w, h, PRIMS_KRUSKALS_ADJ_LIST, false, false, true);

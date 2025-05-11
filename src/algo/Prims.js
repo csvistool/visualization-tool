@@ -61,9 +61,6 @@ const PQ_SPACING = 50;
 const PQ_LINE_SPACING = 25;
 const PQ_MAX_PER_LINE = 8;
 
-const CODE_START_X = 50;
-const CODE_START_Y = 200;
-
 export default class Prims extends Graph {
 	constructor(am, w, h) {
 		super(am, w, h, PRIMS_KRUSKALS_ADJ_LIST, false, false, true);

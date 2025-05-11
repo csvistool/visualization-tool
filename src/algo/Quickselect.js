@@ -48,9 +48,6 @@ const ARRAY_ELEM_HEIGHT = 50;
 const COMP_COUNT_X = 100;
 const COMP_COUNT_Y = 50;
 
-const CODE_START_X = 50;
-const CODE_START_Y = 100;
-
 let definedPivotIndex = 0;
 let setPivotVerticalGroup;
 

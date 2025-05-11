@@ -33,8 +33,6 @@ import Algorithm, {
 import { act } from '../anim/AnimationMain';
 import pseudocodeText from '../pseudocode.json';
 
-const CODE_START_X = 25;
-const CODE_START_Y = 35;
 const QUEUE_START_X = 35;
 const QUEUE_START_Y = 250;
 const QUEUE_SPACING = 40;

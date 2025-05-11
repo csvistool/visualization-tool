@@ -57,9 +57,6 @@ const PUSH_RESIZE_LABEL_Y = 55;
 const SIZE = 7;
 const MAX_SIZE = 30;
 
-const CODE_START_X = 70;
-const CODE_START_Y = 290;
-
 export default class ArrayList extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);

@@ -56,9 +56,6 @@ const QUEUE_START_X = 30;
 const QUEUE_START_Y = 190;
 const QUEUE_SPACING = 20;
 
-const CODE_START_X = 25;
-const CODE_START_Y = 250;
-
 export default class BFS extends Graph {
 	constructor(am, w, h) {
 		super(am, w, h, BFS_DFS_ADJ_LIST);

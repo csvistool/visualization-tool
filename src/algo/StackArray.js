@@ -50,9 +50,6 @@ const PUSH_ELEMENT_Y = 30;
 const PUSH_RESIZE_LABEL_X = 60;
 const PUSH_RESIZE_LABEL_Y = 60;
 
-const CODE_START_X = 300;
-const CODE_START_Y = 25;
-
 const SIZE = 7;
 const MAX_SIZE = 30;
 
