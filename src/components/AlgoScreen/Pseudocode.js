@@ -41,7 +41,7 @@ const highlightSyntax = content => {
 	return { indentLevel: indentLevel, __html: highlighted };
 };
 
-const Pseudocode = ({ algoName, highlightedLines }) => {
+const Pseudocode = ({ algoName }) => {
 	// we don't want to keep re-parsing the psuedocode every line animation, so cache it
 
 	const [pseudocode, setPseudocode] = useState(null);
@@ -74,17 +74,11 @@ const Pseudocode = ({ algoName, highlightedLines }) => {
 			{pseudocode &&
 				Object.keys(mappedPseudocode).map(methodName => {
 					return mappedPseudocode[methodName]['english'].map((line, i) => {
-						// contains array of highlight indices; add highlighted class if true
-						const methodHighlightedLines = highlightedLines[methodName] ?? [];
-
 						return (
 							<div
 								key={methodName + i}
-								className={`pseudocode-line ${
-									methodHighlightedLines.includes(i)
-										? 'pseudocode-line-highlighted'
-										: ''
-								}`}
+                id={`${methodName}-${i}`}
+								className={`pseudocode-line`}
 								style={{
 									paddingLeft: `${line.indentLevel * 20}px`,
 								}}

@@ -38,48 +38,31 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const [selectedSection, setSelectedSection] = useState(null);
 	const [pseudocodeData, setPseudocodeData] = useState(null);
 
-	const [highlighted, setHighlighted] = useState({});
+  // This was originally handled via a memoized state, but the rapid state changes 
+  // were incredibly hard on the performance, especially for construction of a random 
+  // data structure (e.g. random BST). As it was already purely CSS modification, 
+  // this was moved to directly editing 
+  const getCodeElementByMethodLine = (method, line) => {
+    // each line is IDed by methodname-linenumber
+    return document.getElementById(`${method}-${line}`);
+  }
 
 	const setHighlightedLine = useCallback((methodName, line) => {
-		setHighlighted(prevHighlights => {
-			const newHighlights = { ...prevHighlights };
+    const lineElement = getCodeElementByMethodLine(methodName, line);
 
-			const methodLines = newHighlights[methodName] ? [...newHighlights[methodName]] : [];
+    // edge case: psuedocode isn't open
+    if (!lineElement) return;
 
-			methodLines.push(line);
-
-			newHighlights[methodName] = methodLines;
-
-      //console.log("highlight", newHighlights);
-
-			return newHighlights;
-		});
+    lineElement.classList.add("pseudocode-line-highlighted");
 	}, []);
 
 	const unhighlightLine = useCallback((methodName, line) => {
-		setHighlighted(prevHighlights => {
-      // There are some situations where we might be trying to 
-      // unhighlight a non-highlighted line. An example of this 
-      // is the recursive BST preorder traversal, where the first 
-      // iteration contains no highlights. Note that this has to 
-      // be inside the setState, otherwise highlights can enter 
-      // a race condition
-      if (!prevHighlights[methodName]) {
-        return prevHighlights;
-      }
+    const lineElement = getCodeElementByMethodLine(methodName, line);
 
-			const newHighlights = { ...prevHighlights };
+    // edge case: psuedocode isn't open
+    if (!lineElement) return;
 
-
-
-			const methodLines = newHighlights[methodName].filter(i => i !== line);
-
-			newHighlights[methodName] = methodLines;
-
-      //console.log("unhighlight", methodName, line, newHighlights);
-
-			return newHighlights;
-		});
+    lineElement.classList.remove("pseudocode-line-highlighted");
 	}, []);
 
 	// Handle page view and animation setup
@@ -137,10 +120,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 			setSelectedSection(Object.keys(data)[0]); // Default to first section
 		}
 	}, [algoName]);
-
-	// Get the appropriate content based on selected section
-	const pseudocodeContent =
-		pseudocodeData && selectedSection ? pseudocodeData[selectedSection][pseudocodeType] : null;
 
 	const toggleInfoModal = () => {
 		// When opening the modal, set the appropriate tab
@@ -306,7 +285,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 
 											<Pseudocode
 												algoName={algoName}
-												highlightedLines={highlighted}
 											/>
 										</div>
 									)}
