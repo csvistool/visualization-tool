@@ -13,10 +13,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const algoName = location.pathname.slice(1);
 	const algoDetails = algoMap[algoName];
 
-	// This was originally handled via a memoized state, but the rapid state changes
-	// were incredibly hard on the performance, especially for construction of a random
-	// data structure (e.g. random BST). As it was already purely CSS modification,
-	// this was moved to directly editing
 	// Handle page view and animation setup
 	if (!algoDetails) {
 		return <AlgorithmNotFound404 />;

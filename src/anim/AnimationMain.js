@@ -1105,23 +1105,14 @@ export const act = {
 	},
 	setHighlight(params) {
 		// id, highlight, color
-		//
-
-		// TODO: Replace with more robust system
-		// if we're a string, we're a method name; set state
-		//
-		if (typeof params[0] === 'string') {
-			const [methodName, line] = params;
-
-			this.setHighlightState(methodName, line[0]);
-			return;
-		} else {
-			this.animatedObjects.setHighlight(params[0], params[1], params[2]);
-		}
+		this.animatedObjects.setHighlight(params[0], params[1], params[2]);
 
 		this.undoBlock.push(new UndoHighlight(params[0], !params[1], params[2]));
 	},
-	unhighlightLine([methodName, line]) {
+	highlightCodeLine([methodName, line]) {
+		this.setHighlightState(methodName, line);
+	},
+	unhighlightCodeLine([methodName, line]) {
 		this.unhighlightLine(methodName, line);
 	},
 	setAlpha(params) {

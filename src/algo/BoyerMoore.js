@@ -357,7 +357,6 @@ export default class BoyerMoore extends Algorithm {
 
 		const lastTable = this.buildLastTable(text.length, pattern);
 
-		// TODO: fancy replace for codeid
 		if (this.galilRuleEnabled) {
 			this.buildFailureTable(text.length, pattern);
 

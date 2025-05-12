@@ -273,9 +273,12 @@ export default class Algorithm {
 			return;
 		}
 
+		// TODO: A more robust way to handle this is to move all highlight calls from algorithms to
+		// a separate method (e.g. highlightCodeLine). This workaround allows the existing code to
+		// stay mostly the same, as otherwise this would cause a fair bit of changes. This should
+		// still be moved to a separate method in the future.
 		if (typeof codeID === 'string') {
-			this.cmd(act.setHighlight, codeID, [ind1]);
-
+			this.cmd(act.highlightCodeLine, codeID, ind1);
 			return;
 		}
 
@@ -295,7 +298,7 @@ export default class Algorithm {
 		if (!codeID) return;
 
 		if (typeof codeID === 'string') {
-			this.cmd(act.unhighlightLine, codeID, ind1);
+			this.cmd(act.unhighlightCodeLine, codeID, ind1);
 			return;
 		}
 		// Type specified
