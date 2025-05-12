@@ -69,9 +69,6 @@ const LARGE_RECURSION_SPACING_X = 10;
 const SMALL_RECURSION_SPACING_Y = 20;
 const LARGE_RECURSION_SPACING_Y = 15;
 
-const CODE_START_X = 1000;
-const CODE_START_Y = 50;
-
 export default class DFS extends Graph {
 	constructor(am, w, h) {
 		super(am, w, h, BFS_DFS_ADJ_LIST);
@@ -171,21 +168,8 @@ export default class DFS extends Graph {
 		);
 
 		this.pseudocode = pseudocodeText.DFS;
-		if (this.physicalStack) {
-			this.codeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'iterative',
-				CODE_START_X,
-				CODE_START_Y,
-			);
-		} else {
-			this.codeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'recursive',
-				CODE_START_X,
-				CODE_START_Y,
-			);
-		}
+
+		this.methodName = this.physicalStack ? 'iterative' : 'recursive';
 
 		this.animationManager.setAllLayers([0, 32, this.currentLayer]);
 		this.animationManager.startNewAnimation(this.commands);
@@ -252,8 +236,8 @@ export default class DFS extends Graph {
 			this.infoLabelID,
 			'Pushing ' + this.toStr(vertex) + ' and adding to visited set',
 		);
-		this.highlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
+		this.highlight(1, 0, this.methodName);
+		this.highlight(2, 0, this.methodName);
 		let vertexID = this.nextIndex++;
 		this.visited[vertex] = true;
 		this.visitedID.push(this.nextIndex);
@@ -270,17 +254,17 @@ export default class DFS extends Graph {
 		this.cmd(act.createLabel, vertexID, this.toStr(vertex), STACK_START_X, this.stackStartY);
 		this.cmd(act.step);
 
-		this.unhighlight(1, 0, this.codeID);
-		this.unhighlight(2, 0, this.codeID);
-		this.highlight(3, 0, this.codeID);
+		this.unhighlight(1, 0, this.methodName);
+		this.unhighlight(2, 0, this.methodName);
+		this.highlight(3, 0, this.methodName);
 		while (this.stack.length > 0 && this.listID.length < this.size) {
 			vertex = this.stack.pop();
 			vertexID = this.stackID.pop();
 
-			this.highlight(4, 0, this.codeID);
+			this.highlight(4, 0, this.methodName);
 			this.cmd(act.step);
-			this.unhighlight(4, 0, this.codeID);
-			this.highlight(5, 0, this.codeID);
+			this.unhighlight(4, 0, this.methodName);
+			this.highlight(5, 0, this.methodName);
 
 			this.cmd(
 				act.setText,
@@ -304,17 +288,17 @@ export default class DFS extends Graph {
 
 			this.cmd(act.step);
 
-			this.unhighlight(5, 0, this.codeID);
+			this.unhighlight(5, 0, this.methodName);
 
-			this.highlight(6, 0, this.codeID);
+			this.highlight(6, 0, this.methodName);
 			for (let neighbor = 0; neighbor < this.size; neighbor++) {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
 					this.highlightEdge(vertex, neighbor, 1);
-					this.highlight(7, 0, this.codeID);
+					this.highlight(7, 0, this.methodName);
 					this.cmd(act.step);
 					if (!this.visited[neighbor]) {
-						this.unhighlight(7, 0, this.codeID);
-						this.highlight(8, 0, this.codeID);
+						this.unhighlight(7, 0, this.methodName);
+						this.highlight(8, 0, this.methodName);
 						this.visited[neighbor] = true;
 						this.visitedID.push(this.nextIndex);
 						this.cmd(
@@ -341,7 +325,7 @@ export default class DFS extends Graph {
 							this.stackStartY - (this.stack.length - 1) * this.stackSpacing,
 						);
 					} else {
-						this.unhighlight(7, 0, this.codeID);
+						this.unhighlight(7, 0, this.methodName);
 						this.cmd(
 							act.setText,
 							this.infoLabelID,
@@ -349,17 +333,17 @@ export default class DFS extends Graph {
 						);
 					}
 					this.cmd(act.step);
-					this.unhighlight(8, 0, this.codeID);
+					this.unhighlight(8, 0, this.methodName);
 					// this.highlightEdge(vertex, neighbor, 0);
 				}
 			}
-			this.unhighlight(6, 0, this.codeID);
+			this.unhighlight(6, 0, this.methodName);
 
 			this.cmd(act.delete, vertexID);
 
 			this.leaveVertex();
 		}
-		this.unhighlight(3, 0, this.codeID);
+		this.unhighlight(3, 0, this.methodName);
 
 		if (this.stack.length > 0) {
 			this.cmd(act.setText, this.infoLabelID, 'All vertices have been visited, done');
@@ -464,20 +448,20 @@ export default class DFS extends Graph {
 			VISITED_START_Y,
 		);
 		this.cmd(act.setBackgroundColor, this.circleID[currVertex], VISITED_COLOR);
-		this.highlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
+		this.highlight(1, 0, this.methodName);
+		this.highlight(2, 0, this.methodName);
 		this.cmd(act.step);
-		this.unhighlight(1, 0, this.codeID);
-		this.unhighlight(2, 0, this.codeID);
+		this.unhighlight(1, 0, this.methodName);
+		this.unhighlight(2, 0, this.methodName);
 
-		this.highlight(3, 0, this.codeID);
+		this.highlight(3, 0, this.methodName);
 		for (let neighbor = 0; neighbor < this.size; neighbor++) {
 			if (this.adj_matrix[currVertex][neighbor] > 0) {
-				this.highlight(4, 0, this.codeID);
+				this.highlight(4, 0, this.methodName);
 				this.cmd(act.step);
-				this.unhighlight(4, 0, this.codeID);
+				this.unhighlight(4, 0, this.methodName);
 				if (this.visited[neighbor]) {
-					this.unhighlight(4, 0, this.codeID);
+					this.unhighlight(4, 0, this.methodName);
 					// this.highlightEdge(currVertex, neighbor, 1, 'blue');
 					this.cmd(
 						act.setText,
@@ -487,7 +471,7 @@ export default class DFS extends Graph {
 					this.cmd(act.step);
 					// this.highlightEdge(currVertex, neighbor, 0);
 				} else {
-					this.highlight(5, 0, this.codeID);
+					this.highlight(5, 0, this.methodName);
 					this.highlightEdge(currVertex, neighbor, 1, 'red');
 					this.cmd(
 						act.setText,
@@ -495,15 +479,15 @@ export default class DFS extends Graph {
 						'About to recurse to ' + this.toStr(neighbor),
 					);
 					this.cmd(act.step);
-					this.unhighlight(5, 0, this.codeID);
-					this.unhighlight(3, 0, this.codeID);
+					this.unhighlight(5, 0, this.methodName);
+					this.unhighlight(3, 0, this.methodName);
 
 					this.leaveVertex();
 					this.visitVertex(neighbor);
 					// this.highlightEdge(currVertex, neighbor, 0);
 
 					this.dfsVisit(neighbor, messageX + this.recursionSpacingX);
-					this.highlight(3, 0, this.codeID);
+					this.highlight(3, 0, this.methodName);
 
 					this.leaveVertex();
 					this.visitVertex(currVertex);
@@ -516,7 +500,7 @@ export default class DFS extends Graph {
 				}
 			}
 		}
-		this.unhighlight(3, 0, this.codeID);
+		this.unhighlight(3, 0, this.methodName);
 
 		this.cmd(act.delete, this.stackID.pop());
 	}
@@ -545,49 +529,49 @@ export default class DFS extends Graph {
 
 	// Add this new method in the class
 	/*openCreateGraphModal() {
-		// Create modal container
-		const modal = document.createElement('div');
-		modal.style.position = 'fixed';
-		modal.style.top = '50%';
-		modal.style.left = '50%';
-		modal.style.transform = 'translate(-50%, -50%)';
-		modal.style.zIndex = '1000';
-		modal.style.width = '80%';
-		modal.style.height = '80%';
-		modal.style.backgroundColor = '#fff';
-		modal.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
-		modal.style.padding = '20px';
-		modal.style.overflow = 'hidden';
+  // Create modal container
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '50%';
+  modal.style.left = '50%';
+  modal.style.transform = 'translate(-50%, -50%)';
+  modal.style.zIndex = '1000';
+  modal.style.width = '80%';
+  modal.style.height = '80%';
+  modal.style.backgroundColor = '#fff';
+  modal.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
+  modal.style.padding = '20px';
+  modal.style.overflow = 'hidden';
 
-		// Create iframe for the webpage
-		const iframe = document.createElement('iframe');
-		iframe.src = '../CreateGraph'; // Path to CreateGraph page
-		iframe.style.width = '100%';
-		iframe.style.height = '90%';
-		iframe.style.border = 'none';
+  // Create iframe for the webpage
+  const iframe = document.createElement('iframe');
+  iframe.src = '../CreateGraph'; // Path to CreateGraph page
+  iframe.style.width = '100%';
+  iframe.style.height = '90%';
+  iframe.style.border = 'none';
 
-		// Add iframe to modal
-		modal.appendChild(iframe);
+  // Add iframe to modal
+  modal.appendChild(iframe);
 
-		// Create a close button
-		const closeButton = document.createElement('button');
-		closeButton.innerText = 'Close';
-		closeButton.style.position = 'absolute';
-		closeButton.style.top = '10px';
-		closeButton.style.right = '10px';
-		closeButton.style.backgroundColor = '#f44336';
-		closeButton.style.color = '#fff';
-		closeButton.style.border = 'none';
-		closeButton.style.padding = '10px';
-		closeButton.style.cursor = 'pointer';
-		closeButton.onclick = () => {
-			document.body.removeChild(modal);
-		};
+  // Create a close button
+  const closeButton = document.createElement('button');
+  closeButton.innerText = 'Close';
+  closeButton.style.position = 'absolute';
+  closeButton.style.top = '10px';
+  closeButton.style.right = '10px';
+  closeButton.style.backgroundColor = '#f44336';
+  closeButton.style.color = '#fff';
+  closeButton.style.border = 'none';
+  closeButton.style.padding = '10px';
+  closeButton.style.cursor = 'pointer';
+  closeButton.onclick = () => {
+    document.body.removeChild(modal);
+  };
 
-		// Add close button to modal
-		modal.appendChild(closeButton);
+  // Add close button to modal
+  modal.appendChild(closeButton);
 
-		// Append modal to the document body
-		document.body.appendChild(modal);
-	}*/
+  // Append modal to the document body
+  document.body.appendChild(modal);
+}*/
 }

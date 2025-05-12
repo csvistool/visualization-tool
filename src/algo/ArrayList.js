@@ -32,7 +32,6 @@ import Algorithm, {
 	addLabelToAlgorithmBar,
 } from './Algorithm';
 import { act } from '../anim/AnimationMain';
-import pseudocodeText from '../pseudocode.json';
 
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
@@ -56,9 +55,6 @@ const PUSH_RESIZE_LABEL_Y = 55;
 
 const SIZE = 7;
 const MAX_SIZE = 30;
-
-const CODE_START_X = 70;
-const CODE_START_Y = 290;
 
 export default class ArrayList extends Algorithm {
 	constructor(am, w, h) {
@@ -253,8 +249,6 @@ export default class ArrayList extends Algorithm {
 		this.size = 0;
 		this.length = SIZE;
 		this.commands = [];
-
-		this.pseudocode = pseudocodeText.ArrayList;
 
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
@@ -469,32 +463,17 @@ export default class ArrayList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		if (!skipPseudocode) {
-			this.addFBCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addFB',
-				CODE_START_X,
-				CODE_START_Y,
-			);
-			this.addIndexCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addIndex',
-				CODE_START_X + 300,
-				CODE_START_Y,
-			);
-		}
-
 		const labPushID = this.nextIndex++;
 		const labPushValID = this.nextIndex++;
 
 		if (isAddFront) {
-			this.highlight(0, 0, this.addFBCodeID);
-			this.highlight(1, 0, this.addFBCodeID);
+			this.highlight(0, 0, 'addFB');
+			this.highlight(1, 0, 'addFB');
 		} else if (isAddBack) {
-			this.highlight(4, 0, this.addFBCodeID);
-			this.highlight(5, 0, this.addFBCodeID);
+			this.highlight(4, 0, 'addFB');
+			this.highlight(5, 0, 'addFB');
 		}
-		this.highlight(0, 0, this.addIndexCodeID);
+		this.highlight(0, 0, 'addIndex');
 
 		this.cmd(act.createLabel, labPushID, 'Adding Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
 		this.cmd(act.createLabel, labPushValID, elemToAdd, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
@@ -507,12 +486,12 @@ export default class ArrayList extends Algorithm {
 
 		this.arrayMoveID = new Array(this.size);
 
-		this.highlight(9, 0, this.addIndexCodeID);
+		this.highlight(9, 0, 'addIndex');
 		this.cmd(act.step);
 		if (index !== this.size) {
 			if (isAddFront || (isAddIndex && index !== 0)) {
-				this.highlight(10, 0, this.addIndexCodeID);
-				this.highlight(11, 0, this.addIndexCodeID);
+				this.highlight(10, 0, 'addIndex');
+				this.highlight(11, 0, 'addIndex');
 			}
 			for (let i = this.size - 1; i >= index; i--) {
 				const xpos = (i % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
@@ -540,10 +519,10 @@ export default class ArrayList extends Algorithm {
 			PUSH_ELEMENT_Y,
 		);
 		if (isAddFront || isAddIndex) {
-			this.unhighlight(10, 0, this.addIndexCodeID);
-			this.unhighlight(11, 0, this.addIndexCodeID);
+			this.unhighlight(10, 0, 'addIndex');
+			this.unhighlight(11, 0, 'addIndex');
 		}
-		this.highlight(12, 0, this.addIndexCodeID);
+		this.highlight(12, 0, 'addIndex');
 		this.cmd(act.step);
 
 		const xpos = (parseInt(index) % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
@@ -557,21 +536,21 @@ export default class ArrayList extends Algorithm {
 		this.cmd(act.setText, this.arrayID[index], elemToAdd);
 		this.cmd(act.delete, labPushValID);
 		this.cmd(act.delete, this.highlight1ID);
-		this.unhighlight(12, 0, this.addIndexCodeID);
-		this.unhighlight(9, 0, this.addIndexCodeID);
-		this.highlight(13, 0, this.addIndexCodeID);
+		this.unhighlight(12, 0, 'addIndex');
+		this.unhighlight(9, 0, 'addIndex');
+		this.highlight(13, 0, 'addIndex');
 		this.cmd(act.step);
 
 		this.cmd(act.delete, labPushID);
-		this.unhighlight(0, 0, this.addIndexCodeID);
-		this.unhighlight(13, 0, this.addIndexCodeID);
+		this.unhighlight(0, 0, 'addIndex');
+		this.unhighlight(13, 0, 'addIndex');
 		if (isAddFront) {
-			this.unhighlight(0, 0, this.addFBCodeID);
-			this.unhighlight(1, 0, this.addFBCodeID);
+			this.unhighlight(0, 0, 'addFB');
+			this.unhighlight(1, 0, 'addFB');
 		}
 		if (isAddBack) {
-			this.unhighlight(4, 0, this.addFBCodeID);
-			this.unhighlight(5, 0, this.addFBCodeID);
+			this.unhighlight(4, 0, 'addFB');
+			this.unhighlight(5, 0, 'addFB');
 		}
 		this.cmd(act.step);
 
@@ -583,11 +562,6 @@ export default class ArrayList extends Algorithm {
 
 		this.size = this.size + 1;
 
-		if (!skipPseudocode) {
-			this.removeCode(this.addFBCodeID);
-			this.removeCode(this.addIndexCodeID);
-		}
-
 		return this.commands;
 	}
 
@@ -595,31 +569,18 @@ export default class ArrayList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		this.removeFBCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeFB',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-		this.removeIndexCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeIndex',
-			CODE_START_X + 300,
-			CODE_START_Y,
-		);
-
 		if (isRemoveFront) {
-			this.highlight(0, 0, this.removeFBCodeID);
-			this.highlight(1, 0, this.removeFBCodeID);
+			this.highlight(0, 0, 'removeFB');
+			this.highlight(1, 0, 'removeFB');
 		} else if (isRemoveBack) {
-			this.highlight(4, 0, this.removeFBCodeID);
-			this.highlight(5, 0, this.removeFBCodeID);
+			this.highlight(4, 0, 'removeFB');
+			this.highlight(5, 0, 'removeFB');
 		}
-		this.highlight(0, 0, this.removeIndexCodeID);
+		this.highlight(0, 0, 'removeIndex');
 
 		this.cmd(act.step);
 
-		this.highlight(1, 0, this.removeIndexCodeID);
+		this.highlight(1, 0, 'removeIndex');
 
 		index = parseInt(index);
 		const labPopValID = this.nextIndex++;
@@ -634,8 +595,8 @@ export default class ArrayList extends Algorithm {
 		this.cmd(act.move, labPopValID, xpos, ypos - 55);
 		this.cmd(act.step);
 
-		this.unhighlight(1, 0, this.removeIndexCodeID);
-		this.highlight(2, 0, this.removeIndexCodeID);
+		this.unhighlight(1, 0, 'removeIndex');
+		this.highlight(2, 0, 'removeIndex');
 		this.cmd(act.delete, labPopValID);
 		this.cmd(act.delete, this.highlight1ID);
 		this.cmd(act.step);
@@ -647,11 +608,11 @@ export default class ArrayList extends Algorithm {
 
 		this.arrayMoveID = new Array(this.size);
 
-		this.unhighlight(2, 0, this.removeIndexCodeID);
+		this.unhighlight(2, 0, 'removeIndex');
 		if (isRemoveFront || isRemoveIndex) {
-			this.highlight(3, 0, this.removeIndexCodeID);
-			this.highlight(4, 0, this.removeIndexCodeID);
-			this.highlight(5, 0, this.removeIndexCodeID);
+			this.highlight(3, 0, 'removeIndex');
+			this.highlight(4, 0, 'removeIndex');
+			this.highlight(5, 0, 'removeIndex');
 		}
 
 		for (let i = index + 1; i < this.size; i++) {
@@ -664,28 +625,28 @@ export default class ArrayList extends Algorithm {
 		}
 		this.cmd(act.step);
 
-		this.unhighlight(3, 0, this.removeIndexCodeID);
-		this.unhighlight(4, 0, this.removeIndexCodeID);
-		this.unhighlight(5, 0, this.removeIndexCodeID);
-		this.highlight(6, 0, this.removeIndexCodeID);
+		this.unhighlight(3, 0, 'removeIndex');
+		this.unhighlight(4, 0, 'removeIndex');
+		this.unhighlight(5, 0, 'removeIndex');
+		this.highlight(6, 0, 'removeIndex');
 		for (let i = index + 1; i < this.size; i++) {
 			this.cmd(act.setText, this.arrayID[i - 1], this.arrayData[i - 1]);
 			this.cmd(act.delete, this.arrayMoveID[i]);
 		}
 		this.cmd(act.step);
-		this.unhighlight(6, 0, this.removeIndexCodeID);
-		this.highlight(7, 0, this.removeIndexCodeID);
+		this.unhighlight(6, 0, 'removeIndex');
+		this.highlight(7, 0, 'removeIndex');
 
 		this.cmd(act.step);
 
-		this.unhighlight(7, 0, this.removeIndexCodeID);
-		this.unhighlight(0, 0, this.removeIndexCodeID);
+		this.unhighlight(7, 0, 'removeIndex');
+		this.unhighlight(0, 0, 'removeIndex');
 		if (isRemoveFront) {
-			this.unhighlight(0, 0, this.removeFBCodeID);
-			this.unhighlight(1, 0, this.removeFBCodeID);
+			this.unhighlight(0, 0, 'removeFB');
+			this.unhighlight(1, 0, 'removeFB');
 		} else if (isRemoveBack) {
-			this.unhighlight(4, 0, this.removeFBCodeID);
-			this.unhighlight(5, 0, this.removeFBCodeID);
+			this.unhighlight(4, 0, 'removeFB');
+			this.unhighlight(5, 0, 'removeFB');
 		}
 
 		if (index != null) {
@@ -696,9 +657,6 @@ export default class ArrayList extends Algorithm {
 
 		this.size = this.size - 1;
 
-		this.removeCode(this.removeFBCodeID);
-		this.removeCode(this.removeIndexCodeID);
-
 		return this.commands;
 	}
 
@@ -706,35 +664,22 @@ export default class ArrayList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		this.addFBCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'addFB',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-		this.addIndexCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'addIndex',
-			CODE_START_X + 300,
-			CODE_START_Y,
-		);
-
 		const labPushID = this.nextIndex++;
 		const labPushValID = this.nextIndex++;
 		const labPushResizeID = this.nextIndex++;
 
 		if (isAddFront) {
-			this.highlight(0, 0, this.addFBCodeID);
-			this.highlight(1, 0, this.addFBCodeID);
-			this.highlight(0, 0, this.addIndexCodeID);
+			this.highlight(0, 0, 'addFB');
+			this.highlight(1, 0, 'addFB');
+			this.highlight(0, 0, 'addIndex');
 		}
 		if (isAddBack) {
-			this.highlight(4, 0, this.addFBCodeID);
-			this.highlight(5, 0, this.addFBCodeID);
-			this.highlight(0, 0, this.addIndexCodeID);
+			this.highlight(4, 0, 'addFB');
+			this.highlight(5, 0, 'addFB');
+			this.highlight(0, 0, 'addIndex');
 		}
 		if (isAddIndex) {
-			this.highlight(0, 0, this.addIndexCodeID);
+			this.highlight(0, 0, 'addIndex');
 		}
 		this.cmd(act.step);
 
@@ -747,7 +692,7 @@ export default class ArrayList extends Algorithm {
 			PUSH_RESIZE_LABEL_X,
 			PUSH_RESIZE_LABEL_Y,
 		);
-		this.highlight(1, 0, this.addIndexCodeID);
+		this.highlight(1, 0, 'addIndex');
 		this.cmd(act.step);
 
 		this.arrayIDNew = new Array(this.size * 2);
@@ -771,8 +716,8 @@ export default class ArrayList extends Algorithm {
 		this.highlight1ID = this.nextIndex++;
 
 		// Create new array
-		this.unhighlight(1, 0, this.addIndexCodeID);
-		this.highlight(2, 0, this.addIndexCodeID);
+		this.unhighlight(1, 0, 'addIndex');
+		this.highlight(2, 0, 'addIndex');
 		for (let i = 0; i < this.size * 2; i++) {
 			const xpos = (i % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + RESIZE_ARRAY_START_X;
 			const ypos =
@@ -794,9 +739,9 @@ export default class ArrayList extends Algorithm {
 		this.arrayMoveID = new Array(this.size);
 
 		//Move elements before index from old array
-		this.unhighlight(2, 0, this.addIndexCodeID);
-		this.highlight(3, 0, this.addIndexCodeID);
-		this.highlight(4, 0, this.addIndexCodeID);
+		this.unhighlight(2, 0, 'addIndex');
+		this.highlight(3, 0, 'addIndex');
+		this.highlight(4, 0, 'addIndex');
 		for (let i = 0; i < index; i++) {
 			const xposinit = (i % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 			const yposinit =
@@ -820,9 +765,9 @@ export default class ArrayList extends Algorithm {
 		}
 
 		//Add elemToAdd at the index
-		this.unhighlight(3, 0, this.addIndexCodeID);
-		this.unhighlight(4, 0, this.addIndexCodeID);
-		this.highlight(5, 0, this.addIndexCodeID);
+		this.unhighlight(3, 0, 'addIndex');
+		this.unhighlight(4, 0, 'addIndex');
+		this.highlight(5, 0, 'addIndex');
 		this.cmd(
 			act.createHighlightCircle,
 			this.highlight1ID,
@@ -848,10 +793,10 @@ export default class ArrayList extends Algorithm {
 		this.cmd(act.step);
 
 		//Move elements after index from old array
-		this.unhighlight(5, 0, this.addIndexCodeID);
+		this.unhighlight(5, 0, 'addIndex');
 		if (index < this.size) {
-			this.highlight(6, 0, this.addIndexCodeID);
-			this.highlight(7, 0, this.addIndexCodeID);
+			this.highlight(6, 0, 'addIndex');
+			this.highlight(7, 0, 'addIndex');
 		}
 		for (let i = index; i < this.size; i++) {
 			const xposinit = (i % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
@@ -889,9 +834,9 @@ export default class ArrayList extends Algorithm {
 			this.cmd(act.delete, this.arrayLabelID[i]);
 		}
 
-		this.unhighlight(6, 0, this.addIndexCodeID);
-		this.unhighlight(7, 0, this.addIndexCodeID);
-		this.highlight(8, 0, this.addIndexCodeID);
+		this.unhighlight(6, 0, 'addIndex');
+		this.unhighlight(7, 0, 'addIndex');
+		this.highlight(8, 0, 'addIndex');
 		for (let i = 0; i < this.size * 2; i++) {
 			const xpos = (i % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 			const ypos = Math.floor(i / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
@@ -899,23 +844,23 @@ export default class ArrayList extends Algorithm {
 			this.cmd(act.move, this.arrayLabelIDNew[i], xpos, ypos + ARRAY_ELEM_HEIGHT);
 		}
 		this.cmd(act.step);
-		this.unhighlight(8, 0, this.addIndexCodeID);
-		this.highlight(13, 0, this.addIndexCodeID);
+		this.unhighlight(8, 0, 'addIndex');
+		this.highlight(13, 0, 'addIndex');
 		this.cmd(act.step);
-		this.unhighlight(13, 0, this.addIndexCodeID);
+		this.unhighlight(13, 0, 'addIndex');
 
 		if (isAddFront) {
-			this.unhighlight(0, 0, this.addFBCodeID);
-			this.unhighlight(1, 0, this.addFBCodeID);
-			this.unhighlight(0, 0, this.addIndexCodeID);
+			this.unhighlight(0, 0, 'addFB');
+			this.unhighlight(1, 0, 'addFB');
+			this.unhighlight(0, 0, 'addIndex');
 		}
 		if (isAddBack) {
-			this.unhighlight(4, 0, this.addFBCodeID);
-			this.unhighlight(5, 0, this.addFBCodeID);
-			this.unhighlight(0, 0, this.addIndexCodeID);
+			this.unhighlight(4, 0, 'addFB');
+			this.unhighlight(5, 0, 'addFB');
+			this.unhighlight(0, 0, 'addIndex');
 		}
 		if (isAddIndex) {
-			this.unhighlight(0, 0, this.addIndexCodeID);
+			this.unhighlight(0, 0, 'addIndex');
 		}
 
 		this.arrayID = this.arrayIDNew;
@@ -927,9 +872,6 @@ export default class ArrayList extends Algorithm {
 		}
 
 		this.size = this.size + 1;
-
-		this.removeCode(this.addFBCodeID);
-		this.removeCode(this.addIndexCodeID);
 
 		return this.commands;
 	}

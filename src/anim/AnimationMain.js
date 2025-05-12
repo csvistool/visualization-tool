@@ -30,6 +30,8 @@
 /* global canvas */
 
 import {
+	UndoCodeHighlight,
+	UndoCodeUnhighlight,
 	UndoCreate,
 	UndoHighlight,
 	UndoHighlightEdge,
@@ -169,7 +171,7 @@ function addDivisorToAnimationBar(animBarRef) {
 }
 
 export default class AnimationManager extends EventListener {
-	constructor(canvasRef, animBarRef) {
+	constructor(canvasRef, animBarRef, setHighlightState, unhighlightLine) {
 		super();
 
 		this.objectManager = new ObjectManager(canvasRef);
@@ -182,6 +184,9 @@ export default class AnimationManager extends EventListener {
 		this.animationPaused = false;
 		this.awaitingStep = false;
 		this.currentlyAnimating = false;
+
+		this.setHighlightState = setHighlightState;
+		this.unhighlightLine = unhighlightLine;
 
 		// Array holding the code for the animation.  This is
 		// an array of strings, each of which is an animation command
@@ -1103,7 +1108,16 @@ export const act = {
 	setHighlight(params) {
 		// id, highlight, color
 		this.animatedObjects.setHighlight(params[0], params[1], params[2]);
+
 		this.undoBlock.push(new UndoHighlight(params[0], !params[1], params[2]));
+	},
+	highlightCodeLine([methodName, line]) {
+		this.setHighlightState(methodName, line);
+		this.undoBlock.push(new UndoCodeHighlight(this.unhighlightLine, methodName, line));
+	},
+	unhighlightCodeLine([methodName, line]) {
+		this.unhighlightLine(methodName, line);
+		this.undoBlock.push(new UndoCodeUnhighlight(this.setHighlightState, methodName, line));
 	},
 	setAlpha(params) {
 		// id, alpha
