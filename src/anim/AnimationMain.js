@@ -30,6 +30,8 @@
 /* global canvas */
 
 import {
+	UndoCodeHighlight,
+	UndoCodeUnhighlight,
 	UndoCreate,
 	UndoHighlight,
 	UndoHighlightEdge,
@@ -1111,9 +1113,11 @@ export const act = {
 	},
 	highlightCodeLine([methodName, line]) {
 		this.setHighlightState(methodName, line);
+		this.undoBlock.push(new UndoCodeHighlight(this.unhighlightLine, methodName, line));
 	},
 	unhighlightCodeLine([methodName, line]) {
 		this.unhighlightLine(methodName, line);
+		this.undoBlock.push(new UndoCodeUnhighlight(this.setHighlightState, methodName, line));
 	},
 	setAlpha(params) {
 		// id, alpha
