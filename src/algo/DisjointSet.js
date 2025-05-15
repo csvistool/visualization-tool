@@ -34,23 +34,23 @@ import Algorithm, {
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
-let ARRAY_START_X = 50;
-let ARRAY_WIDTH = 30;
-let ARRAY_HEIGHT = 30;
+const ARRAY_START_X = 50;
+const ARRAY_WIDTH = 30;
+const ARRAY_HEIGHT = 30;
 
-let TREE_START_X = 50;
-let TREE_START_Y = 450;
-let TREE_ELEM_WIDTH = 50;
-let TREE_ELEM_HEIGHT = 50; 
-let ARRAY_START_Y = 500;
+const TREE_START_X = 50;
+const TREE_START_Y = 450;
+const TREE_ELEM_WIDTH = 50;
+const TREE_ELEM_HEIGHT = 50; 
+const ARRAY_START_Y = 500;
 
-let SIZE = 16;
+const SIZE = 16;
 
-let LINK_COLOR = '#000000';
-let HIGHLIGHT_CIRCLE_COLOR = '#007700';
-let FOREGROUND_COLOR = '#000000';
-let BACKGROUND_COLOR = '#FFFFFF';
-let PRINT_COLOR = '#007700';
+
+const HIGHLIGHT_CIRCLE_COLOR = '#007700';
+const FOREGROUND_COLOR = '#000000';
+const BACKGROUND_COLOR = '#FFFFFF';
+
 
 
 
@@ -157,7 +157,7 @@ export default class DisjointSet extends Algorithm {
 
         addDivisorToAlgorithmBar();
 
-        let radioButtonList = addRadioButtonGroupToAlgorithmBar(["Rank = # of nodes", 
+        const radioButtonList = addRadioButtonGroupToAlgorithmBar(["Rank = # of nodes", 
         "Rank = estimated height", 
         ], 
         "RankType");
@@ -201,7 +201,7 @@ export default class DisjointSet extends Algorithm {
 	}
 
     setup(){
-        this.commands = new Array();
+        this.commands = [];
 
         for (let i = 0; i < SIZE; i++)
         {
@@ -234,34 +234,34 @@ export default class DisjointSet extends Algorithm {
     }
     
     rankTypeChangedCallback(rankAsHeight){
-        if (this.rankAsHeight != rankAsHeight)
+        if (this.rankAsHeight !== rankAsHeight)
         {
                 this.implementAction(this.changeRankType.bind(this),  rankAsHeight);
         }
     }
 
     pathCompressionChangeCallback(){
-        if (this.pathCompression != this.pathCompressionBox.checked)
+        if (this.pathCompression !== this.pathCompressionBox.checked)
 	    {
 		this.implementAction(this.changePathCompression.bind(this), this.pathCompressionBox.checked);
     	}
     }
 
     unionByRankChangeCallback(){
-        if (this.unionByRank != this.unionByRankBox.checked)
+        if (this.unionByRank !== this.unionByRankBox.checked)
         {
             this.implementAction(this.changeUnionByRank.bind(this), this.unionByRankBox.checked);
         }
     }
 
     changeRankType(newValue){
-        this.commands = new Array();
+        this.commands = [];
         this.rankAsHeight = newValue		
-        if (this.rankNumberOfNodesButton.checked == this.rankAsHeight)
+        if (this.rankNumberOfNodesButton.checked === this.rankAsHeight)
         {
             this.rankNumberOfNodesButton.checked = !this.rankAsHeight;
         }
-        if (this.rankEstimatedHeightButton.checked != this.rankAsHeight)
+        if (this.rankEstimatedHeightButton.checked !== this.rankAsHeight)
         {
             this.rankEstimatedHeightButton.checked = this.rankAsHeight;
         }
@@ -274,10 +274,10 @@ export default class DisjointSet extends Algorithm {
     }
 
     changeUnionByRank(newValue){
-        this.commands = new Array();
+        this.commands = [];
         this.cmd(act.step);
         this.pathCompression = newValue;
-        if (this.pathCompressionBox.selected != this.pathCompression)
+        if (this.pathCompressionBox.selected !== this.pathCompression)
         {
             this.pathCompressionBox.selected = this.pathCompression;
         }
@@ -287,10 +287,10 @@ export default class DisjointSet extends Algorithm {
     }
 
     changePathCompression(newValue){
-        this.commands = new Array();
+        this.commands = [];
         this.cmd(act.step);
         this.pathCompression = newValue;
-        if (this.pathCompressionBox.selected != this.pathCompression)
+        if (this.pathCompressionBox.selected !== this.pathCompression)
         {
             this.pathCompressionBox.selected = this.pathCompression;
         }
@@ -300,8 +300,8 @@ export default class DisjointSet extends Algorithm {
     }
 
     findCallback(){	
-        let findValue = this.findField.value;
-        if (findValue != "" && parseInt(findValue) < SIZE)
+        const findValue = this.findField.value;
+        if (findValue !== "" && parseInt(findValue) < SIZE)
         {
             this.findField.value = "";
             this.implementAction(this.findElement.bind(this), findValue);
@@ -313,13 +313,13 @@ export default class DisjointSet extends Algorithm {
     }
 
     clearData(){
-        this.commands = new Array();
+        this.commands = [];
         this.clearAll();
         return this.commands;	
     }
 
     getSizes(){
-        let sizes = new Array(SIZE);
+        const sizes = new Array(SIZE);
 	
         for (let i = 0; i < SIZE; i++)
         {
@@ -342,9 +342,7 @@ export default class DisjointSet extends Algorithm {
         return sizes;
     }
 
-    rebuildRootValue(){
-        let changed = false;
-	
+    rebuildRootValue(){	
         if (this.unionByRank)
         {
             let sizes;
@@ -384,12 +382,12 @@ export default class DisjointSet extends Algorithm {
     }
 
     unionCallback(){
-        let union1 = this.union1Field.value;
-        let union2 = this.union2Field.value;
+        const union1 = this.union1Field.value;
+        const union2 = this.union2Field.value;
         
         
-        if ( union1 != "" && parseInt(union1) < SIZE && 
-             union2 != "" && parseInt(union2) < SIZE)
+        if ( union1 !== "" && parseInt(union1) < SIZE && 
+             union2 !== "" && parseInt(union2) < SIZE)
         {
             this.union1Field.value = "";
             this.union2Field.value = "";
@@ -415,14 +413,14 @@ export default class DisjointSet extends Algorithm {
     }
 
     findElement(findValue){
-        this.commands = new Array();
+        this.commands = [];
 	
 
-        let found = this.doFind(parseInt(findValue));
+        this.doFind(parseInt(findValue));
         
         if (this.pathCompression)
         {
-            let changed = this.adjustHeights();
+            const changed = this.adjustHeights();
             if (changed)
             {
                 this.animateNewPositions();
@@ -439,10 +437,10 @@ export default class DisjointSet extends Algorithm {
         this.cmd(act.setHighlight, this.arrayID[elem], 0);
         if (this.setData[elem] >= 0)
         {
-            let treeRoot = this.doFind(this.setData[elem]);
+            const treeRoot = this.doFind(this.setData[elem]);
             if (this.pathCompression)
             {
-                if (this.setData[elem] != treeRoot)
+                if (this.setData[elem] !== treeRoot)
                 {
                     this.cmd(act.disconnect, this.treeID[elem], this.treeID[this.setData[elem]]);
                     this.setData[elem] = treeRoot;
@@ -471,31 +469,31 @@ export default class DisjointSet extends Algorithm {
 
     adjustXPos(pos1, pos2){
         let left1 = this.treeIndexToLocation[pos1];
-        while (left1 > 0 && this.findRoot(this.locationToTreeIndex[left1 - 1]) == pos1)
+        while (left1 > 0 && this.findRoot(this.locationToTreeIndex[left1 - 1]) === pos1)
         {
             left1--;
         }
         let right1 = this.treeIndexToLocation[pos1];
-        while (right1 < SIZE - 1 && this.findRoot(this.locationToTreeIndex[right1 + 1]) == pos1)
+        while (right1 < SIZE - 1 && this.findRoot(this.locationToTreeIndex[right1 + 1]) === pos1)
         {
             right1++;
         }
         let left2 = this.treeIndexToLocation[pos2];
-        while (left2 > 0 && this.findRoot(this.locationToTreeIndex[left2-1]) == pos2)
+        while (left2 > 0 && this.findRoot(this.locationToTreeIndex[left2-1]) === pos2)
         {
             left2--;
         }
         let right2 = this.treeIndexToLocation[pos2];
-        while (right2 < SIZE - 1 && this.findRoot(this.locationToTreeIndex[right2 + 1]) == pos2)
+        while (right2 < SIZE - 1 && this.findRoot(this.locationToTreeIndex[right2 + 1]) === pos2)
         {
             right2++;
         }
-        if (right1 == left2-1)
+        if (right1 === left2-1)
         {
             return false;
         }
         
-        let tmpLocationToTreeIndex = new Array(SIZE);
+        const tmpLocationToTreeIndex = new Array(SIZE);
         let nextInsertIndex = 0;
         for (let i = 0; i <= right1; i++)
         {
@@ -525,8 +523,8 @@ export default class DisjointSet extends Algorithm {
     }
 
     doUnion(value){
-        this.commands = new Array();
-        let args = value.split(";");
+        this.commands = [];
+        const args = value.split(";");
         let arg1 = this.doFind(parseInt(args[0]));
     
         this.cmd(act.createHighlightCircle, this.highlight1ID, HIGHLIGHT_CIRCLE_COLOR, TREE_START_X + this.treeIndexToLocation[arg1] * TREE_ELEM_WIDTH, this.treeY[arg1]);
@@ -536,7 +534,7 @@ export default class DisjointSet extends Algorithm {
         this.cmd(act.createHighlightCircle, this.highlight2ID, HIGHLIGHT_CIRCLE_COLOR, TREE_START_X + this.treeIndexToLocation[arg2] * TREE_ELEM_WIDTH, this.treeY[arg2]);
         
         
-        if (arg1 == arg2)
+        if (arg1 === arg2)
         {
             this.cmd(act.delete, this.highlight1ID);
             this.cmd(act.delete, this.highlight2ID);
@@ -557,14 +555,14 @@ export default class DisjointSet extends Algorithm {
         
         if (this.unionByRank && this.setData[arg1] < this.setData[arg2])
         {
-            let tmp = arg1;
+            const tmp = arg1;
             arg1 = arg2;
             arg2 = tmp;
         }
     
         if (this.unionByRank && this.rankAsHeight)
         {
-            if (this.setData[arg2] == this.setData[arg1])
+            if (this.setData[arg2] === this.setData[arg1])
             {
                 this.setData[arg2] -= 1;
             }
@@ -638,8 +636,8 @@ export default class DisjointSet extends Algorithm {
         }
         for (let i = 0; i < SIZE; i++)
         {
-            let newY = TREE_START_Y - this.heights[i] * TREE_ELEM_HEIGHT;
-            if (this.treeY[i] != newY)
+            const newY = TREE_START_Y - this.heights[i] * TREE_ELEM_HEIGHT;
+            if (this.treeY[i] !== newY)
             {
                 this.treeY[i] = newY;
                 changed = true;
