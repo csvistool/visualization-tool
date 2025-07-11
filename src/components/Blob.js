@@ -37,7 +37,7 @@ const Blob = () => {
 	};
 
 	return (
-		<div onMouseDown={handleClick}>
+		<div onMouseDown={handleClick} style={{ position: 'relative' }}>
 			{shouldPlaySound && (
 				<audio src={blobSound} autoPlay onEnded={() => setShouldPlaySound(false)} />
 			)}
