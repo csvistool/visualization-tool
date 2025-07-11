@@ -221,24 +221,23 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 							</>
 						) : (
 							<>{header}</>
+						)}					<div id="toggle">
+						{theme === 'light' ? (
+							<BsFillSunFill
+								size={24}
+								onClick={toggleTheme}
+								color="#f9c333"
+								className="rotate-effect"
+							/>
+						) : (
+							<BsMoonFill
+								size={22}
+								onClick={toggleTheme}
+								color="#d4f1f1"
+								className="rotate-effect"
+							/>
 						)}
-						<div id="toggle">
-							{theme === 'light' ? (
-								<BsFillSunFill
-									size={31}
-									onClick={toggleTheme}
-									color="#f9c333"
-									className="rotate-effect"
-								/>
-							) : (
-								<BsMoonFill
-									size={29}
-									onClick={toggleTheme}
-									color="#d4f1f1"
-									className="rotate-effect"
-								/>
-							)}
-						</div>
+					</div>
 					</h1>
 				</div>
 
