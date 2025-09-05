@@ -857,7 +857,7 @@
 		}
 	},
 
-	"Heap": {
+	"Removed_Heap": {
 		"Add": {
 			"worst": {
 				"big_o": "O(log n)*",
