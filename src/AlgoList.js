@@ -104,11 +104,11 @@ export const algoList = [
 	'Dijkstra',
 	'Prim',
 	'Kruskal',
-	'DisjointSet',
 	'LCS',
 	'---',
 	'DP & Extras',
 	'CreateGraph',
+	'DisjointSet',
 	'SplayTree',
 	'Floyd',
 	'DropSort',
@@ -329,10 +329,6 @@ export const algoFilter = [
 		category: 'Graph Algorithms',
 	},
 	{
-		id: "DisjointSet",
-		category: 'Graph Algorithms'
-	},
-	{
 		id: 'LCS',
 		category: 'DP & Extras',
 	},
@@ -343,6 +339,10 @@ export const algoFilter = [
 	{
 		id: 'CreateGraph',
 		category: 'DP & Extras',
+	},
+	{
+		id: "DisjointSet",
+		category: 'DP & Extras'
 	},
 	{
 		id: 'SplayTree',
