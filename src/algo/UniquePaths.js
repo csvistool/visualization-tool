@@ -27,8 +27,8 @@
 import Algorithm, {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
-	addLabelToAlgorithmBar,
 	addDropDownGroupToAlgorithmBar,
+	addLabelToAlgorithmBar,
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
@@ -44,7 +44,6 @@ const TREE_START_X = 450;
 const TREE_START_Y = 100;
 const TREE_NODE_WIDTH = 80;
 const TREE_NODE_HEIGHT = 30;
-const TREE_LEVEL_HEIGHT = 60;
 
 const CODE_START_X = 25;
 const CODE_START_Y = 350;
@@ -192,6 +191,9 @@ export default class UniquePaths extends Algorithm {
 				break;
 			case 'dp':
 				this.solveDP();
+				break;
+			default:
+				this.solveRecursive();
 				break;
 		}
 
