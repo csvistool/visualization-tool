@@ -877,7 +877,7 @@
 			"best": {
 				"big_o": "O(1)",
 				"explanation": "In the best case, the newly added data belongs in the leaf level and does not have to be bubbled up.",
-				"example": "???"
+				"example": "Add 3 to [10,5,4]: becomes [10,5,4,3]"
 			}
 		},
 		"Remove": {

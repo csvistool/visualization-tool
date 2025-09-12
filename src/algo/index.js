@@ -44,3 +44,4 @@ export { default as FredSort } from './FredSort';
 export { default as DropSort } from './DropSort';
 export { default as SleepSort } from './SleepSort';
 export { default as CreateGraph } from './CreateGraph';
+export { default as UniquePaths } from './UniquePaths';
