@@ -56,6 +56,7 @@ export const algoMap = {
 	Kruskal: ["Kruskal's", algos.Kruskals, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
+	UniquePaths: ['UniquePaths', algos.UniquePaths, true, 'Unique Paths (Dynamic Programming)'],
 };
 
 const aprilFoolsAlgos = ['LVA', 'NonLinearProbing'];
@@ -106,6 +107,7 @@ export const algoList = [
 	'LCS',
 	'---',
 	'DP & Extras',
+	'UniquePaths',
 	'CreateGraph',
 	'SplayTree',
 	'Floyd',
