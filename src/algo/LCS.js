@@ -40,9 +40,6 @@ const TABLE_ELEM_HEIGHT = 30;
 const TABLE_START_X = 645;
 const TABLE_START_Y = 80;
 
-const CODE_START_X = 25;
-const CODE_START_Y = 50;
-
 const LCS_CELL_COLOR = '#99CCFF';
 const MAX_SEQUENCE_LENGTH = 13;
 
@@ -50,6 +47,8 @@ const SEQUENCE_START_X = 20;
 const SEQUENCE_START_Y = 475;
 const SEQUENCE_DELTA_X = 10;
 
+// TODO: LCS pseudocode was previously commented out, should be addressed
+// in future PR
 export default class LCS extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
@@ -110,37 +109,6 @@ export default class LCS extends Algorithm {
 	setup() {
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
-
-		this.code = [
-			['procedure ', 'LCS(S1, S2, matrix)'],
-			['  matrix ← create new 2D array of length S1.length by S2.length'],
-			['  for y ← 1, to S1.length, loop'],
-			['    for x ← 1 to S2.length, loop'],
-			['      if ', '(S1[y] == S2[x])'],
-			['        matrix[y][x] = 1 + ', 'matrix[y - 1][x - 1]'],
-			['      else'],
-			['        matrix[y][x] = max(', 'matrix[y - 1][x]', ',', ' matrix[y][x - 1]', ')'],
-			['    end for'],
-			['  end for'],
-			['  currY ← S1.length'],
-			['  currX ← S2.length'],
-			['  list ← create new List()'],
-			['  while currY > 0 and currX > 0, loop:'],
-			[['   if '], ['matrix[currY - 1][currX] == matrix[currY][currX - 1] ']],
-			[['      and '], ['matrix[currY][currX] != matrix [currY - 1][currX - 1]']],
-			['        list.addFront(S1[currY])'],
-			['        currX--'],
-			['        currY--'],
-			['   else'],
-			[['     if '], ['matrix[currY - 1][currX] > matrix[currY][currX - 1]']],
-			['       currX--'],
-			['      else'],
-			['        currY--'],
-			['  end while'],
-			['end procedure'],
-		];
-
-		this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 
 		// this.codeID = Array(this.code.length);
 		// let i, j;

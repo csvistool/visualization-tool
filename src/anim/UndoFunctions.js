@@ -70,6 +70,33 @@ export class UndoCreate extends UndoBlock {
 	}
 }
 
+export class UndoCodeUnhighlight extends UndoBlock {
+	constructor(highlightCodeLine, methodName, line) {
+		super();
+		this.methodName = methodName;
+		this.line = line;
+		this.highlightCodeLine = highlightCodeLine;
+	}
+
+	undoInitialStep() {
+		this.highlightCodeLine(this.methodName, this.line);
+	}
+}
+
+export class UndoCodeHighlight extends UndoBlock {
+	constructor(unhighlightCodeLine, methodName, line) {
+		super();
+		this.methodName = methodName;
+		this.line = line;
+		this.unhighlightCodeLine = unhighlightCodeLine;
+	}
+
+	undoInitialStep() {
+		console.log('undoing highlight code line');
+		this.unhighlightCodeLine(this.methodName, this.line);
+	}
+}
+
 export class UndoHighlight extends UndoBlock {
 	constructor(id, val, color) {
 		super();

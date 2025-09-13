@@ -48,9 +48,6 @@ const ARRAY_ELEM_HEIGHT = 50;
 const COMP_COUNT_X = 100;
 const COMP_COUNT_Y = 50;
 
-const CODE_START_X = 50;
-const CODE_START_Y = 80;
-
 // const ARRRAY_ELEMS_PER_LINE = 15;
 
 // const TOP_POS_X = 180;
@@ -156,12 +153,6 @@ export default class MergeSort extends Algorithm {
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
 		this.pseudocode = pseudocodeText.MergeSort;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'find',
-			CODE_START_X,
-			CODE_START_Y,
-		);
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);
@@ -256,7 +247,7 @@ export default class MergeSort extends Algorithm {
 			return this.commands;
 		}
 
-		this.highlight(0, 0, this.codeID);
+		this.highlight(0, 0, 'find');
 
 		this.arrayID = [];
 		this.arrayData = list
@@ -299,21 +290,21 @@ export default class MergeSort extends Algorithm {
 			);
 		}
 		this.cmd(act.step);
-		this.unhighlight(0, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
 
 		if (this.arrayData.length !== 1) {
-			this.highlight(2, 0, this.codeID);
-			this.highlight(3, 0, this.codeID);
+			this.highlight(2, 0, 'find');
+			this.highlight(3, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(2, 0, this.codeID);
-			this.unhighlight(3, 0, this.codeID);
+			this.unhighlight(2, 0, 'find');
+			this.unhighlight(3, 0, 'find');
 			const mid = Math.ceil((this.arrayData.length - 1) / 2);
-			this.highlight(4, 0, this.codeID);
+			this.highlight(4, 0, 'find');
 			this.leftHelper(0, mid - 1, -LARGE_OFFSET, 0, 1);
-			this.unhighlight(4, 0, this.codeID);
-			this.highlight(5, 0, this.codeID);
+			this.unhighlight(4, 0, 'find');
+			this.highlight(5, 0, 'find');
 			this.rightHelper(mid, this.arrayData.length - 1, LARGE_OFFSET, 0, 1);
-			this.unhighlight(5, 0, this.codeID);
+			this.unhighlight(5, 0, 'find');
 			this.merge(
 				0,
 				this.arrayData.length - 1,
@@ -335,27 +326,27 @@ export default class MergeSort extends Algorithm {
 	leftHelper(left, right, offset, prevOffset, row) {
 		this.cmd(act.step);
 		if (left > right) return;
-		this.unhighlight(4, 0, this.codeID);
-		this.unhighlight(5, 0, this.codeID);
-		this.highlight(0, 0, this.codeID);
+		this.unhighlight(4, 0, 'find');
+		this.unhighlight(5, 0, 'find');
+		this.highlight(0, 0, 'find');
 
 		const tempArrayID = this.drawArrayAndCopy(left, right, offset, prevOffset, row);
-		this.unhighlight(0, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
 
 		if (left !== right) {
-			this.highlight(2, 0, this.codeID);
-			this.highlight(3, 0, this.codeID);
+			this.highlight(2, 0, 'find');
+			this.highlight(3, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(2, 0, this.codeID);
-			this.unhighlight(3, 0, this.codeID);
+			this.unhighlight(2, 0, 'find');
+			this.unhighlight(3, 0, 'find');
 			const mid = Math.ceil((left + right) / 2);
 			const extraOffset = row < 2 ? 2 * LARGE_OFFSET : 2 * SMALL_OFFSET;
-			this.highlight(4, 0, this.codeID);
+			this.highlight(4, 0, 'find');
 			this.leftHelper(left, mid - 1, offset - extraOffset, offset, row + 1);
-			this.unhighlight(4, 0, this.codeID);
-			this.highlight(5, 0, this.codeID);
+			this.unhighlight(4, 0, 'find');
+			this.highlight(5, 0, 'find');
 			this.leftHelper(mid, right, offset, offset, row + 1);
-			this.unhighlight(5, 0, this.codeID);
+			this.unhighlight(5, 0, 'find');
 			this.merge(left, right, mid, row, offset, offset - extraOffset, offset, tempArrayID);
 		} else {
 			this.cmd(act.setBackgroundColor, tempArrayID[left], '#2ECC71');
@@ -366,27 +357,27 @@ export default class MergeSort extends Algorithm {
 	rightHelper(left, right, offset, prevOffset, row) {
 		this.cmd(act.step);
 		if (left > right) return;
-		this.unhighlight(4, 0, this.codeID);
-		this.unhighlight(5, 0, this.codeID);
-		this.highlight(0, 0, this.codeID);
+		this.unhighlight(4, 0, 'find');
+		this.unhighlight(5, 0, 'find');
+		this.highlight(0, 0, 'find');
 
 		const tempArrayID = this.drawArrayAndCopy(left, right, offset, prevOffset, row);
-		this.unhighlight(0, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
 
 		if (left !== right) {
-			this.highlight(2, 0, this.codeID);
-			this.highlight(3, 0, this.codeID);
+			this.highlight(2, 0, 'find');
+			this.highlight(3, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(2, 0, this.codeID);
-			this.unhighlight(3, 0, this.codeID);
+			this.unhighlight(2, 0, 'find');
+			this.unhighlight(3, 0, 'find');
 			const mid = Math.ceil((left + right) / 2);
 			const extraOffset = row < 2 ? 2 * LARGE_OFFSET : 2 * SMALL_OFFSET;
-			this.highlight(4, 0, this.codeID);
+			this.highlight(4, 0, 'find');
 			this.rightHelper(left, mid - 1, offset, offset, row + 1);
-			this.unhighlight(4, 0, this.codeID);
-			this.highlight(5, 0, this.codeID);
+			this.unhighlight(4, 0, 'find');
+			this.highlight(5, 0, 'find');
 			this.rightHelper(mid, right, offset + extraOffset, offset, row + 1);
-			this.unhighlight(5, 0, this.codeID);
+			this.unhighlight(5, 0, 'find');
 			this.merge(left, right, mid, row, offset, offset, offset + extraOffset, tempArrayID);
 		} else {
 			this.cmd(act.setBackgroundColor, tempArrayID[left], '#2ECC71');
@@ -443,7 +434,7 @@ export default class MergeSort extends Algorithm {
 			tempDisplay[i] = this.displayData[i];
 		}
 
-		this.highlight(6, 0, this.codeID);
+		this.highlight(6, 0, 'find');
 
 		// Create pointers
 		const bottomYPos = ARRAY_START_Y + (row + 1) * ARRAY_LINE_SPACING;
@@ -459,8 +450,8 @@ export default class MergeSort extends Algorithm {
 		this.cmd(act.createHighlightCircle, kPointerID, '#0000FF', kXPos, topYPos);
 		this.cmd(act.step);
 
-		this.unhighlight(6, 0, this.codeID);
-		this.highlight(7, 0, this.codeID);
+		this.unhighlight(6, 0, 'find');
+		this.highlight(7, 0, 'find');
 		this.cmd(act.step);
 		// Merge data and animate
 		let i = left;
@@ -468,11 +459,11 @@ export default class MergeSort extends Algorithm {
 		let k = left;
 		while (i < mid && j <= right) {
 			this.cmd(act.setText, this.comparisonCountID, 'Comparison Count: ' + ++this.compCount);
-			this.highlight(8, 0, this.codeID);
+			this.highlight(8, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(8, 0, this.codeID);
+			this.unhighlight(8, 0, 'find');
 			if (tempArray[i] <= tempArray[j]) {
-				this.highlight(9, 0, this.codeID);
+				this.highlight(9, 0, 'find');
 				this.copyData(
 					i,
 					k,
@@ -484,21 +475,21 @@ export default class MergeSort extends Algorithm {
 					currArrayID[k],
 					iPointerID,
 				);
-				this.unhighlight(9, 0, this.codeID);
+				this.unhighlight(9, 0, 'find');
 				this.arrayData[k] = tempArray[i];
 				this.displayData[k] = tempDisplay[i];
 				i++;
-				this.highlight(10, 0, this.codeID);
+				this.highlight(10, 0, 'find');
 				if (i < mid) {
 					this.movePointer(i, row + 1, leftOffset, iPointerID);
 				}
 				this.cmd(act.step);
-				this.unhighlight(10, 0, this.codeID);
+				this.unhighlight(10, 0, 'find');
 			} else {
-				this.highlight(11, 0, this.codeID);
+				this.highlight(11, 0, 'find');
 				this.cmd(act.step);
-				this.unhighlight(11, 0, this.codeID);
-				this.highlight(12, 0, this.codeID);
+				this.unhighlight(11, 0, 'find');
+				this.highlight(12, 0, 'find');
 				this.copyData(
 					j,
 					k,
@@ -510,29 +501,29 @@ export default class MergeSort extends Algorithm {
 					currArrayID[k],
 					jPointerID,
 				);
-				this.unhighlight(12, 0, this.codeID);
+				this.unhighlight(12, 0, 'find');
 				this.arrayData[k] = tempArray[j];
 				this.displayData[k] = tempDisplay[j];
 				j++;
-				this.highlight(13, 0, this.codeID);
+				this.highlight(13, 0, 'find');
 				if (j <= right) {
 					this.movePointer(j, row + 1, rightOffset, jPointerID);
 				}
 				this.cmd(act.step);
 
-				this.unhighlight(13, 0, this.codeID);
+				this.unhighlight(13, 0, 'find');
 			}
 			k++;
-			this.highlight(15, 0, this.codeID);
+			this.highlight(15, 0, 'find');
 			this.movePointer(k, row, currOffset, kPointerID);
 			this.cmd(act.step);
-			this.unhighlight(15, 0, this.codeID);
+			this.unhighlight(15, 0, 'find');
 		}
-		this.unhighlight(7, 0, this.codeID);
-		this.highlight(17, 0, this.codeID);
+		this.unhighlight(7, 0, 'find');
+		this.highlight(17, 0, 'find');
 		this.cmd(act.step);
 		while (i < mid) {
-			this.highlight(18, 0, this.codeID);
+			this.highlight(18, 0, 'find');
 			this.copyData(
 				i,
 				k,
@@ -544,9 +535,9 @@ export default class MergeSort extends Algorithm {
 				currArrayID[k],
 				iPointerID,
 			);
-			this.unhighlight(18, 0, this.codeID);
-			this.highlight(19, 0, this.codeID);
-			this.highlight(20, 0, this.codeID);
+			this.unhighlight(18, 0, 'find');
+			this.highlight(19, 0, 'find');
+			this.highlight(20, 0, 'find');
 			this.arrayData[k] = tempArray[i];
 			this.displayData[k] = tempDisplay[i];
 			k++;
@@ -556,14 +547,14 @@ export default class MergeSort extends Algorithm {
 				this.movePointer(k, row, currOffset, kPointerID);
 			}
 			this.cmd(act.step);
-			this.unhighlight(19, 0, this.codeID);
-			this.unhighlight(20, 0, this.codeID);
+			this.unhighlight(19, 0, 'find');
+			this.unhighlight(20, 0, 'find');
 		}
-		this.unhighlight(17, 0, this.codeID);
-		this.highlight(22, 0, this.codeID);
+		this.unhighlight(17, 0, 'find');
+		this.highlight(22, 0, 'find');
 		this.cmd(act.step);
 		while (j <= right) {
-			this.highlight(23, 0, this.codeID);
+			this.highlight(23, 0, 'find');
 			this.copyData(
 				j,
 				k,
@@ -575,9 +566,9 @@ export default class MergeSort extends Algorithm {
 				currArrayID[k],
 				jPointerID,
 			);
-			this.unhighlight(23, 0, this.codeID);
-			this.highlight(24, 0, this.codeID);
-			this.highlight(25, 0, this.codeID);
+			this.unhighlight(23, 0, 'find');
+			this.highlight(24, 0, 'find');
+			this.highlight(25, 0, 'find');
 			this.arrayData[k] = tempArray[j];
 			this.displayData[k] = tempDisplay[j];
 			j++;
@@ -588,10 +579,10 @@ export default class MergeSort extends Algorithm {
 			}
 			this.cmd(act.step);
 
-			this.unhighlight(24, 0, this.codeID);
-			this.unhighlight(25, 0, this.codeID);
+			this.unhighlight(24, 0, 'find');
+			this.unhighlight(25, 0, 'find');
 		}
-		this.unhighlight(22, 0, this.codeID);
+		this.unhighlight(22, 0, 'find');
 
 		// Delete pointers
 		this.cmd(act.delete, iPointerID);

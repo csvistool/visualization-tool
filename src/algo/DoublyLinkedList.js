@@ -67,9 +67,6 @@ const POINTER_ELEM_HEIGHT = 30;
 
 const SIZE = 32;
 
-const CODE_START_X = 135;
-const CODE_START_Y = 230;
-
 export default class DoublyLinkedList extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
@@ -477,43 +474,22 @@ export default class DoublyLinkedList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		if (!skipPseudocode) {
-			this.addIndexCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addIndex',
-				CODE_START_X,
-				CODE_START_Y,
-			);
-			this.addFrontCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addFront',
-				CODE_START_X + 325,
-				CODE_START_Y,
-			);
-			this.addBackCodeID = this.addCodeToCanvasBaseAll(
-				this.pseudocode,
-				'addBack',
-				CODE_START_X + 620,
-				CODE_START_Y,
-			);
-		}
-
 		if (isAddFront) {
-			this.highlight(0, 0, this.addFrontCodeID);
+			this.highlight(0, 0, 'addFront');
 		} else if (isAddBack) {
-			this.highlight(0, 0, this.addBackCodeID);
+			this.highlight(0, 0, 'addBack');
 		} else if (isAddIndex) {
-			this.highlight(0, 0, this.addIndexCodeID);
+			this.highlight(0, 0, 'addIndex');
 		}
 
 		if (isAddIndex && index === 0) {
-			this.highlight(1, 0, this.addIndexCodeID);
-			this.highlight(2, 0, this.addIndexCodeID);
-			this.highlight(0, 0, this.addFrontCodeID);
+			this.highlight(1, 0, 'addIndex');
+			this.highlight(2, 0, 'addIndex');
+			this.highlight(0, 0, 'addFront');
 		} else if (isAddIndex && index === this.size) {
-			this.highlight(3, 0, this.addIndexCodeID);
-			this.highlight(4, 0, this.addIndexCodeID);
-			this.highlight(0, 0, this.addBackCodeID);
+			this.highlight(3, 0, 'addIndex');
+			this.highlight(4, 0, 'addIndex');
+			this.highlight(0, 0, 'addBack');
 		}
 
 		this.cmd(act.step);
@@ -524,17 +500,17 @@ export default class DoublyLinkedList extends Algorithm {
 		// iterate to the correct node if it is an index != 0 or size
 		const indexToTraverseTo = index - 1;
 		if (index > 0 && index < this.size) {
-			this.highlight(5, 0, this.addIndexCodeID);
+			this.highlight(5, 0, 'addIndex');
 			if (isAddIndex && index < this.size / 2) {
-				this.highlight(6, 0, this.addIndexCodeID);
-				this.highlight(7, 0, this.addIndexCodeID);
-				this.highlight(8, 0, this.addIndexCodeID);
-				this.highlight(9, 0, this.addIndexCodeID);
+				this.highlight(6, 0, 'addIndex');
+				this.highlight(7, 0, 'addIndex');
+				this.highlight(8, 0, 'addIndex');
+				this.highlight(9, 0, 'addIndex');
 			} else {
-				this.highlight(10, 0, this.addIndexCodeID);
-				this.highlight(11, 0, this.addIndexCodeID);
-				this.highlight(12, 0, this.addIndexCodeID);
-				this.highlight(13, 0, this.addIndexCodeID);
+				this.highlight(10, 0, 'addIndex');
+				this.highlight(11, 0, 'addIndex');
+				this.highlight(12, 0, 'addIndex');
+				this.highlight(13, 0, 'addIndex');
 			}
 			this.addTraverse(indexToTraverseTo);
 		}
@@ -551,25 +527,25 @@ export default class DoublyLinkedList extends Algorithm {
 		this.cmd(act.step);
 
 		if ((isAddFront || (isAddIndex && index === 0)) && this.size === 0) {
-			this.highlight(1, 0, this.addFrontCodeID);
+			this.highlight(1, 0, 'addFront');
 		} else if (isAddFront || (isAddIndex && index === 0)) {
-			this.highlight(4, 0, this.addFrontCodeID);
+			this.highlight(4, 0, 'addFront');
 		} else if (isAddIndex && index === 0) {
-			this.unhighlight(1, 0, this.addIndexCodeID);
+			this.unhighlight(1, 0, 'addIndex');
 		} else if (isAddIndex && index < this.size / 2) {
-			this.unhighlight(6, 0, this.addIndexCodeID);
-			this.unhighlight(7, 0, this.addIndexCodeID);
-			this.unhighlight(8, 0, this.addIndexCodeID);
-			this.unhighlight(9, 0, this.addIndexCodeID);
+			this.unhighlight(6, 0, 'addIndex');
+			this.unhighlight(7, 0, 'addIndex');
+			this.unhighlight(8, 0, 'addIndex');
+			this.unhighlight(9, 0, 'addIndex');
 		} else if ((isAddBack || (isAddIndex && index === this.size)) && this.size === 0) {
-			this.highlight(1, 0, this.addBackCodeID);
+			this.highlight(1, 0, 'addBack');
 		} else if (isAddBack || (isAddIndex && index === this.size)) {
-			this.highlight(4, 0, this.addBackCodeID);
+			this.highlight(4, 0, 'addBack');
 		} else if (isAddIndex) {
-			this.unhighlight(10, 0, this.addIndexCodeID);
-			this.unhighlight(11, 0, this.addIndexCodeID);
-			this.unhighlight(12, 0, this.addIndexCodeID);
-			this.unhighlight(13, 0, this.addIndexCodeID);
+			this.unhighlight(10, 0, 'addIndex');
+			this.unhighlight(11, 0, 'addIndex');
+			this.unhighlight(12, 0, 'addIndex');
+			this.unhighlight(13, 0, 'addIndex');
 		}
 
 		this.cmd(act.step);
@@ -585,17 +561,17 @@ export default class DoublyLinkedList extends Algorithm {
 		);
 
 		if ((isAddFront || (isAddIndex && index === 0)) && this.size === 0) {
-			this.highlight(2, 0, this.addFrontCodeID);
-			this.highlight(3, 0, this.addFrontCodeID);
+			this.highlight(2, 0, 'addFront');
+			this.highlight(3, 0, 'addFront');
 		} else if (isAddFront || (isAddIndex && index === 0)) {
-			this.highlight(5, 0, this.addFrontCodeID);
+			this.highlight(5, 0, 'addFront');
 		} else if ((isAddBack || (isAddIndex && index === this.size)) && this.size === 0) {
-			this.highlight(2, 0, this.addBackCodeID);
-			this.highlight(3, 0, this.addBackCodeID);
+			this.highlight(2, 0, 'addBack');
+			this.highlight(3, 0, 'addBack');
 		} else if (isAddBack || (isAddIndex && index === this.size)) {
-			this.highlight(5, 0, this.addBackCodeID);
+			this.highlight(5, 0, 'addBack');
 		} else if (isAddIndex) {
-			this.highlight(14, 0, this.addIndexCodeID);
+			this.highlight(14, 0, 'addIndex');
 		}
 
 		this.cmd(act.createLabel, labPushID, 'Adding Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
@@ -621,10 +597,10 @@ export default class DoublyLinkedList extends Algorithm {
 		if (this.size !== 0) {
 			if (index === 0) {
 				if (isAddFront || (isAddIndex && index === 0)) {
-					this.unhighlight(5, 0, this.addFrontCodeID);
-					this.highlight(6, 0, this.addFrontCodeID);
-					this.highlight(7, 0, this.addFrontCodeID);
-					this.highlight(8, 0, this.addFrontCodeID);
+					this.unhighlight(5, 0, 'addFront');
+					this.highlight(6, 0, 'addFront');
+					this.highlight(7, 0, 'addFront');
+					this.highlight(8, 0, 'addFront');
 				}
 				this.cmd(act.setPrevNull, this.linkedListElemID[index + 1], 0);
 				this.cmd(
@@ -640,10 +616,10 @@ export default class DoublyLinkedList extends Algorithm {
 				this.cmd(act.disconnect, this.headID, this.linkedListElemID[index + 1]);
 			} else if (index === this.size) {
 				if (isAddBack || (isAddIndex && index === this.size)) {
-					this.unhighlight(5, 0, this.addBackCodeID);
-					this.highlight(6, 0, this.addBackCodeID);
-					this.highlight(7, 0, this.addBackCodeID);
-					this.highlight(8, 0, this.addBackCodeID);
+					this.unhighlight(5, 0, 'addBack');
+					this.highlight(6, 0, 'addBack');
+					this.highlight(7, 0, 'addBack');
+					this.highlight(8, 0, 'addBack');
 				}
 				this.cmd(act.setNextNull, this.linkedListElemID[index - 1], 0);
 				this.cmd(
@@ -659,11 +635,11 @@ export default class DoublyLinkedList extends Algorithm {
 				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index - 1]);
 			} else {
 				if (isAddIndex) {
-					this.unhighlight(14, 0, this.addIndexCodeID);
-					this.highlight(15, 0, this.addIndexCodeID);
-					this.highlight(16, 0, this.addIndexCodeID);
-					this.highlight(17, 0, this.addIndexCodeID);
-					this.highlight(18, 0, this.addIndexCodeID);
+					this.unhighlight(14, 0, 'addIndex');
+					this.highlight(15, 0, 'addIndex');
+					this.highlight(16, 0, 'addIndex');
+					this.highlight(17, 0, 'addIndex');
+					this.highlight(18, 0, 'addIndex');
 				}
 				this.cmd(
 					act.disconnect,
@@ -710,57 +686,51 @@ export default class DoublyLinkedList extends Algorithm {
 		this.cmd(act.step);
 
 		if (isAddFront || (isAddIndex && index === 0)) {
-			this.unhighlight(1, 0, this.addFrontCodeID);
-			this.unhighlight(2, 0, this.addFrontCodeID);
-			this.unhighlight(3, 0, this.addFrontCodeID);
-			this.unhighlight(4, 0, this.addFrontCodeID);
-			this.unhighlight(5, 0, this.addFrontCodeID);
-			this.unhighlight(6, 0, this.addFrontCodeID);
-			this.unhighlight(7, 0, this.addFrontCodeID);
-			this.unhighlight(8, 0, this.addFrontCodeID);
-			this.highlight(9, 0, this.addFrontCodeID);
+			this.unhighlight(1, 0, 'addFront');
+			this.unhighlight(2, 0, 'addFront');
+			this.unhighlight(3, 0, 'addFront');
+			this.unhighlight(4, 0, 'addFront');
+			this.unhighlight(5, 0, 'addFront');
+			this.unhighlight(6, 0, 'addFront');
+			this.unhighlight(7, 0, 'addFront');
+			this.unhighlight(8, 0, 'addFront');
+			this.highlight(9, 0, 'addFront');
 		} else if (isAddBack || (isAddIndex && index === this.size - 1)) {
-			this.unhighlight(1, 0, this.addBackCodeID);
-			this.unhighlight(2, 0, this.addBackCodeID);
-			this.unhighlight(3, 0, this.addBackCodeID);
-			this.unhighlight(4, 0, this.addBackCodeID);
-			this.unhighlight(5, 0, this.addBackCodeID);
-			this.unhighlight(6, 0, this.addBackCodeID);
-			this.unhighlight(7, 0, this.addBackCodeID);
-			this.unhighlight(8, 0, this.addBackCodeID);
-			this.highlight(9, 0, this.addBackCodeID);
+			this.unhighlight(1, 0, 'addBack');
+			this.unhighlight(2, 0, 'addBack');
+			this.unhighlight(3, 0, 'addBack');
+			this.unhighlight(4, 0, 'addBack');
+			this.unhighlight(5, 0, 'addBack');
+			this.unhighlight(6, 0, 'addBack');
+			this.unhighlight(7, 0, 'addBack');
+			this.unhighlight(8, 0, 'addBack');
+			this.highlight(9, 0, 'addBack');
 		} else if (isAddIndex) {
-			this.unhighlight(15, 0, this.addIndexCodeID);
-			this.unhighlight(16, 0, this.addIndexCodeID);
-			this.unhighlight(17, 0, this.addIndexCodeID);
-			this.unhighlight(18, 0, this.addIndexCodeID);
-			this.highlight(19, 0, this.addIndexCodeID);
+			this.unhighlight(15, 0, 'addIndex');
+			this.unhighlight(16, 0, 'addIndex');
+			this.unhighlight(17, 0, 'addIndex');
+			this.unhighlight(18, 0, 'addIndex');
+			this.highlight(19, 0, 'addIndex');
 		}
 
 		this.cmd(act.step);
 
 		if (isAddFront || (isAddIndex && index === 0)) {
-			this.unhighlight(0, 0, this.addFrontCodeID);
-			this.unhighlight(9, 0, this.addFrontCodeID);
-			this.unhighlight(0, 0, this.addIndexCodeID);
-			this.unhighlight(1, 0, this.addIndexCodeID);
-			this.unhighlight(2, 0, this.addIndexCodeID);
+			this.unhighlight(0, 0, 'addFront');
+			this.unhighlight(9, 0, 'addFront');
+			this.unhighlight(0, 0, 'addIndex');
+			this.unhighlight(1, 0, 'addIndex');
+			this.unhighlight(2, 0, 'addIndex');
 		} else if (isAddBack || (isAddIndex && index === this.size - 1)) {
-			this.unhighlight(0, 0, this.addBackCodeID);
-			this.unhighlight(9, 0, this.addBackCodeID);
-			this.unhighlight(0, 0, this.addIndexCodeID);
-			this.unhighlight(3, 0, this.addIndexCodeID);
-			this.unhighlight(4, 0, this.addIndexCodeID);
+			this.unhighlight(0, 0, 'addBack');
+			this.unhighlight(9, 0, 'addBack');
+			this.unhighlight(0, 0, 'addIndex');
+			this.unhighlight(3, 0, 'addIndex');
+			this.unhighlight(4, 0, 'addIndex');
 		} else if (isAddIndex) {
-			this.unhighlight(0, 0, this.addIndexCodeID);
-			this.unhighlight(5, 0, this.addIndexCodeID);
-			this.unhighlight(19, 0, this.addIndexCodeID);
-		}
-
-		if (!skipPseudocode) {
-			this.removeCode(this.addFrontCodeID);
-			this.removeCode(this.addBackCodeID);
-			this.removeCode(this.addIndexCodeID);
+			this.unhighlight(0, 0, 'addIndex');
+			this.unhighlight(5, 0, 'addIndex');
+			this.unhighlight(19, 0, 'addIndex');
 		}
 
 		return this.commands;
@@ -770,43 +740,24 @@ export default class DoublyLinkedList extends Algorithm {
 		this.commands = [];
 		this.setInfoText('');
 
-		this.removeIndexCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeIndex',
-			CODE_START_X,
-			CODE_START_Y,
-		);
-		this.removeFrontCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeFront',
-			CODE_START_X + 325,
-			CODE_START_Y,
-		);
-		this.removeBackCodeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'removeBack',
-			CODE_START_X + 620,
-			CODE_START_Y,
-		);
-
 		index = parseInt(index);
 
 		if (isRemoveFront) {
-			this.highlight(0, 0, this.removeFrontCodeID);
+			this.highlight(0, 0, 'removeFront');
 		} else if (isRemoveBack) {
-			this.highlight(0, 0, this.removeBackCodeID);
+			this.highlight(0, 0, 'removeBack');
 		} else if (isRemoveIndex) {
-			this.highlight(0, 0, this.removeIndexCodeID);
+			this.highlight(0, 0, 'removeIndex');
 		}
 
 		if (isRemoveIndex && index === 0) {
-			this.highlight(1, 0, this.removeIndexCodeID);
-			this.highlight(2, 0, this.removeIndexCodeID);
-			this.highlight(0, 0, this.removeFrontCodeID);
+			this.highlight(1, 0, 'removeIndex');
+			this.highlight(2, 0, 'removeIndex');
+			this.highlight(0, 0, 'removeFront');
 		} else if (isRemoveIndex && index === this.size - 1) {
-			this.highlight(3, 0, this.removeIndexCodeID);
-			this.highlight(4, 0, this.removeIndexCodeID);
-			this.highlight(0, 0, this.removeBackCodeID);
+			this.highlight(3, 0, 'removeIndex');
+			this.highlight(4, 0, 'removeIndex');
+			this.highlight(0, 0, 'removeBack');
 		}
 
 		const labPopID = this.nextIndex++;
@@ -818,17 +769,17 @@ export default class DoublyLinkedList extends Algorithm {
 
 		if (index > 0 && index < this.size - 1) {
 			if (isRemoveIndex) {
-				this.highlight(5, 0, this.removeIndexCodeID);
+				this.highlight(5, 0, 'removeIndex');
 				if (index < this.size / 2) {
-					this.highlight(6, 0, this.removeIndexCodeID);
-					this.highlight(7, 0, this.removeIndexCodeID);
-					this.highlight(8, 0, this.removeIndexCodeID);
-					this.highlight(9, 0, this.removeIndexCodeID);
+					this.highlight(6, 0, 'removeIndex');
+					this.highlight(7, 0, 'removeIndex');
+					this.highlight(8, 0, 'removeIndex');
+					this.highlight(9, 0, 'removeIndex');
 				} else {
-					this.highlight(10, 0, this.removeIndexCodeID);
-					this.highlight(11, 0, this.removeIndexCodeID);
-					this.highlight(12, 0, this.removeIndexCodeID);
-					this.highlight(13, 0, this.removeIndexCodeID);
+					this.highlight(10, 0, 'removeIndex');
+					this.highlight(11, 0, 'removeIndex');
+					this.highlight(12, 0, 'removeIndex');
+					this.highlight(13, 0, 'removeIndex');
 				}
 			}
 			this.removeTraverse(index);
@@ -838,19 +789,19 @@ export default class DoublyLinkedList extends Algorithm {
 		const nodePosY = LINKED_LIST_START_Y;
 
 		if (isRemoveFront || (isRemoveIndex && index === 0)) {
-			this.highlight(1, 0, this.removeFrontCodeID);
+			this.highlight(1, 0, 'removeFront');
 		} else if (isRemoveBack || (isRemoveIndex && index === this.size - 1)) {
-			this.highlight(1, 0, this.removeBackCodeID);
+			this.highlight(1, 0, 'removeBack');
 		} else if (isRemoveIndex) {
-			this.unhighlight(6, 0, this.removeIndexCodeID);
-			this.unhighlight(7, 0, this.removeIndexCodeID);
-			this.unhighlight(8, 0, this.removeIndexCodeID);
-			this.unhighlight(9, 0, this.removeIndexCodeID);
-			this.unhighlight(10, 0, this.removeIndexCodeID);
-			this.unhighlight(11, 0, this.removeIndexCodeID);
-			this.unhighlight(12, 0, this.removeIndexCodeID);
-			this.unhighlight(13, 0, this.removeIndexCodeID);
-			this.highlight(14, 0, this.removeIndexCodeID);
+			this.unhighlight(6, 0, 'removeIndex');
+			this.unhighlight(7, 0, 'removeIndex');
+			this.unhighlight(8, 0, 'removeIndex');
+			this.unhighlight(9, 0, 'removeIndex');
+			this.unhighlight(10, 0, 'removeIndex');
+			this.unhighlight(11, 0, 'removeIndex');
+			this.unhighlight(12, 0, 'removeIndex');
+			this.unhighlight(13, 0, 'removeIndex');
+			this.highlight(14, 0, 'removeIndex');
 		}
 
 		this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
@@ -861,16 +812,16 @@ export default class DoublyLinkedList extends Algorithm {
 		if (this.size !== 1) {
 			if (index === 0) {
 				if (isRemoveFront || (isRemoveIndex && index === 0)) {
-					this.unhighlight(1, 0, this.removeFrontCodeID);
-					this.highlight(2, 0, this.removeFrontCodeID);
+					this.unhighlight(1, 0, 'removeFront');
+					this.highlight(2, 0, 'removeFront');
 				}
 				this.cmd(act.connect, this.headID, this.linkedListElemID[index + 1]);
 				this.cmd(act.disconnect, this.headID, this.linkedListElemID[index]);
 				this.cmd(act.step);
 				if (isRemoveFront || (isRemoveIndex && index === 0)) {
-					this.unhighlight(2, 0, this.removeFrontCodeID);
-					this.highlight(5, 0, this.removeFrontCodeID);
-					this.highlight(6, 0, this.removeFrontCodeID);
+					this.unhighlight(2, 0, 'removeFront');
+					this.highlight(5, 0, 'removeFront');
+					this.highlight(6, 0, 'removeFront');
 				}
 				this.cmd(
 					act.disconnect,
@@ -880,16 +831,16 @@ export default class DoublyLinkedList extends Algorithm {
 				this.cmd(act.setPrevNull, this.linkedListElemID[index + 1], 1);
 			} else if (index === this.size - 1) {
 				if (isRemoveBack || (isRemoveIndex && index === this.size - 1)) {
-					this.unhighlight(1, 0, this.removeBackCodeID);
-					this.highlight(2, 0, this.removeBackCodeID);
+					this.unhighlight(1, 0, 'removeBack');
+					this.highlight(2, 0, 'removeBack');
 				}
 				this.cmd(act.connect, this.tailID, this.linkedListElemID[index - 1]);
 				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
 				this.cmd(act.step);
 				if (isRemoveBack || (isRemoveIndex && index === this.size - 1)) {
-					this.unhighlight(2, 0, this.removeBackCodeID);
-					this.highlight(5, 0, this.removeBackCodeID);
-					this.highlight(6, 0, this.removeBackCodeID);
+					this.unhighlight(2, 0, 'removeBack');
+					this.highlight(5, 0, 'removeBack');
+					this.highlight(6, 0, 'removeBack');
 				}
 				this.cmd(
 					act.disconnect,
@@ -904,9 +855,9 @@ export default class DoublyLinkedList extends Algorithm {
 				const yPos = LINKED_LIST_START_Y - LINKED_LIST_ELEM_HEIGHT * 1.6;
 				this.cmd(act.move, this.linkedListElemID[index], xPos, yPos);
 				if (isRemoveIndex) {
-					this.unhighlight(14, 0, this.removeIndexCodeID);
-					this.highlight(15, 0, this.removeIndexCodeID);
-					this.highlight(16, 0, this.removeIndexCodeID);
+					this.unhighlight(14, 0, 'removeIndex');
+					this.highlight(15, 0, 'removeIndex');
+					this.highlight(16, 0, 'removeIndex');
 				}
 				this.cmd(
 					act.disconnect,
@@ -931,22 +882,22 @@ export default class DoublyLinkedList extends Algorithm {
 			}
 		} else {
 			if (isRemoveFront || (isRemoveIndex && index === 0)) {
-				this.unhighlight(1, 0, this.removeFrontCodeID);
-				this.highlight(2, 0, this.removeFrontCodeID);
+				this.unhighlight(1, 0, 'removeFront');
+				this.highlight(2, 0, 'removeFront');
 			} else if (isRemoveBack || (isRemoveIndex && index === this.size - 1)) {
-				this.unhighlight(1, 0, this.removeBackCodeID);
-				this.highlight(2, 0, this.removeBackCodeID);
-				this.highlight(3, 0, this.removeBackCodeID);
-				this.highlight(4, 0, this.removeBackCodeID);
+				this.unhighlight(1, 0, 'removeBack');
+				this.highlight(2, 0, 'removeBack');
+				this.highlight(3, 0, 'removeBack');
+				this.highlight(4, 0, 'removeBack');
 			}
 			this.cmd(act.disconnect, this.headID, this.linkedListElemID[index]);
 			if (isRemoveFront || (isRemoveIndex && index === 0)) {
 				this.cmd(act.step);
 			}
 			if (isRemoveFront || (isRemoveIndex && index === 0)) {
-				this.unhighlight(2, 0, this.removeFrontCodeID);
-				this.highlight(3, 0, this.removeFrontCodeID);
-				this.highlight(4, 0, this.removeFrontCodeID);
+				this.unhighlight(2, 0, 'removeFront');
+				this.highlight(3, 0, 'removeFront');
+				this.highlight(4, 0, 'removeFront');
 			}
 			this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
 		}
@@ -963,22 +914,22 @@ export default class DoublyLinkedList extends Algorithm {
 		this.cmd(act.step);
 
 		if (isRemoveFront || (isRemoveIndex && index === 0)) {
-			this.unhighlight(3, 0, this.removeFrontCodeID);
-			this.unhighlight(4, 0, this.removeFrontCodeID);
-			this.unhighlight(5, 0, this.removeFrontCodeID);
-			this.unhighlight(6, 0, this.removeFrontCodeID);
-			this.highlight(7, 0, this.removeFrontCodeID);
+			this.unhighlight(3, 0, 'removeFront');
+			this.unhighlight(4, 0, 'removeFront');
+			this.unhighlight(5, 0, 'removeFront');
+			this.unhighlight(6, 0, 'removeFront');
+			this.highlight(7, 0, 'removeFront');
 		} else if (isRemoveBack || (isRemoveIndex && index === this.size)) {
-			this.unhighlight(2, 0, this.removeBackCodeID);
-			this.unhighlight(3, 0, this.removeBackCodeID);
-			this.unhighlight(4, 0, this.removeBackCodeID);
-			this.unhighlight(5, 0, this.removeBackCodeID);
-			this.unhighlight(6, 0, this.removeBackCodeID);
-			this.highlight(7, 0, this.removeBackCodeID);
+			this.unhighlight(2, 0, 'removeBack');
+			this.unhighlight(3, 0, 'removeBack');
+			this.unhighlight(4, 0, 'removeBack');
+			this.unhighlight(5, 0, 'removeBack');
+			this.unhighlight(6, 0, 'removeBack');
+			this.highlight(7, 0, 'removeBack');
 		} else if (isRemoveIndex) {
-			this.unhighlight(15, 0, this.removeIndexCodeID);
-			this.unhighlight(16, 0, this.removeIndexCodeID);
-			this.highlight(17, 0, this.removeIndexCodeID);
+			this.unhighlight(15, 0, 'removeIndex');
+			this.unhighlight(16, 0, 'removeIndex');
+			this.highlight(17, 0, 'removeIndex');
 		}
 
 		this.cmd(act.delete, labPopValID);
@@ -986,26 +937,22 @@ export default class DoublyLinkedList extends Algorithm {
 		this.cmd(act.step);
 
 		if (isRemoveFront || (isRemoveIndex && index === 0)) {
-			this.unhighlight(0, 0, this.removeIndexCodeID);
-			this.unhighlight(1, 0, this.removeIndexCodeID);
-			this.unhighlight(2, 0, this.removeIndexCodeID);
-			this.unhighlight(0, 0, this.removeFrontCodeID);
-			this.unhighlight(7, 0, this.removeFrontCodeID);
+			this.unhighlight(0, 0, 'removeIndex');
+			this.unhighlight(1, 0, 'removeIndex');
+			this.unhighlight(2, 0, 'removeIndex');
+			this.unhighlight(0, 0, 'removeFront');
+			this.unhighlight(7, 0, 'removeFront');
 		} else if (isRemoveBack || (isRemoveIndex && index === this.size)) {
-			this.unhighlight(0, 0, this.removeBackCodeID);
-			this.unhighlight(7, 0, this.removeBackCodeID);
-			this.unhighlight(0, 0, this.removeIndexCodeID);
-			this.unhighlight(3, 0, this.removeIndexCodeID);
-			this.unhighlight(4, 0, this.removeIndexCodeID);
+			this.unhighlight(0, 0, 'removeBack');
+			this.unhighlight(7, 0, 'removeBack');
+			this.unhighlight(0, 0, 'removeIndex');
+			this.unhighlight(3, 0, 'removeIndex');
+			this.unhighlight(4, 0, 'removeIndex');
 		} else if (isRemoveIndex) {
-			this.unhighlight(0, 0, this.removeIndexCodeID);
-			this.unhighlight(5, 0, this.removeIndexCodeID);
-			this.unhighlight(17, 0, this.removeIndexCodeID);
+			this.unhighlight(0, 0, 'removeIndex');
+			this.unhighlight(5, 0, 'removeIndex');
+			this.unhighlight(17, 0, 'removeIndex');
 		}
-
-		this.removeCode(this.removeFrontCodeID);
-		this.removeCode(this.removeBackCodeID);
-		this.removeCode(this.removeIndexCodeID);
 
 		return this.commands;
 	}

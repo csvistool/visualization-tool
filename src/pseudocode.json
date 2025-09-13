@@ -100,7 +100,7 @@
 			]
 		}
 	},
-	"SinglyLinkedList": {
+	"LinkedList": {
 		"addFront": {
 			"code": [
 				["procedure addFront(data)"],
@@ -1679,7 +1679,7 @@
 			]
 		}
 	},
-	"LSDRadixSort": {
+	"LSDRadix": {
 		"find": {
 			"code": [
 				["procedure LSDRadixSort(array):"],
@@ -2151,10 +2151,10 @@
 			]
 		}
 	},
-	"Dijkstras": {
+	"Dijkstra": {
 		"run": {
 			"code": [
-				["procedure Dijkstras(Vertex s, Graph G):"],
+				["procedure Dijkstra(Vertex s, Graph G):"],
 				["  initialize VisitedSet VS"],
 				["  initialize DistanceMap DM"],
 				["  initialize PriorityQueue PQ"],
@@ -2205,10 +2205,10 @@
 			]
 		}
 	},
-	"Prims": {
+	"Prim": {
 		"run": {
 			"code": [
-				["procedure Prims(Vertex s, Graph G):"],
+				["procedure Prim(Vertex s, Graph G):"],
 				["  initialize VisitedSet VS"],
 				["  initialize EdgeSet MST"],
 				["  initialize PriorityQueue PQ"],

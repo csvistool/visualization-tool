@@ -272,6 +272,16 @@ export default class Algorithm {
 			this.highlight(ind1, ind2, codeID[type]);
 			return;
 		}
+
+		// TODO: A more robust way to handle this is to move all highlight calls from algorithms to
+		// a separate method (e.g. highlightCodeLine). This workaround allows the existing code to
+		// stay mostly the same, as otherwise this would cause a fair bit of changes. This should
+		// still be moved to a separate method in the future.
+		if (typeof codeID === 'string') {
+			this.cmd(act.highlightCodeLine, codeID, ind1);
+			return;
+		}
+
 		// Single pseudocode type
 		if (codeID[0] !== undefined) {
 			this.cmd(act.setForegroundColor, codeID[ind1][ind2], CODE_HIGHLIGHT_COLOR);
@@ -286,6 +296,11 @@ export default class Algorithm {
 
 	unhighlight(ind1, ind2, codeID, type) {
 		if (!codeID) return;
+
+		if (typeof codeID === 'string') {
+			this.cmd(act.unhighlightCodeLine, codeID, ind1);
+			return;
+		}
 		// Type specified
 		if (type) {
 			this.unhighlight(ind1, ind2, codeID[type]);

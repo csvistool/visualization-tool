@@ -48,9 +48,6 @@ const ARRAY_ELEM_HEIGHT = 50;
 const COMP_COUNT_X = 100;
 const COMP_COUNT_Y = 50;
 
-const CODE_START_X = 50;
-const CODE_START_Y = 100;
-
 let definedPivotIndex = 0;
 let setPivotVerticalGroup;
 
@@ -232,12 +229,6 @@ export default class Quickselect extends Algorithm {
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
 		this.pseudocode = pseudocodeText.Quickselect;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'find',
-			CODE_START_X,
-			CODE_START_Y,
-		);
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);
@@ -411,7 +402,7 @@ export default class Quickselect extends Algorithm {
 	helper(left, right) {
 		if (left > right) return;
 
-		this.highlight(0, 0, this.codeID);
+		this.highlight(0, 0, 'find');
 
 		// Hightlight cells in the current sub-array
 		for (let i = left; i <= right; i++) {
@@ -422,16 +413,16 @@ export default class Quickselect extends Algorithm {
 		if (left === right) {
 			this.cmd(act.setBackgroundColor, this.arrayID[left], '#2ECC71');
 			this.cmd(act.step);
-			this.unhighlight(0, 0, this.codeID);
+			this.unhighlight(0, 0, 'find');
 			return;
 		}
-		this.unhighlight(0, 0, this.codeID);
+		this.unhighlight(0, 0, 'find');
 
 		// Create pivot pointer and swap with left-most element
 		// To make things more interesting (and clearer), we don't pick the left-most element as pivot
 		let pivot;
-		this.highlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
+		this.highlight(1, 0, 'find');
+		this.highlight(2, 0, 'find');
 		if (this.pivotType === 'min') {
 			let min = left;
 			for (let i = left + 1; i <= right; i++) {
@@ -453,13 +444,13 @@ export default class Quickselect extends Algorithm {
 		const pXPos = pivot * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 		this.cmd(act.createHighlightCircle, this.pPointerID, '#FFFF00', pXPos, ARRAY_START_Y);
 		this.cmd(act.step);
-		this.unhighlight(1, 0, this.codeID);
-		this.unhighlight(2, 0, this.codeID);
-		this.highlight(3, 0, this.codeID);
+		this.unhighlight(1, 0, 'find');
+		this.unhighlight(2, 0, 'find');
+		this.highlight(3, 0, 'find');
 		this.swapPivot(pivot, left);
 		this.cmd(act.step);
-		this.unhighlight(3, 0, this.codeID);
-		this.highlight(4, 0, this.codeID);
+		this.unhighlight(3, 0, 'find');
+		this.highlight(4, 0, 'find');
 		// Partition
 		let i = left + 1;
 		let j = right;
@@ -468,19 +459,19 @@ export default class Quickselect extends Algorithm {
 		this.cmd(act.createHighlightCircle, this.iPointerID, '#0000FF', iXPos, ARRAY_START_Y);
 		this.cmd(act.createHighlightCircle, this.jPointerID, '#0000FF', jXPos, ARRAY_START_Y);
 		this.cmd(act.step);
-		this.unhighlight(4, 0, this.codeID);
-		this.highlight(5, 0, this.codeID);
+		this.unhighlight(4, 0, 'find');
+		this.highlight(5, 0, 'find');
 		while (i <= j) {
 			this.cmd(act.step);
-			this.highlight(6, 0, this.codeID);
-			this.highlight(6, 2, this.codeID);
+			this.highlight(6, 0, 'find');
+			this.highlight(6, 2, 'find');
 			this.cmd(act.step);
-			this.unhighlight(6, 2, this.codeID);
-			this.highlight(6, 4, this.codeID);
+			this.unhighlight(6, 2, 'find');
+			this.highlight(6, 4, 'find');
 			this.cmd(act.step);
 			while (i <= j && this.arrayData[left] >= this.arrayData[i]) {
-				this.unhighlight(6, 4, this.codeID);
-				this.highlight(7, 0, this.codeID);
+				this.unhighlight(6, 4, 'find');
+				this.highlight(7, 0, 'find');
 				i++;
 				this.cmd(
 					act.setText,
@@ -488,18 +479,18 @@ export default class Quickselect extends Algorithm {
 					'Comparison Count: ' + ++this.compCount,
 				);
 				this.movePointers(i, j);
-				this.unhighlight(7, 0, this.codeID);
-				this.highlight(6, 2, this.codeID);
+				this.unhighlight(7, 0, 'find');
+				this.highlight(6, 2, 'find');
 				if (i <= j) {
 					this.cmd(act.step);
-					this.unhighlight(6, 2, this.codeID);
-					this.highlight(6, 4, this.codeID);
+					this.unhighlight(6, 2, 'find');
+					this.highlight(6, 4, 'find');
 				}
 				this.cmd(act.step);
 			}
-			this.unhighlight(6, 0, this.codeID);
-			this.unhighlight(6, 2, this.codeID);
-			this.unhighlight(6, 4, this.codeID);
+			this.unhighlight(6, 0, 'find');
+			this.unhighlight(6, 2, 'find');
+			this.unhighlight(6, 4, 'find');
 			if (i <= j) {
 				this.cmd(
 					act.setText,
@@ -510,19 +501,19 @@ export default class Quickselect extends Algorithm {
 				this.cmd(act.step);
 			}
 
-			this.highlight(9, 0, this.codeID);
+			this.highlight(9, 0, 'find');
 			this.cmd(act.step);
-			this.highlight(9, 2, this.codeID);
+			this.highlight(9, 2, 'find');
 			if (i <= j) {
 				this.cmd(act.step);
-				this.unhighlight(9, 2, this.codeID);
-				this.highlight(9, 4, this.codeID);
+				this.unhighlight(9, 2, 'find');
+				this.highlight(9, 4, 'find');
 			}
 
 			this.cmd(act.step);
 			while (i <= j && this.arrayData[left] <= this.arrayData[j]) {
-				this.unhighlight(9, 4, this.codeID);
-				this.highlight(10, 0, this.codeID);
+				this.unhighlight(9, 4, 'find');
+				this.highlight(10, 0, 'find');
 				j--;
 				this.cmd(
 					act.setText,
@@ -530,18 +521,18 @@ export default class Quickselect extends Algorithm {
 					'Comparison Count: ' + ++this.compCount,
 				);
 				this.movePointers(i, j);
-				this.unhighlight(10, 0, this.codeID);
-				this.highlight(9, 2, this.codeID);
+				this.unhighlight(10, 0, 'find');
+				this.highlight(9, 2, 'find');
 				if (i <= j) {
 					this.cmd(act.step);
-					this.unhighlight(9, 2, this.codeID);
-					this.highlight(9, 4, this.codeID);
+					this.unhighlight(9, 2, 'find');
+					this.highlight(9, 4, 'find');
 				}
 				this.cmd(act.step);
 			}
-			this.unhighlight(9, 0, this.codeID);
-			this.unhighlight(9, 2, this.codeID);
-			this.unhighlight(9, 4, this.codeID);
+			this.unhighlight(9, 0, 'find');
+			this.unhighlight(9, 2, 'find');
+			this.unhighlight(9, 4, 'find');
 			if (i <= j) {
 				this.cmd(
 					act.setText,
@@ -552,22 +543,22 @@ export default class Quickselect extends Algorithm {
 				this.cmd(act.step);
 			}
 			if (i <= j) {
-				this.highlight(13, 0, this.codeID);
+				this.highlight(13, 0, 'find');
 				this.swap(i, j);
-				this.unhighlight(13, 0, this.codeID);
-				this.highlight(14, 0, this.codeID);
+				this.unhighlight(13, 0, 'find');
+				this.highlight(14, 0, 'find');
 				i++;
 				j--;
 				this.movePointers(i, j);
-				this.unhighlight(14, 0, this.codeID);
+				this.unhighlight(14, 0, 'find');
 			}
 		}
-		this.unhighlight(5, 0, this.codeID);
+		this.unhighlight(5, 0, 'find');
 
-		this.highlight(17, 0, this.codeID);
+		this.highlight(17, 0, 'find');
 		// Move pivot back and delete pivot pointer
 		this.swapPivot(left, j, true);
-		this.unhighlight(17, 0, this.codeID);
+		this.unhighlight(17, 0, 'find');
 
 		// Delete i and j pointers
 		this.cmd(act.delete, this.iPointerID);
@@ -579,31 +570,31 @@ export default class Quickselect extends Algorithm {
 		for (let i = left; i <= right; i++) {
 			this.cmd(act.setBackgroundColor, this.arrayID[i], '#FFFFFF');
 		}
-		this.highlight(18, 0, this.codeID);
+		this.highlight(18, 0, 'find');
 		this.cmd(act.step);
 		if (this.k - 1 === j) {
-			this.unhighlight(18, 0, this.codeID);
-			this.highlight(19, 0, this.codeID);
+			this.unhighlight(18, 0, 'find');
+			this.highlight(19, 0, 'find');
 			this.cmd(act.setBackgroundColor, this.arrayID[j], '#2ECC71');
 			this.cmd(act.step);
-			this.unhighlight(19, 0, this.codeID);
+			this.unhighlight(19, 0, 'find');
 		} else {
-			this.unhighlight(18, 0, this.codeID);
-			this.highlight(20, 0, this.codeID);
+			this.unhighlight(18, 0, 'find');
+			this.highlight(20, 0, 'find');
 			this.cmd(act.setBackgroundColor, this.arrayID[j], '#4DA6ff');
 			this.cmd(act.step);
 
 			if (this.k - 1 < j) {
-				this.unhighlight(20, 0, this.codeID);
-				this.highlight(21, 0, this.codeID);
+				this.unhighlight(20, 0, 'find');
+				this.highlight(21, 0, 'find');
 				this.cmd(act.step);
-				this.unhighlight(21, 0, this.codeID);
+				this.unhighlight(21, 0, 'find');
 				this.helper(left, j - 1);
 			} else {
-				this.unhighlight(20, 0, this.codeID);
-				this.highlight(23, 0, this.codeID);
+				this.unhighlight(20, 0, 'find');
+				this.highlight(23, 0, 'find');
 				this.cmd(act.step);
-				this.unhighlight(23, 0, this.codeID);
+				this.unhighlight(23, 0, 'find');
 				this.helper(j + 1, right);
 			}
 		}

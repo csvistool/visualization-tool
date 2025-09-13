@@ -51,8 +51,6 @@ const PATTERN_HASH_LABEL_START_Y = 115;
 const COMP_COUNT_X = 575;
 const COMP_COUNT_Y = 30;
 
-const CODE_Y = 180;
-
 export default class RabinKarp extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
@@ -197,7 +195,6 @@ export default class RabinKarp extends Algorithm {
 		this.comparisonCountID = this.nextIndex++;
 		this.infoLabelID = this.nextIndex++;
 		this.compCount = 0;
-		this.codeID = [];
 	}
 
 	findCallback() {
@@ -398,8 +395,6 @@ export default class RabinKarp extends Algorithm {
 		this.cmd(act.move, this.comparisonCountID, labelsX, COMP_COUNT_Y);
 		this.cmd(act.setText, this.comparisonCountID, 'Comparison Count: ' + this.compCount);
 
-		this.codeID = this.addCodeToCanvasBaseAll(this.pseudocode, 'find', labelsX, CODE_Y);
-
 		let textCalculation = '';
 		let textHash = 0;
 		let patternCalculation = '';
@@ -438,19 +433,19 @@ export default class RabinKarp extends Algorithm {
 		const iPointerID = this.nextIndex++;
 		const jPointerID = this.nextIndex++;
 
-		this.highlight(1, 0, this.codeID);
+		this.highlight(1, 0, 'find');
 		this.cmd(act.step);
-		this.unhighlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
-		this.highlight(3, 0, this.codeID);
+		this.unhighlight(1, 0, 'find');
+		this.highlight(2, 0, 'find');
+		this.highlight(3, 0, 'find');
 		this.cmd(act.step);
-		this.unhighlight(2, 0, this.codeID);
-		this.unhighlight(3, 0, this.codeID);
-		this.highlight(4, 0, this.codeID);
+		this.unhighlight(2, 0, 'find');
+		this.unhighlight(3, 0, 'find');
+		this.highlight(4, 0, 'find');
 		this.cmd(act.step);
-		this.unhighlight(4, 0, this.codeID);
+		this.unhighlight(4, 0, 'find');
 
-		this.highlight(5, 0, this.codeID);
+		this.highlight(5, 0, 'find');
 		let row = 0;
 		for (let i = 0; i <= text.length - pattern.length; i++) {
 			for (let k = i; k < i + pattern.length; k++) {
@@ -463,11 +458,11 @@ export default class RabinKarp extends Algorithm {
 				);
 			}
 			this.cmd(act.step);
-			this.highlight(6, 0, this.codeID);
+			this.highlight(6, 0, 'find');
 			this.cmd(act.step);
 			if (patternHash === textHash) {
-				this.unhighlight(6, 0, this.codeID);
-				this.highlight(7, 0, this.codeID);
+				this.unhighlight(6, 0, 'find');
+				this.highlight(7, 0, 'find');
 				xpos = i * this.cellSize + ARRAY_START_X;
 				this.cmd(
 					act.createHighlightCircle,
@@ -487,8 +482,8 @@ export default class RabinKarp extends Algorithm {
 					this.cellSize / 2,
 				);
 				this.cmd(act.step);
-				this.unhighlight(7, 0, this.codeID);
-				this.highlight(8, 0, this.codeID);
+				this.unhighlight(7, 0, 'find');
+				this.highlight(8, 0, 'find');
 				this.cmd(act.step);
 				let j = 0;
 				while (j < pattern.length && pattern.charAt(j) === text.charAt(i + j)) {
@@ -503,7 +498,7 @@ export default class RabinKarp extends Algorithm {
 						'#2ECC71',
 					);
 					j++;
-					this.highlight(9, 0, this.codeID);
+					this.highlight(9, 0, 'find');
 					if (j !== pattern.length) {
 						xpos = (i + j) * this.cellSize + ARRAY_START_X;
 						this.cmd(act.move, iPointerID, xpos, ARRAY_START_Y);
@@ -511,12 +506,12 @@ export default class RabinKarp extends Algorithm {
 						this.cmd(act.move, jPointerID, xpos, ypos);
 					}
 					this.cmd(act.step);
-					this.unhighlight(9, 0, this.codeID);
+					this.unhighlight(9, 0, 'find');
 				}
-				this.unhighlight(8, 0, this.codeID);
-				this.highlight(11, 0, this.codeID);
+				this.unhighlight(8, 0, 'find');
+				this.highlight(11, 0, 'find');
 				this.cmd(act.step);
-				this.unhighlight(11, 0, this.codeID);
+				this.unhighlight(11, 0, 'find');
 				if (j !== pattern.length) {
 					this.cmd(
 						act.setText,
@@ -529,9 +524,9 @@ export default class RabinKarp extends Algorithm {
 						'#E74C3C',
 					);
 				} else {
-					this.highlight(12, 0, this.codeID);
+					this.highlight(12, 0, 'find');
 					this.cmd(act.step);
-					this.unhighlight(12, 0, this.codeID);
+					this.unhighlight(12, 0, 'find');
 				}
 				this.cmd(act.delete, iPointerID);
 				this.cmd(act.delete, jPointerID);
@@ -541,13 +536,13 @@ export default class RabinKarp extends Algorithm {
 					this.cmd(act.setBackgroundColor, this.comparisonMatrixID[row][k], '#FFFF4D');
 				}
 				this.cmd(act.step);
-				this.unhighlight(6, 0, this.codeID);
+				this.unhighlight(6, 0, 'find');
 			}
-			this.highlight(15, 0, this.codeID);
+			this.highlight(15, 0, 'find');
 			this.cmd(act.step);
 			if (i < text.length - pattern.length) {
-				this.unhighlight(15, 0, this.codeID);
-				this.highlight(16, 0, this.codeID);
+				this.unhighlight(15, 0, 'find');
+				this.highlight(16, 0, 'find');
 				textHash =
 					this.baseValue * (textHash - base * (text.charCodeAt(i) - 97)) +
 					(text.charCodeAt(i + pattern.length) - 97);
@@ -561,15 +556,15 @@ export default class RabinKarp extends Algorithm {
 					textCalculation.substring(0, textCalculation.length - 2) + ' = ' + textHash;
 				this.cmd(act.setText, this.textHashCalculationID, textCalculation);
 				this.cmd(act.step);
-				this.unhighlight(16, 0, this.codeID);
+				this.unhighlight(16, 0, 'find');
 			}
-			this.unhighlight(15, 0, this.codeID);
-			this.highlight(18, 0, this.codeID);
+			this.unhighlight(15, 0, 'find');
+			this.highlight(18, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(18, 0, this.codeID);
+			this.unhighlight(18, 0, 'find');
 			row++;
 		}
-		this.unhighlight(5, 0, this.codeID);
+		this.unhighlight(5, 0, 'find');
 
 		return this.commands;
 	}
@@ -608,8 +603,6 @@ export default class RabinKarp extends Algorithm {
 		this.compCount = 0;
 		this.cmd(act.setText, this.comparisonCountID, '');
 		this.cmd(act.setText, this.infoLabelID, '');
-		this.removeCode(this.codeID);
-		this.codeID = [];
 
 		return this.commands;
 	}
