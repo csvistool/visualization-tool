@@ -938,22 +938,115 @@
 	},
 	"DequeLL": {
 		"addFirst": {
-			"code": [],
-			"english": []
+			"code": [
+				["procedure addFirst(data)"],
+				["  if size == 0"],
+				["    head ← new Node(data)"],
+				["    tail ← head"],
+				["  else"],
+				["    Node newHead ← new Node(data)"],
+				["    newHead.next ← head"],
+				["    head.prev ← newHead"],
+				["    head ← newHead"],
+				["  size++"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure addFirst(data)"],
+				["  if (list is empty):"],
+				["    head points to new node"],
+				["    tail points to new node"],
+				["  else:"],
+				["    create newHead node with data"],
+				["    newHead.next points to head"],
+				["    head.prev points to newHead"],
+				["    head points to newHead"],
+				["  increment size"],
+				["end procedure"]
+			]
 		},
 		"addLast": {
-			"code": [],
-			"english": []
+			"code": [
+				["procedure addLast(data)"],
+				["  if size == 0"],
+				["    tail ← new Node(data)"],
+				["    head ← tail"],
+				["  else"],
+				["    Node newTail ← new Node(data)"],
+				["    newTail.prev ← tail"],
+				["    tail.next ← newTail"],
+				["    tail ← newTail"],
+				["  size++"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure addLast(data)"],
+				["  if (list is empty):"],
+				["    head points to new node"],
+				["    tail points to new node"],
+				["  else:"],
+				["    create newTail node with data"],
+				["    newTail.prev points to tail"],
+				["    tail.next points to newTail"],
+				["    tail points to newTail"],
+				["  increment size"],
+				["end procedure"]
+			]
 		},
 		"removeFirst": {
-			"code": [],
-			"english": []
+			"code": [
+				["procedure removeFirst()"],
+				["  T data ← head.data"],
+				["  head ← head.next"],
+				["  if head == null"],
+				["    tail ← null"],
+				["  else"],
+				["    head.prev ← null"],
+				["  size--"],
+				["  return data"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure removeFirst()"],
+				["  copy data at head to temp"],
+				["  head moves to next node"],
+				["  if (head is null):"],
+				["    null out tail"],
+				["  else:"],
+				["    null out head.prev"],
+				["  decrement size"],
+				["  return temp"],
+				["end procedure"]
+			]
 		},
 		"removeLast": {
-			"code": [],
-			"english": []
+			"code": [
+				["procedure removeLast()"],
+				["  T data ← tail.data"],
+				["  tail ← tail.prev"],
+				["  if tail == null"],
+				["    head ← null"],
+				["  else"],
+				["    tail.next ← null"],
+				["  size--"],
+				["  return data"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure removeBack()"],
+				["  copy data at tail to temp"],
+				["  tail moves to previous node"],
+				["  if (tail is null):"],
+				["    null out head"],
+				["  else:"],
+				["    null out tail.next"],
+				["  decrement size"],
+				["  return temp"],
+				["end procedure"]
+			]
 		}
 	},
+
 	"BST": {
 		"preorder": {
 			"code": [

@@ -13,7 +13,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const algoName = location.pathname.slice(1);
 	const algoDetails = algoMap[algoName];
 
-	// Handle page view and animation setup
 	if (!algoDetails) {
 		return <AlgorithmNotFound404 />;
 	}

@@ -36,15 +36,22 @@
 }
 
 .VisualizationMainPage #mainContent {
-	/* padding: 0 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
 	background: #ffffff;
+	width: 100vw;
 	font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
+	flex: 1;
+	flex-direction: column;
+	display: flex;
+	overflow: hidden;
 }
 
 .VisualizationMainPage #container {
 	background: #ffffff;
 	/* margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
 	text-align: left; /* this overrides the text-align: center on the body element. */
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 .VisualizationMainPage #toggle {
@@ -85,7 +92,10 @@
 }
 
 .VisualizationMainPage .viewport {
+	display: flex;
 	position: relative;
+	flex: 1;
+	overflow: hidden;
 }
 
 .VisualizationMainPage #generalAnimationControlSection {
@@ -126,12 +136,6 @@
 .VisualizationMainPage #header a:link {
 	text-decoration: none;
 	color: white;
-}
-
-.VisualizationMainPage #container {
-	background: #ffffff;
-	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
-	text-align: left; /* this overrides the text-align: center on the body element. */
 }
 
 .VisualizationMainPage #footer a:visited {
@@ -629,6 +633,10 @@ input[type='checkbox'] {
 		flex-direction: column;
 		gap: 8px;
 	}
+
+	.VisualizationMainPage #mainContent {
+		overflow-x: auto;
+	}
 }
 
 /* Pseudocode Icon */
@@ -1061,4 +1069,9 @@ input[type='checkbox'] {
 	background-color: var(--pause-button) !important;
 	color: white !important;
 	border: none !important;
+}
+
+#canvas {
+	width: 100%;
+	height: 100%;
 }
