@@ -48,9 +48,6 @@ const ARRAY_ELEM_HEIGHT = 50;
 const COMP_COUNT_X = 100;
 const COMP_COUNT_Y = 50;
 
-const CODE_START_X = 50;
-const CODE_START_Y = 180;
-
 let lastSwapEnabled = true;
 
 export default class CocktailSort extends Algorithm {
@@ -166,12 +163,6 @@ export default class CocktailSort extends Algorithm {
 		);
 
 		this.pseudocode = pseudocodeText.CocktailSort;
-		this.codeID = this.addCodeToCanvasBaseAll(
-			this.pseudocode,
-			'find',
-			CODE_START_X,
-			CODE_START_Y,
-		);
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);
@@ -230,46 +221,38 @@ export default class CocktailSort extends Algorithm {
 	toggleLastSwap() {
 		if (lastSwapEnabled) {
 			this.implementAction(this.clear.bind(this));
-			this.cmd(act.setText, this.codeID.code[2][0], '  sorted ← false');
-			this.cmd(
-				act.setText,
-				this.codeID.code[3][0],
-				'  while start < end and sorted is false',
-			);
-			this.cmd(act.setText, this.codeID.code[4][0], '    sorted ← true');
-			this.cmd(act.setText, this.codeID.code[8][0], '        sorted ← false');
-			this.cmd(act.setText, this.codeID.code[11][0], '    end ← end - 1');
-			this.cmd(act.setText, this.codeID.code[15][0], '        sorted ← false');
-			this.cmd(act.setText, this.codeID.code[18][0], '    start ← start + 1');
+			this.cmd(act.setText, 'find'.code[2][0], '  sorted ← false');
+			this.cmd(act.setText, 'find'.code[3][0], '  while start < end and sorted is false');
+			this.cmd(act.setText, 'find'.code[4][0], '    sorted ← true');
+			this.cmd(act.setText, 'find'.code[8][0], '        sorted ← false');
+			this.cmd(act.setText, 'find'.code[11][0], '    end ← end - 1');
+			this.cmd(act.setText, 'find'.code[15][0], '        sorted ← false');
+			this.cmd(act.setText, 'find'.code[18][0], '    start ← start + 1');
 
-			this.cmd(act.setText, this.codeID.english[2][0], '  mark sorted as false');
-			this.cmd(
-				act.setText,
-				this.codeID.english[3][0],
-				'  while (start < end and not sorted):',
-			);
-			this.cmd(act.setText, this.codeID.english[4][0], '    mark sorted as true');
-			this.cmd(act.setText, this.codeID.english[8][0], '        mark sorted as false');
-			this.cmd(act.setText, this.codeID.english[11][0], '    decrement end');
-			this.cmd(act.setText, this.codeID.english[15][0], '        mark sorted as false');
-			this.cmd(act.setText, this.codeID.english[18][0], '    increment start');
+			this.cmd(act.setText, 'find'.english[2][0], '  mark sorted as false');
+			this.cmd(act.setText, 'find'.english[3][0], '  while (start < end and not sorted):');
+			this.cmd(act.setText, 'find'.english[4][0], '    mark sorted as true');
+			this.cmd(act.setText, 'find'.english[8][0], '        mark sorted as false');
+			this.cmd(act.setText, 'find'.english[11][0], '    decrement end');
+			this.cmd(act.setText, 'find'.english[15][0], '        mark sorted as false');
+			this.cmd(act.setText, 'find'.english[18][0], '    increment start');
 		} else {
 			this.implementAction(this.clear.bind(this));
-			this.cmd(act.setText, this.codeID.code[2][0], '  swapped ← start');
-			this.cmd(act.setText, this.codeID.code[3][0], '  while start < end');
-			this.cmd(act.setText, this.codeID.code[4][0], '    swapped ← start');
-			this.cmd(act.setText, this.codeID.code[8][0], '        swapped ← i');
-			this.cmd(act.setText, this.codeID.code[11][0], '    end ← swapped');
-			this.cmd(act.setText, this.codeID.code[15][0], '        swapped ← i');
-			this.cmd(act.setText, this.codeID.code[18][0], '    start ← swapped');
+			this.cmd(act.setText, 'find'.code[2][0], '  swapped ← start');
+			this.cmd(act.setText, 'find'.code[3][0], '  while start < end');
+			this.cmd(act.setText, 'find'.code[4][0], '    swapped ← start');
+			this.cmd(act.setText, 'find'.code[8][0], '        swapped ← i');
+			this.cmd(act.setText, 'find'.code[11][0], '    end ← swapped');
+			this.cmd(act.setText, 'find'.code[15][0], '        swapped ← i');
+			this.cmd(act.setText, 'find'.code[18][0], '    start ← swapped');
 
-			this.cmd(act.setText, this.codeID.english[2][0], '  lastSwapped points to start');
-			this.cmd(act.setText, this.codeID.english[3][0], '  while (start < end):');
-			this.cmd(act.setText, this.codeID.english[4][0], '    lastSwapped points to start');
-			this.cmd(act.setText, this.codeID.english[8][0], '        lastSwapped points to i');
-			this.cmd(act.setText, this.codeID.english[11][0], '    end points to lastSwapped');
-			this.cmd(act.setText, this.codeID.english[15][0], '        lastSwapped points to i');
-			this.cmd(act.setText, this.codeID.english[18][0], '    starts points to lastSwapped');
+			this.cmd(act.setText, 'find'.english[2][0], '  lastSwapped points to start');
+			this.cmd(act.setText, 'find'.english[3][0], '  while (start < end):');
+			this.cmd(act.setText, 'find'.english[4][0], '    lastSwapped points to start');
+			this.cmd(act.setText, 'find'.english[8][0], '        lastSwapped points to i');
+			this.cmd(act.setText, 'find'.english[11][0], '    end points to lastSwapped');
+			this.cmd(act.setText, 'find'.english[15][0], '        lastSwapped points to i');
+			this.cmd(act.setText, 'find'.english[18][0], '    starts points to lastSwapped');
 		}
 		lastSwapEnabled = !lastSwapEnabled;
 	}
@@ -319,8 +302,8 @@ export default class CocktailSort extends Algorithm {
 			return this.commands;
 		}
 
-		this.highlight(1, 0, this.codeID);
-		this.highlight(2, 0, this.codeID);
+		this.highlight(1, 0, 'find');
+		this.highlight(2, 0, 'find');
 
 		this.arrayID = [];
 		this.arrayData = list
@@ -380,91 +363,91 @@ export default class CocktailSort extends Algorithm {
 		);
 		this.cmd(act.setHighlight, this.jPointerID, 1);
 		this.cmd(act.step);
-		this.unhighlight(1, 0, this.codeID);
-		this.unhighlight(2, 0, this.codeID);
+		this.unhighlight(1, 0, 'find');
+		this.unhighlight(2, 0, 'find');
 
 		let sorted = true;
 		let start = 0;
 		let end = this.arrayData.length - 1;
 		let lastSwapped = 0;
-		this.highlight(3, 0, this.codeID);
+		this.highlight(3, 0, 'find');
 		this.cmd(act.step);
 		do {
-			this.highlight(4, 0, this.codeID);
+			this.highlight(4, 0, 'find');
 			this.cmd(act.step);
-			this.unhighlight(4, 0, this.codeID);
-			this.highlight(5, 0, this.codeID);
+			this.unhighlight(4, 0, 'find');
+			this.highlight(5, 0, 'find');
 			sorted = true;
 			for (let i = start; i < end; i++) {
 				this.movePointers(i, i + 1);
-				this.highlight(6, 0, this.codeID);
+				this.highlight(6, 0, 'find');
 				this.cmd(
 					act.setText,
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
 				this.cmd(act.step);
-				this.unhighlight(6, 0, this.codeID);
+				this.unhighlight(6, 0, 'find');
 				if (this.arrayData[i] > this.arrayData[i + 1]) {
-					this.highlight(7, 0, this.codeID);
-					this.highlight(8, 0, this.codeID);
+					this.highlight(7, 0, 'find');
+					this.highlight(8, 0, 'find');
 					this.swap(i, i + 1);
 					sorted = false;
 					lastSwapped = i;
 				}
-				this.unhighlight(7, 0, this.codeID);
-				this.unhighlight(8, 0, this.codeID);
+				this.unhighlight(7, 0, 'find');
+				this.unhighlight(8, 0, 'find');
 				this.cmd(act.step);
 			}
 			this.cmd(act.step);
-			this.unhighlight(5, 0, this.codeID);
-			this.highlight(11, 0, this.codeID);
+			this.unhighlight(5, 0, 'find');
+			this.highlight(11, 0, 'find');
 			if (lastSwapEnabled) {
 				end = lastSwapped;
 			} else {
 				end--;
 			}
 			this.cmd(act.step);
-			this.unhighlight(11, 0, this.codeID);
+			this.unhighlight(11, 0, 'find');
 			if (!sorted) {
 				for (let i = end + 1; i < this.arrayData.length; i++) {
 					this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
 				}
 				this.cmd(act.step);
 			}
-			this.highlight(12, 0, this.codeID);
+			this.highlight(12, 0, 'find');
 			this.cmd(act.step);
 			if (!sorted) {
 				sorted = true;
 				for (let i = end; i > start; i--) {
 					this.movePointers(i - 1, i);
-					this.highlight(13, 0, this.codeID);
+					this.highlight(13, 0, 'find');
 					this.cmd(
 						act.setText,
 						this.comparisonCountID,
 						'Comparison Count: ' + ++this.compCount,
 					);
 					this.cmd(act.step);
-					this.unhighlight(13, 0, this.codeID);
+					this.unhighlight(13, 0, 'find');
 					if (+this.arrayData[i] < +this.arrayData[i - 1]) {
-						this.highlight(14, 0, this.codeID);
-						this.highlight(15, 0, this.codeID);
+						this.highlight(14, 0, 'find');
+						this.highlight(15, 0, 'find');
 						this.swap(i, i - 1);
 						sorted = false;
 						lastSwapped = i;
 					}
-					this.unhighlight(14, 0, this.codeID);
-					this.unhighlight(15, 0, this.codeID);
+					this.unhighlight(14, 0, 'find');
+					this.unhighlight(15, 0, 'find');
 					this.cmd(act.step);
 				}
-				this.highlight(18, 0, this.codeID);
+				this.highlight(18, 0, 'find');
 				if (lastSwapEnabled) {
 					start = lastSwapped;
 				} else {
 					start++;
 				}
 				this.cmd(act.step);
-				this.unhighlight(18, 0, this.codeID);
+				this.unhighlight(18, 0, 'find');
 				if (!sorted) {
 					for (let i = start - 1; i >= 0; i--) {
 						this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
@@ -472,11 +455,11 @@ export default class CocktailSort extends Algorithm {
 					this.cmd(act.step);
 				}
 			}
-			this.unhighlight(12, 0, this.codeID);
-			this.highlight(3, 0, this.codeID);
+			this.unhighlight(12, 0, 'find');
+			this.highlight(3, 0, 'find');
 			this.cmd(act.step);
 		} while (!sorted);
-		this.unhighlight(3, 0, this.codeID);
+		this.unhighlight(3, 0, 'find');
 
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);
