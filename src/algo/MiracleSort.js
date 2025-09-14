@@ -123,13 +123,6 @@ export default class MergeSort extends Algorithm {
 		this.iPointerID = this.nextIndex++;
 		this.jPointerID = this.nextIndex++;
 
-		// this.pseudocode = pseudocodeText.MiracleSort;
-		// this.codeID = this.addCodeToCanvasBaseAll(
-		// 	this.pseudocode,
-		// 	'find',
-		// 	CODE_START_X,
-		// 	CODE_START_Y,
-		// );
 		this.resetIndex = this.nextIndex;
 
 		this.animationManager.startNewAnimation(this.commands);

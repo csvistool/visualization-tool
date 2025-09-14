@@ -3,6 +3,7 @@
 	--control: #f5f7fa;
 	--border: #95989c;
 	--button: #f5f7fa;
+	--code-toggle-button: rgba(245, 247, 250, 0.5);
 	--header: #4a7bbd;
 	--filter: brightness(90%);
 	--shadow: rgba(0, 0, 0, 0.1);
@@ -16,6 +17,7 @@
 	--control: #011228;
 	--border: #4a5568;
 	--button: #2d3748;
+	--code-toggle-button: rgba(45, 55, 72, 0.5);
 	--header: #011228;
 	--filter: brightness(120%);
 	--shadow: rgba(0, 0, 0, 0.3);
@@ -34,15 +36,22 @@
 }
 
 .VisualizationMainPage #mainContent {
-	/* padding: 0 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
 	background: #ffffff;
+	width: 100vw;
 	font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
+	flex: 1;
+	flex-direction: column;
+	display: flex;
+	overflow: hidden;
 }
 
 .VisualizationMainPage #container {
 	background: #ffffff;
 	/* margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
 	text-align: left; /* this overrides the text-align: center on the body element. */
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 .VisualizationMainPage #toggle {
@@ -83,7 +92,10 @@
 }
 
 .VisualizationMainPage .viewport {
+	display: flex;
 	position: relative;
+	flex: 1;
+	overflow: hidden;
 }
 
 .VisualizationMainPage #generalAnimationControlSection {
@@ -124,12 +136,6 @@
 .VisualizationMainPage #header a:link {
 	text-decoration: none;
 	color: white;
-}
-
-.VisualizationMainPage #container {
-	background: #ffffff;
-	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
-	text-align: left; /* this overrides the text-align: center on the body element. */
 }
 
 .VisualizationMainPage #footer a:visited {
@@ -555,6 +561,10 @@ input[type='checkbox'] {
 	transition: background-color 0.2s;
 }
 
+.pseudocode-line-highlighted {
+	background-color: rgba(74, 123, 189, 0.25);
+}
+
 .pseudocode-line:hover {
 	background-color: rgba(0, 0, 0, 0.05);
 	border-radius: 3px;
@@ -622,6 +632,10 @@ input[type='checkbox'] {
 	.pseudocode-controls {
 		flex-direction: column;
 		gap: 8px;
+	}
+
+	.VisualizationMainPage #mainContent {
+		overflow-x: auto;
 	}
 }
 
@@ -697,14 +711,15 @@ input[type='checkbox'] {
 	align-items: center;
 }
 
-.code-toggle-button {
+.modal-content .code-toggle-button {
 	width: 40px;
 	height: 40px;
-	border-radius: 50%;
 	display: flex;
+	position: absolute;
+	right: 2rem;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--button);
+	background-color: var(--code-toggle-button);
 	color: var(--primary);
 	border: 1px solid var(--border);
 	cursor: pointer;
@@ -1054,4 +1069,9 @@ input[type='checkbox'] {
 	background-color: var(--pause-button) !important;
 	color: white !important;
 	border: none !important;
+}
+
+#canvas {
+	width: 100%;
+	height: 100%;
 }

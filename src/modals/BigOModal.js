@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import timeComplexities from '../time_complexities.json';
 
 let blurEnabled = true;
 
@@ -58,7 +57,7 @@ const ToggleBlurCell = ({ text, width, force }) => {
 		<td
 			style={{ width: width }}
 			className={isBlurred ? 'blur big_o_cell' : 'big_o_cell'}
-			onClick={() => isBlurred ? setIsBlurred(false) : setIsBlurred(true)}
+			onClick={() => (isBlurred ? setIsBlurred(false) : setIsBlurred(true))}
 		>
 			{applyEquationClass(text, force)}
 		</td>
@@ -84,16 +83,16 @@ function toggleBlur() {
 	}
 }
 
-const Modals = page => {
-	return timeComplexities[page] ? (
+const BigOModal = ({ complexities }) => {
+	return complexities ? (
 		<div>
 			<div className="button-container">
 				<button onClick={toggleBlur}>Reveal All Big-O</button>
 			</div>
 			<text> Click to reveal answer </text>
-			{renderRows(timeComplexities[page])}
+			{renderRows(complexities)}
 		</div>
 	) : null;
 };
 
-export default Modals;
+export default BigOModal;
