@@ -56,6 +56,18 @@ const AlgoSection = ({ theme }) => {
 		lineElement.classList.remove('pseudocode-line-highlighted');
 	}, []);
 
+	// Get pseudocode
+	useEffect(() => {
+		const data = pseudocodeText[algoName];
+		setPseudocodeData(data);
+	}, [algoName]);
+
+	const pseudocodeDataRef = useRef(null);
+
+	useEffect(() => {
+		pseudocodeDataRef.current = pseudocodeData;
+	}, [pseudocodeData]);
+
 	// Handle page view and animation setup
 	useEffect(() => {
 		ReactGA.send({ hitType: 'pageview', page: algoName });
@@ -84,6 +96,13 @@ const AlgoSection = ({ theme }) => {
 				}
 			}
 
+			animManagRef.current.addListener("AnimationStarted", null, () => {
+				setInfoModalEnabled(true);
+				if (pseudocodeDataRef.current) {
+					setInfoModalTab('code');
+				}
+			});
+
 			// Check for pseudocode parameter
 			if (searchParams.has('pseudocode') && hasPseudoCode) {
 				setPseudocodeType('english');
@@ -104,11 +123,6 @@ const AlgoSection = ({ theme }) => {
 			};
 		}
 	}, [algoName, algoDetails, searchParams, setHighlightedLine, unhighlightLine]);
-
-	useEffect(() => {
-		const data = pseudocodeText[algoName];
-		setPseudocodeData(data);
-	}, [algoName]);
 
 	const toggleInfoModal = () => {
 		// When opening the modal, set the appropriate tab
