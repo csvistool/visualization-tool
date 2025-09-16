@@ -30,7 +30,7 @@ import Algorithm, {
 	addLabelToAlgorithmBar,
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
-import pseudocodeText from '../pseudocode.json';
+// import pseudocodeText from '../pseudocode.json';
 
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
@@ -112,7 +112,7 @@ export default class LCS extends Algorithm {
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
 		// Pseudocode
-		this.pseudocode = pseudocodeText.LCS;
+		// this.pseudocode = pseudocodeText.LCS;
 
 		// this.codeID = Array(this.code.length);
 		// let i, j;
