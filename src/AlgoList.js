@@ -57,7 +57,6 @@ export const algoMap = {
 	DisjointSet: ['Disjoint Set', algos.DisjointSet, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
-	UniquePaths: ['UniquePaths', algos.UniquePaths, true, 'Unique Paths (Dynamic Programming)'],
 };
 
 const aprilFoolsAlgos = ['LVA', 'NonLinearProbing'];
@@ -108,7 +107,6 @@ export const algoList = [
 	'LCS',
 	'---',
 	'DP & Extras',
-	'UniquePaths',
 	'CreateGraph',
 	'DisjointSet',
 	'SplayTree',
@@ -365,5 +363,17 @@ export const algoFilter = [
 	{
 		id: 'DropSort',
 		category: 'DP & Extras',
+	},
+	{
+		id: 'DisjointSet',
+		category: 'DP & Extras',
+	},
+	{
+		id: 'Floyd',
+		category: 'Graph Algorithms',
+	},
+	{
+		id: 'SplayTree',
+		category: 'Trees and SkipList',
 	},
 ];
