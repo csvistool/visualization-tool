@@ -45,6 +45,13 @@ const AlgoSection = ({ theme }) => {
 		if (!lineElement) return;
 
 		lineElement.classList.add('pseudocode-line-highlighted');
+
+		// jumps to whatever line is highlighted
+		lineElement.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+		});
+
 	}, []);
 
 	const unhighlightLine = useCallback((methodName, line) => {
@@ -55,6 +62,18 @@ const AlgoSection = ({ theme }) => {
 
 		lineElement.classList.remove('pseudocode-line-highlighted');
 	}, []);
+
+	// Get pseudocode
+	useEffect(() => {
+		const data = pseudocodeText[algoName];
+		setPseudocodeData(data);
+	}, [algoName]);
+
+	const pseudocodeDataRef = useRef(null);
+
+	useEffect(() => {
+		pseudocodeDataRef.current = pseudocodeData;
+	}, [pseudocodeData]);
 
 	// Handle page view and animation setup
 	useEffect(() => {
@@ -91,6 +110,13 @@ const AlgoSection = ({ theme }) => {
 				setInfoModalTab('code');
 			}
 
+			animManagRef.current.addListener("AnimationStarted", null, () => {
+				setInfoModalEnabled(true);
+				if (pseudocodeDataRef.current) {
+					setInfoModalTab('code');
+				}
+			});
+
 			const updateDimensions = () => {
 				animManagRef.current.changeSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);;
 			};
@@ -104,11 +130,6 @@ const AlgoSection = ({ theme }) => {
 			};
 		}
 	}, [algoName, algoDetails, searchParams, setHighlightedLine, unhighlightLine]);
-
-	useEffect(() => {
-		const data = pseudocodeText[algoName];
-		setPseudocodeData(data);
-	}, [algoName]);
 
 	const toggleInfoModal = () => {
 		// When opening the modal, set the appropriate tab
@@ -127,7 +148,7 @@ const AlgoSection = ({ theme }) => {
 	const togglePseudocodeType = () => {
 		setPseudocodeType(prev => (prev === 'english' ? 'code' : 'english'));
 	};
-
+	
 	if (!algoDetails) {
 		return <AlgorithmNotFound404 />;
 	}

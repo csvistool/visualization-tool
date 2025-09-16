@@ -1033,7 +1033,7 @@
 				["end procedure"]
 			],
 			"english": [
-				["procedure removeBack()"],
+				["procedure removeLast()"],
 				["  copy data at tail to temp"],
 				["  tail moves to previous node"],
 				["  if (tail is null):"],
