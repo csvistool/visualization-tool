@@ -54,6 +54,7 @@ export const algoMap = {
 	Dijkstra: ["Dijkstra's", algos.Dijkstras, true],
 	Prim: ["Prim's", algos.Prims, true],
 	Kruskal: ["Kruskal's", algos.Kruskals, true],
+	DisjointSet: ['Disjoint Set', algos.DisjointSet, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
 	UniquePaths: ['UniquePaths', algos.UniquePaths, true, 'Unique Paths (Dynamic Programming)'],
@@ -109,6 +110,7 @@ export const algoList = [
 	'DP & Extras',
 	'UniquePaths',
 	'CreateGraph',
+	'DisjointSet',
 	'SplayTree',
 	'Floyd',
 	'DropSort',
@@ -178,11 +180,11 @@ export const relatedSearches = {
 	BoyerMoore: ['BruteForce', 'KMP', 'RabinKarp'],
 	KMP: ['BruteForce', 'BoyerMoore', 'RabinKarp'],
 	RabinKarp: ['BruteForce', 'BoyerMoore', 'KMP'],
-	BFS: ['DFS', 'Dijkstra', 'Prim', 'Kruskal'],
-	DFS: ['BFS', 'Dijkstra', 'Prim', 'Kruskal'],
-	Dijkstra: ['BFS', 'DFS', 'Prim', 'Kruskal'],
-	Prim: ['BFS', 'DFS', 'Dijkstra', 'Kruskal'],
-	Kruskal: ['BFS', 'DFS', 'Dijkstra', 'Prim'],
+	BFS: ['DFS', 'Dijkstra', 'Prim', 'Kruskal', 'DisjointSet'],
+	DFS: ['BFS', 'Dijkstra', 'Prim', 'Kruskal', 'DisjointSet'],
+	Dijkstra: ['BFS', 'DFS', 'Prim', 'Kruskal', 'DisjointSet'],
+	Prim: ['BFS', 'DFS', 'Dijkstra', 'Kruskal', 'DisjointSet'],
+	Kruskal: ['BFS', 'DFS', 'Dijkstra', 'Prim', 'DisjointSet'],
 	LCS: ['Floyd'],
 	Floyd: ['LCS'],
 };
@@ -339,6 +341,10 @@ export const algoFilter = [
 	{
 		id: 'CreateGraph',
 		category: 'DP & Extras',
+	},
+	{
+		id: "DisjointSet",
+		category: 'DP & Extras'
 	},
 	{
 		id: 'SplayTree',
