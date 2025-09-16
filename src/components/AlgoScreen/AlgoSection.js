@@ -45,6 +45,13 @@ const AlgoSection = ({ theme }) => {
 		if (!lineElement) return;
 
 		lineElement.classList.add('pseudocode-line-highlighted');
+
+		// jumps to whatever line is highlighted
+		lineElement.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+		});
+
 	}, []);
 
 	const unhighlightLine = useCallback((methodName, line) => {
@@ -96,19 +103,19 @@ const AlgoSection = ({ theme }) => {
 				}
 			}
 
-			animManagRef.current.addListener("AnimationStarted", null, () => {
-				setInfoModalEnabled(true);
-				if (pseudocodeDataRef.current) {
-					setInfoModalTab('code');
-				}
-			});
-
 			// Check for pseudocode parameter
 			if (searchParams.has('pseudocode') && hasPseudoCode) {
 				setPseudocodeType('english');
 				setInfoModalEnabled(true);
 				setInfoModalTab('code');
 			}
+
+			animManagRef.current.addListener("AnimationStarted", null, () => {
+				setInfoModalEnabled(true);
+				if (pseudocodeDataRef.current) {
+					setInfoModalTab('code');
+				}
+			});
 
 			const updateDimensions = () => {
 				animManagRef.current.changeSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);;
@@ -141,7 +148,7 @@ const AlgoSection = ({ theme }) => {
 	const togglePseudocodeType = () => {
 		setPseudocodeType(prev => (prev === 'english' ? 'code' : 'english'));
 	};
-
+	
 	if (!algoDetails) {
 		return <AlgorithmNotFound404 />;
 	}
