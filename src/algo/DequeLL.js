@@ -189,6 +189,8 @@ export default class DequeLL extends Algorithm {
 		this.cmd(act.createLabel, this.leftoverLabelID, '', QUEUE_LABEL_X, QUEUE_LABEL_Y);
 		this.cmd(act.createLabel, this.leftoverValID, '', QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
 
+		this.highlight1ID = this.nextIndex++;
+
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
 		this.animationManager.clearHistory();
@@ -197,6 +199,7 @@ export default class DequeLL extends Algorithm {
 	reset() {
 		this.size = 0;
 		this.nextIndex = this.initialIndex;
+		this.highlight1ID = this.nextIndex++;
 	}
 
 	addFirstCallback() {
@@ -268,6 +271,20 @@ export default class DequeLL extends Algorithm {
 		const labPushID = this.nextIndex++;
 		const labPushValID = this.nextIndex++;
 
+		if (index === 0) {
+			this.highlight(0, 0, 'addFirst')
+		} else if (index === this.size) {
+			this.highlight(0, 0, 'addLast')
+		}
+		this.cmd(act.step);
+
+		if (index === 0) {
+			this.highlight(1, 0, 'addFirst');
+		} else if (index === this.size) {
+			this.highlight(1, 0, 'addLast');
+		}
+		this.cmd(act.step);
+
 		for (let i = this.size - 1; i >= index; i--) {
 			this.arrayData[i + 1] = this.arrayData[i];
 			this.linkedListElemID[i + 1] = this.linkedListElemID[i];
@@ -292,50 +309,82 @@ export default class DequeLL extends Algorithm {
 		this.cmd(act.createLabel, labPushID, 'Enqueuing Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
 		this.cmd(act.createLabel, labPushValID, elemToAdd, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
 
+		if (this.size === 0) {
+			this.highlight(2,0, 'addFirst')
+			this.highlight(3,0, 'addFirst')
+		} else {
+			if (index === 0) {
+				this.unhighlight(1, 0, 'addFirst')
+				this.highlight(4, 0, 'addFirst')
+				this.highlight(5, 0, 'addFirst')
+			} else if (index === this.size) {
+				this.unhighlight(1, 0, 'addLast')
+				this.highlight(4, 0, 'addLast')
+				this.highlight(5, 0, 'addLast')
+			}
+		}
 		this.cmd(act.step);
 
 		this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
-
 		this.cmd(act.step);
 		this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
 		this.cmd(act.delete, labPushValID);
 
+
 		if (index === 0) {
 			this.cmd(act.setPrevNull, this.linkedListElemID[index], 1);
 			this.cmd(act.connect, this.headID, this.linkedListElemID[index]);
-		}
-
-		if (index === this.size) {
+		} else if (index === this.size) {
 			this.cmd(act.setNextNull, this.linkedListElemID[index], 1);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[index]);
 		}
 
 		if (this.size !== 0) {
 			if (index === 0) {
+				this.unhighlight(5, 0, 'addFirst')
+				this.highlight(6, 0, 'addFirst')
 				this.cmd(act.setPrevNull, this.linkedListElemID[index + 1], 0);
 				this.cmd(
 					act.connectNext,
 					this.linkedListElemID[index],
 					this.linkedListElemID[index + 1],
 				);
+				this.cmd(act.step);
+
+				this.unhighlight(6, 0, 'addFirst')
+				this.highlight(7, 0, 'addFirst')
 				this.cmd(
 					act.connectPrev,
 					this.linkedListElemID[index + 1],
 					this.linkedListElemID[index],
 				);
+				this.cmd(act.step);
+
+				this.unhighlight(7, 0, 'addFirst')
+				this.highlight(8, 0, 'addFirst')
 				this.cmd(act.disconnect, this.headID, this.linkedListElemID[index + 1]);
 			} else if (index === this.size) {
+				this.unhighlight(5, 0, 'addLast')
+				this.highlight(6, 0, 'addLast')
 				this.cmd(act.setNextNull, this.linkedListElemID[index - 1], 0);
 				this.cmd(
 					act.connectNext,
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index],
 				);
+				this.cmd(act.step);
+
+				this.unhighlight(6, 0, 'addLast')
+				this.highlight(7, 0, 'addLast')
 				this.cmd(
 					act.connectPrev,
 					this.linkedListElemID[index],
 					this.linkedListElemID[index - 1],
 				);
+				this.cmd(act.step);
+
+				this.unhighlight(7, 0, 'addLast')
+				this.highlight(8, 0, 'addLast')
 				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index - 1]);
 			} else {
 				this.cmd(
@@ -369,13 +418,53 @@ export default class DequeLL extends Algorithm {
 					this.linkedListElemID[index],
 				);
 			}
+		} else if (this.size === 0) {
+			this.unhighlight(2, 0, 'addFirst')
+			this.unhighlight(3, 0, 'addFirst')
+			this.cmd(act.step);
+
+			this.unhighlight(1, 0, 'addFirst')
+		}
+		this.cmd(act.step);
+
+		if (index === 0) {
+			this.unhighlight(4,0, 'addFirst')
+			this.unhighlight(8, 0, 'addFirst')
+			this.highlight(9, 0, 'addFirst')
+		} else if (index === this.size) {
+			this.unhighlight(4,0, 'addLast')
+			this.unhighlight(8, 0, 'addLast')
+			this.highlight(9, 0, 'addLast')
 		}
 
 		this.cmd(act.step);
 		this.size = this.size + 1;
 		this.resetNodePositions();
 		this.cmd(act.delete, labPushID);
-		this.cmd(act.step);
+
+		if (index === 0) {
+			this.unhighlight(0, 0, 'addFirst')
+			this.unhighlight(9, 0, 'addFirst')
+			this.highlight(10, 0, 'addFirst')
+			this.cmd(act.step);
+		} 
+
+		if (index === this.size - 1) {
+			this.unhighlight(0, 0, 'addLast')
+			this.unhighlight(9, 0, 'addLast')
+			this.highlight(10, 0, 'addLast')
+			this.cmd(act.step);
+		}
+
+		if (index === 0) {
+			this.unhighlight(10, 0, 'addFirst')
+			this.cmd(act.step);
+		} 
+		
+		if (index === this.size - 1) {
+			this.unhighlight(10, 0, 'addLast')
+			this.cmd(act.step);
+		}
 
 		return this.commands;
 	}
@@ -387,18 +476,53 @@ export default class DequeLL extends Algorithm {
 		const labPopID = this.nextIndex++;
 		const labPopValID = this.nextIndex++;
 
+		if (index === 0) {
+			this.highlight(0, 0, 'removeFirst')
+		} else if (index === this.size - 1) {
+			this.highlight(0, 0, 'removeLast')
+		}
+		this.cmd(act.step);
+
 		this.cmd(act.setText, this.leftoverLabelID, '');
 		this.cmd(act.setText, this.leftoverValID, '');
-
 		const nodePosX = LINKED_LIST_START_X + LINKED_LIST_ELEM_SPACING * index;
 		const nodePosY = LINKED_LIST_START_Y;
 		this.cmd(act.createLabel, labPopID, 'Removed Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
 		this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
 		this.cmd(act.move, labPopValID, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
+
+		if (index === 0) {
+			this.highlight(1, 0, 'removeFirst')
+		} else if (index === this.size - 1) {
+			this.highlight(1, 0, 'removeLast')
+		}
+		this.cmd(act.step);
+		
+		if (index === 0) {
+			this.unhighlight(1, 0, 'removeFirst')
+			this.highlight(2, 0, 'removeFirst')
+		} else if (index === this.size - 1) {
+			this.unhighlight(1, 0, 'removeLast')
+			this.highlight(2, 0, 'removeLast')
+		}
+		this.cmd(act.step);
+
+		if (index === 0) {
+			this.unhighlight(2, 0, 'removeFirst')
+			this.highlight(3, 0, 'removeFirst')
+		} else if (index === this.size) {
+			this.unhighlight(2, 0, 'removeLast')
+			this.highlight(3, 0, 'removeLast')
+		}
 		this.cmd(act.step);
 
 		if (this.size !== 1) {
 			if (index === 0) {
+				this.unhighlight(3, 0, 'removeFirst')
+				this.highlight(5, 0, 'removeFirst')
+				this.highlight(6, 0, 'removeFirst')
+				this.cmd(act.step);
+
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index + 1],
@@ -408,6 +532,11 @@ export default class DequeLL extends Algorithm {
 				this.cmd(act.disconnect, this.headID, this.linkedListElemID[index]);
 				this.cmd(act.connect, this.headID, this.linkedListElemID[index + 1]);
 			} else if (index === this.size - 1) {
+				this.unhighlight(3, 0, 'removeLast')
+				this.highlight(5, 0, 'removeLast')
+				this.highlight(6, 0, 'removeLast')
+				this.cmd(act.step);
+
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index - 1],
@@ -445,8 +574,21 @@ export default class DequeLL extends Algorithm {
 				);
 			}
 		} else {
+			if (index === 0) {
+				this.highlight(4, 0, 'removeFirst')
+			} else if (index === this.size - 1) {
+				this.highlight(4, 0, 'removeLast')
+			}
+			this.cmd(act.step)
 			this.cmd(act.disconnect, this.headID, this.linkedListElemID[index]);
 			this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
+
+			if (index === 0) {
+				this.unhighlight(4, 0, 'removeFirst')
+			} else if (index === this.size - 1) {
+				this.unhighlight(4, 0, 'removeLast')
+			}
+			this.cmd(act.step)
 		}
 
 		this.cmd(act.setText, this.leftoverLabelID, 'Removed Value: ');
@@ -455,15 +597,52 @@ export default class DequeLL extends Algorithm {
 		this.cmd(act.delete, labPopValID);
 		this.cmd(act.delete, labPopID);
 
-		this.cmd(act.step);
 		this.cmd(act.delete, this.linkedListElemID[index]);
+
+		if (index === 0) {
+			this.unhighlight(5, 0, 'removeFirst')
+			this.unhighlight(6, 0, 'removeFirst')
+			this.highlight(7, 0, 'removeFirst')
+			this.highlight(8, 0, 'removeFirst')
+			this.cmd(act.step);
+		} else if (index === this.size - 1) {
+			this.unhighlight(5, 0, 'removeLast')
+			this.unhighlight(6, 0, 'removeLast')
+			this.highlight(7, 0, 'removeLast')
+			this.highlight(8, 0, 'removeLast')
+			this.cmd(act.step);
+		}
+		this.cmd(act.step);
 
 		for (let i = index; i < this.size; i++) {
 			this.arrayData[i] = this.arrayData[i + 1];
 			this.linkedListElemID[i] = this.linkedListElemID[i + 1];
 		}
+
+		if (index === 0) {
+			this.unhighlight(7, 0, 'removeFirst')
+			this.unhighlight(8, 0, 'removeFirst')
+			this.highlight(9, 0, 'removeFirst')
+			this.cmd(act.step);
+		} else if (index === this.size - 1) {
+			this.unhighlight(7, 0, 'removeLast')
+			this.unhighlight(8, 0, 'removeLast')
+			this.highlight(9, 0, 'removeLast')
+			this.cmd(act.step);
+		}
+		this.cmd(act.step);
+
 		this.size = this.size - 1;
 		this.resetNodePositions();
+
+		if (index === 0) {
+			this.unhighlight(9, 0, 'removeFirst')
+			this.unhighlight(0, 0, 'removeFirst')
+		} else {
+			this.unhighlight(9, 0, 'removeLast')
+			this.unhighlight(0, 0, 'removeLast')
+		}
+		this.cmd(act.step)
 
 		return this.commands;
 	}
