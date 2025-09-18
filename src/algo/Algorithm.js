@@ -426,9 +426,17 @@ export default class Algorithm {
 				!sizeGood ||
 				(intOnly &&
 					!(
-						(keyASCII >= 48 && keyASCII <= 57) ||
-						(keyASCII === 189 && field.value.length === 0) ||
-						(keyASCII >= 96 && keyASCII <= 105)
+						(keyASCII >= 48 && keyASCII <= 57) || // 0-9
+						(keyASCII === 189 && field.value.length === 0) || // minus at start
+						(keyASCII >= 96 && keyASCII <= 105) // numpad 0-9
+					)) ||
+				(!intOnly &&
+					!(
+						(keyASCII >= 48 && keyASCII <= 57) || // 0-9
+						(keyASCII >= 65 && keyASCII <= 90) || // A-Z
+						(keyASCII >= 97 && keyASCII <= 122) || // a-z
+						(keyASCII === 189 && field.value.length === 0) || // minus at start
+						(keyASCII >= 96 && keyASCII <= 105) // numpad 0-9
 					))
 			) {
 				if (!controlKey(keyASCII)) return false;

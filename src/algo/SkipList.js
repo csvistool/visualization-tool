@@ -89,7 +89,7 @@ export default class SkipList extends Algorithm {
 			this.addValueField,
 			this.addWithHeadsCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.addValueField);
 
@@ -125,7 +125,7 @@ export default class SkipList extends Algorithm {
 			this.addValueFieldRandom,
 			this.addRandomlyCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.addValueFieldRandom);
 
@@ -149,7 +149,7 @@ export default class SkipList extends Algorithm {
 			this.removeField,
 			this.removeCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.removeField);
 
@@ -167,7 +167,7 @@ export default class SkipList extends Algorithm {
 			this.getField,
 			this.getCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.getField);
 
@@ -262,7 +262,7 @@ export default class SkipList extends Algorithm {
 
 	addRandomlyCallback() {
 		if (this.addValueFieldRandom.value !== '') {
-			const addVal = parseInt(this.addValueFieldRandom.value);
+			const addVal = this.addValueFieldRandom.value;
 			this.addValueFieldRandom.value = '';
 			this.headsField.value = '';
 			this.implementAction(this.add.bind(this), addVal);
@@ -273,7 +273,7 @@ export default class SkipList extends Algorithm {
 
 	addWithHeadsCallback() {
 		if (this.addValueField.value !== '' && this.headsField.value !== '') {
-			const addVal = parseInt(this.addValueField.value);
+			const addVal = this.addValueField.value;
 			this.addValueField.value = '';
 			const heads = parseInt(this.headsField.value);
 			this.headsField.value = '';
@@ -285,7 +285,7 @@ export default class SkipList extends Algorithm {
 
 	removeCallback() {
 		if (this.removeField.value !== '') {
-			const value = parseInt(this.removeField.value);
+			const value = this.removeField.value;
 			this.removeField.value = '';
 			this.implementAction(this.remove.bind(this), value);
 		} else {
@@ -295,7 +295,7 @@ export default class SkipList extends Algorithm {
 
 	getCallback() {
 		if (this.getField.value !== '') {
-			const value = parseInt(this.getField.value);
+			const value = this.getField.value;
 			this.getField.value = '';
 			this.implementAction(this.get.bind(this), value);
 		} else {
