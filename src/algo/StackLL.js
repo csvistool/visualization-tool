@@ -73,7 +73,7 @@ export default class StackLL extends Algorithm {
 			this.pushField,
 			this.pushCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 
 		this.pushButton = addControlToAlgorithmBar('Button', 'Push');

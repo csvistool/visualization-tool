@@ -79,7 +79,7 @@ export default class DequeLL extends Algorithm {
 		// Add's value text field
 		this.addField = addControlToAlgorithmBar('Text', '');
 		this.addField.style.textAlign = 'center';
-		this.addField.onkeydown = this.returnSubmit(this.addField, null, 4, true);
+		this.addField.onkeydown = this.returnSubmit(this.addField, null, 4, false);
 		this.controls.push(this.addField);
 
 		// Add first button
@@ -204,7 +204,7 @@ export default class DequeLL extends Algorithm {
 
 	addFirstCallback() {
 		if (this.addField.value !== '') {
-			const addVal = parseInt(this.addField.value);
+			const addVal = this.addField.value;
 			this.addField.value = '';
 			this.implementAction(this.add.bind(this), addVal, 0);
 		} else {
@@ -214,7 +214,7 @@ export default class DequeLL extends Algorithm {
 
 	addLastCallback() {
 		if (this.addField.value !== '') {
-			const addVal = parseInt(this.addField.value);
+			const addVal = this.addField.value;
 			this.addField.value = '';
 			this.implementAction(this.add.bind(this), addVal, this.size);
 		} else {

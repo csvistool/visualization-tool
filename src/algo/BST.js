@@ -73,7 +73,7 @@ export default class BST extends Algorithm {
 			this.insertField,
 			this.insertCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.insertField);
 
@@ -89,7 +89,7 @@ export default class BST extends Algorithm {
 			this.deleteField,
 			this.deleteCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.deleteField);
 
@@ -105,7 +105,7 @@ export default class BST extends Algorithm {
 			this.findField,
 			this.findCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.findField);
 
@@ -202,7 +202,7 @@ export default class BST extends Algorithm {
 		if (insertedValue !== '') {
 			// set text value
 			this.insertField.value = '';
-			this.implementAction(this.add.bind(this), parseInt(insertedValue));
+			this.implementAction(this.add.bind(this), insertedValue);
 		} else {
 			this.shake(this.insertButton);
 		}
@@ -212,7 +212,7 @@ export default class BST extends Algorithm {
 		const deletedValue = this.deleteField.value;
 		if (deletedValue !== '' && this.treeRoot) {
 			this.deleteField.value = '';
-			this.implementAction(this.remove.bind(this), parseInt(deletedValue));
+			this.implementAction(this.remove.bind(this), deletedValue);
 		} else {
 			this.shake(this.deleteButton);
 		}
@@ -222,7 +222,7 @@ export default class BST extends Algorithm {
 		const findValue = this.findField.value;
 		if (findValue !== '' && this.treeRoot) {
 			this.findField.value = '';
-			this.implementAction(this.findElement.bind(this), parseInt(findValue));
+			this.implementAction(this.findElement.bind(this), findValue);
 		} else {
 			this.shake(this.findButton);
 		}
