@@ -78,7 +78,7 @@ export default class QueueLL extends Algorithm {
 			this.enqueueField,
 			this.enqueueCallback.bind(this),
 			4,
-			true,
+			false,
 		);
 
 		this.enqueueButton = addControlToAlgorithmBar('Button', 'Enqueue');

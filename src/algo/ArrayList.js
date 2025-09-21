@@ -80,7 +80,7 @@ export default class ArrayList extends Algorithm {
 			this.addValueField,
 			() => this.addIndexCallback(),
 			4,
-			true,
+			false,
 		);
 		this.controls.push(this.addValueField);
 
