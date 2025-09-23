@@ -688,6 +688,22 @@ export default class BST extends Algorithm {
 		this.toClear = [];
 	}
 
+	compare(a, b) {
+		const numA = parseInt(a);
+		const numB = parseInt(b);
+
+		const isNumA = !isNaN(numA);
+		const isNumB = !isNaN(numB);
+
+		if (isNumA && isNumB) {
+			return numA - numB;
+		} else if (!isNumA && !isNumB) {
+			return a.localeCompare(b);
+		} else {
+			return isNumA ? -1 : 1;
+		}
+	}
+
 	add(data, skipPseudocode) {
 		this.commands = [];
 		this.clearOldObjects();
@@ -733,7 +749,8 @@ export default class BST extends Algorithm {
 			return new BSTNode(data, treeNodeID, 0, 0, 'add');
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
-		if (data < curr.data) {
+		// if (data < curr.data) {
+		if (this.compare(data, curr.data) < 0) {
 			this.highlight(8, 0, 'add');
 			this.highlight(9, 0, 'add');
 			this.cmd(act.setText, 0, `${data} < ${curr.data}. Looking at left subtree`);
@@ -746,7 +763,8 @@ export default class BST extends Algorithm {
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
-		} else if (data > curr.data) {
+		// } else if (data > curr.data) {
+		} else if (this.compare(data, curr.data) > 0) {
 			this.highlight(10, 0, 'add');
 			this.highlight(11, 0, 'add');
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking at right subtree`);
