@@ -383,6 +383,22 @@ export default class AVL extends Algorithm {
 		}
 	}
 
+	compare(a, b) {
+		const numA = parseInt(a);
+		const numB = parseInt(b);
+
+		const isNumA = !isNaN(numA);
+		const isNumB = !isNaN(numB);
+
+		if (isNumA && isNumB) {
+			return numA - numB;
+		} else if (!isNumA && !isNumB) {
+			return a.localeCompare(b);
+		} else {
+			return isNumA ? -1 : 1;
+		}
+	}
+
 	add(data) {
 		this.commands = [];
 		this.cmd(act.setText, 0, ' Inserting ' + data);
@@ -411,7 +427,8 @@ export default class AVL extends Algorithm {
 			return new AVLNode(data, treeNodeID, heightLabelID, bfLabelID, 0, 0);
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
-		if (data < curr.data) {
+		// if (data < curr.data) {
+		if (this.compare(data, curr.data) < 0) {
 			this.cmd(act.setText, 0, `${data} < ${curr.data}. Looking at left subtree`);
 			this.cmd(act.step);
 			curr.left = this.addH(data, curr.left);
@@ -419,7 +436,8 @@ export default class AVL extends Algorithm {
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
-		} else if (data > curr.data) {
+		// } else if (data > curr.data) {
+		} else if (this.compare(data, curr.data) > 0) {
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking at right subtree`);
 			this.cmd(act.step);
 			curr.right = this.addH(data, curr.right);
@@ -653,7 +671,8 @@ export default class AVL extends Algorithm {
 			return;
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
-		if (data < curr.data) {
+		// if (data < curr.data) {
+		if (this.compare(data, curr.data) < 0) {
 			this.cmd(act.setText, 0, `${data} < ${curr.data}. Looking left`);
 			this.cmd(act.step);
 			curr.left = this.removeH(curr.left, data);
@@ -662,7 +681,8 @@ export default class AVL extends Algorithm {
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
 				this.resizeTree();
 			}
-		} else if (data > curr.data) {
+		// } else if (data > curr.data) {
+		} else if (this.compare(data, curr.data) < 0) {
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking right`);
 			this.cmd(act.step);
 			curr.right = this.removeH(curr.right, data);
