@@ -70,6 +70,7 @@ const AlgoSection = ({ theme }) => {
 	}, [algoName]);
 
 	const pseudocodeDataRef = useRef(null);
+	const modalOpenedRef = useRef(false);
 
 	useEffect(() => {
 		pseudocodeDataRef.current = pseudocodeData;
@@ -111,8 +112,9 @@ const AlgoSection = ({ theme }) => {
 			}
 
 			animManagRef.current.addListener("AnimationStarted", null, () => {
-				setInfoModalEnabled(true);
-				if (pseudocodeDataRef.current) {
+				if (pseudocodeDataRef.current && !modalOpenedRef.current) {
+					modalOpenedRef.current = true; 
+					setInfoModalEnabled(true);
 					setInfoModalTab('code');
 				}
 			});
