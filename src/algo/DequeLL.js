@@ -330,10 +330,14 @@ export default class DequeLL extends Algorithm {
 		this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
 		this.cmd(act.delete, labPushValID);
 
-
 		if (index === 0) {
 			this.cmd(act.setPrevNull, this.linkedListElemID[index], 1);
 			this.cmd(act.connect, this.headID, this.linkedListElemID[index]);
+
+			if (this.size === 0) {
+				this.cmd(act.connect, this.tailID, this.linkedListElemID[index]);
+			}
+
 		} else if (index === this.size) {
 			this.cmd(act.setNextNull, this.linkedListElemID[index], 1);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[index]);

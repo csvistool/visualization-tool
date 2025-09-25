@@ -579,7 +579,8 @@ export default class BST extends Algorithm {
 		this.cmd(act.setText, 0, 'Searching for ' + value);
 		if (tree != null) {
 			this.cmd(act.setHighlight, tree.graphicID, 1);
-			if (tree.data === value) {
+			// if (tree.data === value) {
+			if (this.compare(tree.data, value) === 0) {
 				this.highlight(11, 0, 'find');
 				this.highlight(12, 0, 'find');
 				this.cmd(
@@ -594,7 +595,8 @@ export default class BST extends Algorithm {
 				this.cmd(act.setText, 0, 'Found: ' + value);
 				this.cmd(act.setHighlight, tree.graphicID, 0, 'find');
 			} else {
-				if (tree.data > value) {
+				// if (tree.data > value) {
+				if (this.compare(tree.data, value) > 0) {
 					this.highlight(7, 0, 'find');
 					this.highlight(8, 0, 'find');
 					this.cmd(
