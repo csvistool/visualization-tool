@@ -294,7 +294,8 @@ export default class AVL extends Algorithm {
 		this.cmd(act.setText, 0, 'Searchiing for ' + value);
 		if (tree != null) {
 			this.cmd(act.setHighlight, tree.graphicID, 1);
-			if (tree.data === value) {
+			// if (tree.data === value) {
+			if (this.compare(tree.data, value) === 0) {
 				this.cmd(
 					act.setText,
 					0,
@@ -304,7 +305,8 @@ export default class AVL extends Algorithm {
 				this.cmd(act.setText, 0, 'Found:' + value);
 				this.cmd(act.setHighlight, tree.graphicID, 0);
 			} else {
-				if (tree.data > value) {
+				// if (tree.data > value) {
+				if (this.compare(tree.data, value)) {
 					this.cmd(
 						act.setText,
 						0,
