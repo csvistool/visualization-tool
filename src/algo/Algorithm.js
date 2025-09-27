@@ -476,7 +476,9 @@ export function controlKey(keyASCII) {
 		keyASCII === 38 || // & ampersand
 		keyASCII === 39 || // ' apostrophe
 		keyASCII === 40 || // ( left parenthesis
-		keyASCII === 46 // . period
+		keyASCII === 46 || // . period
+		keyASCII === 188 || // , commas
+		keyASCII === 220 // | pipe
 	);
 }
 
