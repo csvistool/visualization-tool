@@ -857,7 +857,7 @@
 		}
 	},
 
-	"Removed_Heap": {
+	"Heap": {
 		"Add": {
 			"worst": {
 				"big_o": "O(log n)*",
@@ -868,11 +868,6 @@
 				"big_o": "O(n)",
 				"explanation": "In the resize case, we must copy all the data to a new larger array.",
 				"example": "Add 10 to [5,4,3]: becomes [10,5,3,4]"
-			},
-			"average": {
-				"big_o": "O(log n)",
-				"explanation": "New elements typically bubble up through some of the heap's levels, logarithmically proportional to the size.",
-				"example": "Add 6 to [8,4,3]: becomes [8,6,3,4]"
 			},
 			"best": {
 				"big_o": "O(1)",
@@ -886,11 +881,6 @@
 				"explanation": "After removing the root, the last element is put at the room and in the worst case must bubble down $logn$ levels.",
 				"example": "Remove 9 from [9,7,8,4,3] -> [8,7,3,4]"
 			},
-			"average": {
-				"big_o": "O(log n)",
-				"explanation": "The new root typically needs to bubble down through some of the heap's levels, logarithmically proportional to the size.",
-				"example": "Remove from [9,6,8,4,5]: becomes [8,6,5,4]"
-			},
 			"best": {
 				"big_o": "O(1)",
 				"explanation": "In the best case, we only have to downheap one level after swapping the last element to the root. This case is very rare.",
@@ -902,6 +892,23 @@
 				"big_o": "O(n)",
 				"explanation": "Most nodes are near the bottom and require minimal adjustments. More specifically, about half of all data are on the leaf layer, and a quarter are on the second-to-last level, etc.",
 				"example": "Build from [3,1,4,5,2]: becomes [5,3,4,1,2]"
+			}
+		}
+	},
+
+	"Removed_heap": {
+		"Add": {
+			"average": {
+				"big_o": "O(log n)",
+				"explanation": "New elements typically bubble up through some of the heap's levels, logarithmically proportional to the size.",
+				"example": "Add 6 to [8,4,3]: becomes [8,6,3,4]"
+			}
+		},
+		"Remove": {
+			"average": {
+				"big_o": "O(log n)",
+				"explanation": "The new root typically needs to bubble down through some of the heap's levels, logarithmically proportional to the size.",
+				"example": "Remove from [9,6,8,4,5]: becomes [8,6,5,4]"
 			}
 		}
 	},
