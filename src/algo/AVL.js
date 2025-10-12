@@ -684,7 +684,7 @@ export default class AVL extends Algorithm {
 				this.resizeTree();
 			}
 		// } else if (data > curr.data) {
-		} else if (this.compare(data, curr.data) < 0) {
+		} else if (this.compare(data, curr.data) > 0) {
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking right`);
 			this.cmd(act.step);
 			curr.right = this.removeH(curr.right, data);
