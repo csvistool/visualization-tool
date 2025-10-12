@@ -306,7 +306,7 @@ export default class AVL extends Algorithm {
 				this.cmd(act.setHighlight, tree.graphicID, 0);
 			} else {
 				// if (tree.data > value) {
-				if (this.compare(tree.data, value)) {
+				if (this.compare(tree.data, value) > 0) {
 					this.cmd(
 						act.setText,
 						0,
