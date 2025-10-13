@@ -43,7 +43,7 @@ export default class BST extends Algorithm {
 
 		this.first_print_pos_y = h - 2 * BST.PRINT_VERTICAL_GAP;
 		this.print_max = w - 10;
-		this.startingX = w / 2;
+		this.startingX = w / 2 + 200;
 		this.addControls();
 		this.nextIndex = 1;
 		this.commands = [];
