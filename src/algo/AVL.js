@@ -37,7 +37,7 @@ export default class AVL extends Algorithm {
 
 		this.first_print_pos_y = h - 2 * AVL.PRINT_VERTICAL_GAP;
 		this.print_max = w - 10;
-		this.startingX = w / 2;
+		this.startingX = w / 2 + 200;
 		this.addControls();
 		this.nextIndex = 1;
 		this.commands = [];

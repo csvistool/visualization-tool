@@ -36,7 +36,7 @@ import { act } from '../anim/AnimationMain';
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
 
-const FIRST_PRINT_POS_X = 50;
+const FIRST_PRINT_POS_X = 100;
 const PRINT_VERTICAL_GAP = 20;
 const PRINT_MAX = 990;
 const PRINT_HORIZONTAL_GAP = 50;
@@ -61,7 +61,7 @@ export default class BTree extends Algorithm {
 		super(am, w, h);
 		this.nextIndex = 0;
 
-		this.starting_x = w / 2;
+		this.starting_x = w / 2 + 200;
 
 		this.preemptiveSplit = false;
 
