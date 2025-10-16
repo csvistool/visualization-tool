@@ -329,6 +329,22 @@ export default class SkipList extends Algorithm {
 		this.implementAction(this.clearAll.bind(this));
 	}
 
+	compare(a, b) {
+		const numA = parseInt(a);
+		const numB = parseInt(b);
+
+		const isNumA = !isNaN(numA);
+		const isNumB = !isNaN(numB);
+
+		if (isNumA && isNumB) {
+			return numA - numB;
+		} else if (!isNumA && !isNumB) {
+			return a.localeCompare(b);
+		} else {
+			return isNumA ? -1 : 1;
+		}
+	}
+
 	add(value, heads) {
 		this.commands = [];
 
@@ -400,12 +416,14 @@ export default class SkipList extends Algorithm {
 
 		// Find column where new element will be inserted
 		let newCol = 1;
-		while (value > this.data[newCol][0]) {
+		// while (value > this.data[newCol][0]) {
+		while (this.compare(value, this.data[newCol][0]) > 0) {
 			newCol++;
 		}
 
 		//this step should be skipped in the case of a duplicate
-		if (value !== this.data[newCol][0]) {
+		// if (value !== this.data[newCol][0]) {
+		if (this.compare(value, this.data[newCol][0]) !== 0) {
 			// Move IDs and data in next columns to the right
 			for (let col = this.nodeID.length - 1; col >= newCol; col--) {
 				this.nodeID[col + 1] = this.nodeID[col];
@@ -434,12 +452,14 @@ export default class SkipList extends Algorithm {
 		while (row >= 0) {
 			// Move right until next element is greater or equal
 			let nextCol = this.getNextCol(col, row);
-			if (value === this.data[nextCol][row]) {
+			// if (value === this.data[nextCol][row]) {
+			if (this.compare(value, this.data[nextCol][row]) === 0) {
 				col = nextCol;
 				foundDuplicate = true;
 				break;
 			}
-			while (value > this.data[nextCol][row]) {
+			// while (value > this.data[nextCol][row]) {
+			while (this.compare(value, this.data[nextCol][row]) > 0) {
 				this.cmd(
 					act.move,
 					highlightID,
@@ -451,7 +471,8 @@ export default class SkipList extends Algorithm {
 				nextCol = this.getNextCol(col, row);
 			}
 
-			if (value === this.data[nextCol][row]) {
+			// if (value === this.data[nextCol][row]) {
+			if (this.compare(value, this.data[nextCol][row]) === 0) {
 				col = nextCol;
 				foundDuplicate = true;
 				break;
@@ -570,7 +591,8 @@ export default class SkipList extends Algorithm {
 		while (row >= 0) {
 			// Move right until next element is greater or equal
 			let nextCol = this.getNextCol(col, row);
-			while (value > this.data[nextCol][row]) {
+			// while (value > this.data[nextCol][row]) {
+			while (this.compare(value, this.data[nextCol][row]) > 0) {
 				this.cmd(
 					act.move,
 					highlightID,
@@ -582,7 +604,8 @@ export default class SkipList extends Algorithm {
 				nextCol = this.getNextCol(col, row);
 			}
 
-			if (value === this.data[nextCol][row]) {
+			// if (value === this.data[nextCol][row]) {
+			if (this.compare(value, this.data[nextCol][0]) === 0) {
 				removedCol = nextCol;
 				col = nextCol;
 				this.cmd(
@@ -694,10 +717,12 @@ export default class SkipList extends Algorithm {
 		this.cmd(act.setHighlight, highlightID, 1);
 		this.cmd(act.step);
 
-		while (row >= 0 && value !== this.data[col][row]) {
+		// while (row >= 0 && value !== this.data[col][row]) {
+		while (row >= 0 && this.compare(value, this.data[col][row]) !== 0) {
 			// Move right until next element is greater or equal
 			let nextCol = this.getNextCol(col, row);
-			while (value >= this.data[nextCol][row]) {
+			// while (value >= this.data[nextCol][row]) {
+			while (this.compare(value, this.data[nextCol][row]) >= 0) {
 				this.cmd(
 					act.move,
 					highlightID,
@@ -710,7 +735,8 @@ export default class SkipList extends Algorithm {
 			}
 
 			// Move highlight circle downward if data has not been found
-			if (value !== this.data[col][row]) {
+			// if (value !== this.data[col][row]) {
+			if (this.compare(value, this.data[col][row]) !== 0) {
 				row--;
 				this.cmd(
 					act.move,
