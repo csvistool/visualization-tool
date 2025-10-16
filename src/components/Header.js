@@ -27,7 +27,7 @@ class Header extends React.Component {
 				<div className="header">
 					<div id="menu">
 						<IconContext.Provider value={{ className: 'menu-bar' }}>
-							<RxHamburgerMenu onClick={this.toggleMenu} size={24} />
+							<RxHamburgerMenu onClick={this.toggleMenu} size={20} />
 						</IconContext.Provider>
 					</div>
 					<div id="title">
@@ -37,14 +37,14 @@ class Header extends React.Component {
 						<div id="theme">
 							{theme === 'light' ? (
 								<BsFillSunFill
-									size={28}
+									size={22}
 									onClick={toggleTheme}
 									color="#f9c333"
 									className="rotate-effect"
 								/>
 							) : (
 								<BsMoonFill
-									size={26}
+									size={20}
 									onClick={toggleTheme}
 									color="#3498db"
 									className="rotate-effect"
