@@ -42,15 +42,15 @@
 #menu {
 	display: flex;
 	align-items: center;
-	width: 100px;
-	margin-left: 20px;
+	width: 80px;
+	margin-left: 15px;
 }
 
 #theme {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-right: 20px;
+	margin-right: 15px;
 	transition: 0.2s ease-out;
 }
 
@@ -344,13 +344,13 @@ body {
 	top: 0;
 	width: 100%;
 	background-color: var(--background);
-	padding: 10px 0;
+	padding: 5px 0;
 	z-index: 2;
 	color: var(--text);
 	transition: background-color 0.3s;
 	display: flex;
 	align-items: center;
-	height: 65px;
+	height: 45px;
 	box-shadow: var(--nav-shadow);
 	position: sticky;
 	top: 0;
@@ -359,8 +359,8 @@ body {
 }
 
 .menu-bar {
-	width: 35px;
-	height: 35px;
+	width: 30px;
+	height: 30px;
 	cursor: pointer;
 	transition: 0.2s ease-out;
 	display: flex;
@@ -368,8 +368,8 @@ body {
 	justify-content: center;
 	display: flex;
 	justify-content: center;
-	gap: 2rem;
-	padding: 1rem;
+	gap: 1.5rem;
+	padding: 0.5rem;
 }
 
 .menu-bar:hover {
@@ -709,14 +709,14 @@ input::placeholder {
 
 @media screen and (min-width: 1000px) {
 	.header h1 {
-		font-size: 32px;
+		font-size: 24px;
 		font-weight: 500;
 	}
 }
 
 @media screen and (min-width: 600px) and (max-width: 1000px) {
 	.header h1 {
-		font-size: 3vw;
+		font-size: 2.5vw;
 	}
 }
 

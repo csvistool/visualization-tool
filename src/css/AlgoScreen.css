@@ -112,7 +112,7 @@
 	background: var(--header);
 	border-bottom: 1px var(--border) solid;
 	color: #ffffff;
-	padding: 0 16px;
+	padding: 0 12px;
 	transition: all 0.3s ease;
 	font-family: 'Cabin', 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
 	font-weight: 400;
@@ -130,7 +130,7 @@
 
 .VisualizationMainPage #header h1 {
 	margin: 0;
-	padding: 10px 0;
+	padding: 6px 0;
 }
 
 .VisualizationMainPage #header a:link {
