@@ -22,7 +22,6 @@ const AlgoScreen = ({ theme, toggleTheme }) => {
 	const isQuickselect = menuDisplayName === 'Quickselect / kᵗʰ Select';
 	const header = verboseDisplayName || menuDisplayName;
 
-=======
 	const AlgoFooter = () => {
 		return (
 			<div id="footer">
