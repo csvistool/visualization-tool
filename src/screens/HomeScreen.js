@@ -110,6 +110,7 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 										/>
 									</div>
 									<div className="mid-flex">
+										{FinalsBanner()}
 										<div className="inner-flex">
 											<SearchFilter filteredAlgoList={filteredAlgoList} />
 										</div>
