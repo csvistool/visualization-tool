@@ -24,68 +24,112 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
-import {
+import Algorithm, {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
-	addDropDownGroupToAlgorithmBar,
-	addGroupToAlgorithmBar,
-	addLabelToAlgorithmBar,
-    addRadioButtonGroupToAlgorithmBar,
+    addGroupToAlgorithmBar,
+    addLabelToAlgorithmBar,
+	addRadioButtonGroupToAlgorithmBar,
 } from './Algorithm.js';
-
-import Hash from './Hash.js';
-
 import { act } from '../anim/AnimationMain';
 
-const POINTER_ARRAY_ELEM_WIDTH = 150;
-const POINTER_ARRAY_ELEM_HEIGHT = 25;
-const POINTER_ARRAY_ELEM_START_X = 250;
-const POINTER_ARRAY_ELEM_START_Y = 100;
+const MAX_HASH_LENGTH = 4;
 
-const EXPLAIN_LABEL_X = 550;
-const EXPLAIN_LABEL_Y = 15;
-
-const HASH_TABLE_SIZE = 7;
-
-const DEFAULT_LOAD_FACTOR = 0.67;
-
-const LOAD_LABEL_X = 15;
-const LOAD_LABEL_Y = 15;
-
-const MAX_SIZE = 30;
-
-const INDEX_COLOR = '#0000FF';
-
-export default class TreeMap extends Hash {
+export default class TreeMap extends Algorithm {
 	constructor(am, w, h) {
 		super(am, w, h);
-		this.nextIndex = 0;
-		this.POINTER_ARRAY_ELEM_Y = h - POINTER_ARRAY_ELEM_WIDTH;
-		this.setup();
+
+		this.startingX = w / 2 + 200;
+		this.addControls();
+		this.nextIndex = 1;
+		this.commands = [];
+		this.edges = [];
+		this.cmd(act.createLabel, 0, '', TreeMap.EXPLANITORY_TEXT_X, TreeMap.EXPLANITORY_TEXT_Y, 0);
+		this.animationManager.startNewAnimation(this.commands);
+		this.animationManager.skipForward();
+		this.animationManager.clearHistory();
 	}
 
 	addControls() {
-		super.addControls();
-		this.restartButton.onclick = this.resizeInitialTableCall.bind(this);
+		this.controls = [];
 
-		this.hashTypeLabel = addLabelToAlgorithmBar('Hash Type:', this.dropDownLabelGroup);
-		this.hashTypeDropDown = addDropDownGroupToAlgorithmBar(
-			[
-				['Integers', 'Hash Integers'],
-				['Strings', 'Hash Strings'],
-				['True', 'True Hash Function'],
-			],
-			'Hash Type',
-			this.dropDownParentGroup,
+        const putVerticalGroup = addGroupToAlgorithmBar(false);
+		const putTopHorizontalGroup = addGroupToAlgorithmBar(true, putVerticalGroup);
+		const putBottomHorizontalGroup = addGroupToAlgorithmBar(true, putVerticalGroup);
+
+        addLabelToAlgorithmBar(`Key: ${'\u00A0'.repeat(2)}`, putTopHorizontalGroup);
+		this.keyField = addControlToAlgorithmBar('Text', '', putTopHorizontalGroup);
+		this.keyField.size = MAX_HASH_LENGTH;
+		this.keyField.onkeydown = this.returnSubmit(
+			this.keyField,
+			this.insertCallback.bind(this),
+			MAX_HASH_LENGTH,
+			true,
 		);
+		this.controls.push(this.keyField);
 
-		this.hashTypeDropDown.onchange = this.checkHashType.bind(this);
+		addLabelToAlgorithmBar('Value: ', putBottomHorizontalGroup);
+		this.valueField = addControlToAlgorithmBar('Text', '', putBottomHorizontalGroup);
+		this.valueField.size = MAX_HASH_LENGTH;
+		this.valueField.onkeydown = this.returnSubmit(
+			this.valueField,
+			this.insertCallback.bind(this),
+			MAX_HASH_LENGTH,
+			false,
+		);
+		this.controls.push(this.valueField);
 
-		this.hashType = 'integers';
+		this.insertButton = addControlToAlgorithmBar('Button', 'Insert');
+		this.insertButton.onclick = this.insertCallback.bind(this);
+		this.controls.push(this.insertButton);
 
-        addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar();
 
-        const predSuccButtonList = addRadioButtonGroupToAlgorithmBar(
+		this.deleteField = addControlToAlgorithmBar('Text', '');
+		this.deleteField.style.textAlign = 'center';
+		this.deleteField.onkeydown = this.returnSubmit(
+			this.deleteField,
+			this.deleteCallback.bind(this),
+			4,
+			false,
+		);
+		this.controls.push(this.deleteField);
+
+		this.deleteButton = addControlToAlgorithmBar('Button', 'Delete');
+		this.deleteButton.onclick = this.deleteCallback.bind(this);
+		this.controls.push(this.deleteButton);
+
+		addDivisorToAlgorithmBar();
+
+		this.findField = addControlToAlgorithmBar('Text', '');
+		this.findField.style.textAlign = 'center';
+		this.findField.onkeydown = this.returnSubmit(
+			this.findField,
+			this.findCallback.bind(this),
+			4,
+			false,
+		);
+		this.controls.push(this.findField);
+
+		this.findButton = addControlToAlgorithmBar('Button', 'Find');
+		this.findButton.onclick = this.findCallback.bind(this);
+		this.controls.push(this.findButton);
+
+		addDivisorToAlgorithmBar();
+
+		this.randomButton = addControlToAlgorithmBar('Button', 'Random');
+		this.randomButton.onclick = this.randomCallback.bind(this);
+		this.controls.push(this.randomButton);
+
+		addDivisorToAlgorithmBar();
+
+		this.clearButton = addControlToAlgorithmBar('Button', 'Clear');
+		this.clearButton.onclick = this.clearCallback.bind(this);
+		this.controls.push(this.clearButton);
+
+		addDivisorToAlgorithmBar();
+
+		const predSuccButtonList = addRadioButtonGroupToAlgorithmBar(
 			['Predecessor', 'Successor'],
 			'Predecessor/Successor',
 		);
@@ -96,164 +140,205 @@ export default class TreeMap extends Hash {
 		this.succButton.onclick = () => (this.predSucc = 'succ');
 		this.succButton.checked = true;
 		this.predSucc = 'succ';
-
-        addDivisorToAlgorithmBar();
-
-		this.randomGroup = addGroupToAlgorithmBar(false);
-
-		// Random data button
-		this.randomButton = addControlToAlgorithmBar('Button', 'Random', this.randomGroup);
-		this.randomButton.onclick = this.randomCallback.bind(this);
-		this.controls.push(this.randomButton);
 	}
 
-	setup() {
-		this.initialCapacityField.value = HASH_TABLE_SIZE;
-		this.hashTableVisual = new Array(HASH_TABLE_SIZE);
-		this.hashTableIndices = new Array(HASH_TABLE_SIZE);
-		this.hashTableValues = new Array(HASH_TABLE_SIZE);
-		this.indexXPos = new Array(HASH_TABLE_SIZE);
-		this.indexYPos = new Array(HASH_TABLE_SIZE);
-
-        this.edges = []
-
-		this.ExplainLabel = this.nextIndex++;
-
-		this.loadFactorID = this.nextIndex++;
-
-		this.size = 0;
-
-		this.table_size = HASH_TABLE_SIZE;
-
-		this.load_factor = DEFAULT_LOAD_FACTOR;
-
-		this.resetIndex = this.nextIndex;
-
-		this.commands = [];
-		for (let i = 0; i < HASH_TABLE_SIZE; i++) {
-			let nextID = this.nextIndex++;
-
-			this.cmd(
-				act.createRectangle,
-				nextID,
-				'',
-				POINTER_ARRAY_ELEM_WIDTH,
-				POINTER_ARRAY_ELEM_HEIGHT,
-				POINTER_ARRAY_ELEM_START_X + i * POINTER_ARRAY_ELEM_WIDTH,
-				POINTER_ARRAY_ELEM_START_Y,
-			);
-			this.hashTableVisual[i] = nextID;
-			this.cmd(act.setNull, this.hashTableVisual[i], 1);
-
-			nextID = this.nextIndex++;
-			this.hashTableIndices[i] = nextID;
-			this.hashTableValues[i] = null;
-
-			this.indexXPos[i] = POINTER_ARRAY_ELEM_START_X + i * POINTER_ARRAY_ELEM_WIDTH;
-			this.indexYPos[i] = POINTER_ARRAY_ELEM_START_Y - POINTER_ARRAY_ELEM_HEIGHT;
-
-			this.cmd(act.createLabel, nextID, i, this.indexXPos[i], this.indexYPos[i]);
-			this.cmd(act.setForegroundColor, nextID, INDEX_COLOR);
-		}
-		this.cmd(
-			act.createLabel,
-			this.loadFactorID,
-			`Load Factor: ${this.load_factor}`,
-			LOAD_LABEL_X,
-			LOAD_LABEL_Y,
-			false,
-		);
-		this.cmd(act.createLabel, this.ExplainLabel, '', EXPLAIN_LABEL_X, EXPLAIN_LABEL_Y, 0);
-		this.animationManager.startNewAnimation(this.commands);
-		this.animationManager.skipForward();
-		this.animationManager.clearHistory();
-	}
-
-	resizeInitialTableCall() {
-		this.implementAction(this.resizeInitialTable.bind(this));
-	}
-
-	resizeInitialTable() {
-		// Make command stack empty, and clear the elements of the list.
-		this.commands = [];
-		this.resetAll();
-		//Delete current hashTable
-		this.oldHashTableVisual = this.hashTableVisual;
-		this.oldHashTableIndices = this.hashTableIndices;
-		for (let i = 0; i < this.table_size; i++) {
-			this.cmd(act.setNull, this.oldHashTableVisual[i], 1);
-			this.cmd(act.delete, this.oldHashTableVisual[i]);
-			this.cmd(act.delete, this.oldHashTableIndices[i]);
-		}
-
-		if (this.initialCapacityField !== '') {
-			this.table_size = parseInt(this.initialCapacityField.value)
-				? Math.min(Math.max(0, parseInt(this.initialCapacityField.value)), MAX_SIZE)
-				: HASH_TABLE_SIZE;
-		}
-
-		if (this.table_size * 2 + 1 > MAX_SIZE) {
-			this.load_factor = 0.99;
-			this.cmd(
-				act.setText,
-				this.loadFactorID,
-				`Load Factor: ${this.load_factor}\n(Array length too large for resize)`,
-			);
-			this.cmd(act.step);
-		} else {
-			this.load_factor = DEFAULT_LOAD_FACTOR;
-			this.cmd(act.step);
-		}
-		this.hashTableVisual = new Array(this.table_size);
-		this.hashTableIndices = new Array(this.table_size);
-		this.indexXPos = new Array(this.table_size);
-		this.indexYPos = new Array(this.table_size);
-
-		for (let i = 0; i < this.table_size; i++) {
-			let nextID = this.nextIndex++;
-
-			this.cmd(
-				act.createRectangle,
-				nextID,
-				'',
-				POINTER_ARRAY_ELEM_WIDTH,
-				POINTER_ARRAY_ELEM_HEIGHT,
-				POINTER_ARRAY_ELEM_START_X + i * POINTER_ARRAY_ELEM_WIDTH,
-				POINTER_ARRAY_ELEM_START_Y,
-			);
-			this.hashTableVisual[i] = nextID;
-			this.cmd(act.setNull, this.hashTableVisual[i], 1);
-
-			nextID = this.nextIndex++;
-			this.hashTableIndices[i] = nextID;
-
-			this.indexXPos[i] = POINTER_ARRAY_ELEM_START_X - POINTER_ARRAY_ELEM_WIDTH;
-			this.indexYPos[i] = POINTER_ARRAY_ELEM_START_Y + i * POINTER_ARRAY_ELEM_HEIGHT;
-
-			this.cmd(act.createLabel, nextID, i, this.indexXPos[i], this.indexYPos[i]);
-			this.cmd(act.setForegroundColor, nextID, INDEX_COLOR);
-		}
-
-		if (this.size !== 0) {
-			for (let i = 0; i < this.hashTableValues.length; i++) {
-				let node = this.hashTableValues[i];
-				if (node != null) {
-					this.cmd(act.delete, node.graphicID);
-					while (node.next != null) {
-						node = node.next;
-						this.cmd(act.delete, node.graphicID);
-					}
-				}
+	setURLData(searchParams) {
+		if (searchParams.has('predSucc')) {
+			const selection = searchParams.get('predSucc');
+			if (selection === 'pred') {
+				this.predSucc = 'pred';
+				this.predButton.checked = true;
+			} else if (selection === 'succ') {
+				this.predSucc = 'succ';
+				this.succButton.checked = true;
 			}
-
-			this.hashTableValues = new Array(HASH_TABLE_SIZE);
-			this.size = 0;
 		}
+
+		if (searchParams.has('data')) {
+			const dataList = searchParams
+				.get('data')
+				.split(',')
+				.filter(item => item.trim() !== '');
+			dataList.forEach(dataEntry => {
+				this.implementAction(this.add.bind(this), parseInt(dataEntry), true);
+				this.animationManager.skipForward();
+				this.animationManager.clearHistory();
+			});
+		}
+	}
+
+	reset() {
+		this.nextIndex = 1;
+		this.treeRoot = null;
+		this.edges = [];
+	}
+
+	insertCallback() {
+		const insertedKey =
+			this.hashType === 'integers'
+				? parseInt(this.keyField.value).toString()
+				: this.keyField.value;
+		const insertedValue = this.valueField.value;
+		if (insertedKey !== '' && insertedValue !== '') {
+			this.keyField.value = '';
+			this.valueField.value = '';
+			this.implementAction(this.add.bind(this), insertedKey, insertedValue);
+		} else {
+			this.shake(this.insertButton);
+		}
+	}
+
+	deleteCallback() {
+		const deletedValue = this.deleteField.value;
+		if (deletedValue !== '' && this.treeRoot) {
+			this.deleteField.value = '';
+			this.implementAction(this.remove.bind(this), deletedValue);
+		} else {
+			this.shake(this.deleteButton);
+		}
+	}
+
+	findCallback() {
+		const findValue = this.findField.value;
+		if (findValue !== '') {
+			this.findField.value = '';
+			this.implementAction(this.findElement.bind(this), findValue);
+		} else {
+			this.shake(this.findButton);
+		}
+	}
+
+	randomCallback() {
+		const LOWER_BOUND = 0;
+		const UPPER_BOUND = 16;
+		const MAX_SIZE = 12;
+		const MIN_SIZE = 2;
+		const randomSize = Math.floor(Math.random() * (MAX_SIZE - MIN_SIZE + 1)) + MIN_SIZE;
+
+		this.implementAction(this.clear.bind(this));
+
+		for (let i = 0; i < randomSize; i++) {
+			this.implementAction(
+				this.add.bind(this),
+				Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND,
+			);
+			this.animationManager.skipForward();
+			this.animationManager.clearHistory();
+		}
+	}
+
+	clearCallback() {
+		this.implementAction(this.clear.bind(this));
+	}
+
+	sizeChanged(newWidth) {
+		this.startingX = newWidth / 2;
+	}
+
+	findElement(findValue) {
+		this.commands = [];
+
+		this.highlightID = this.nextIndex++;
+
+		this.doFind(this.treeRoot, findValue);
 
 		return this.commands;
 	}
 
-    compare(a, b) {
+	doFind(tree, value) {
+		this.cmd(act.setText, 0, 'Searchiing for ' + value);
+		if (tree != null) {
+			this.cmd(act.setHighlight, tree.graphicID, 1);
+			if (this.compare(tree.data, value) === 0) {
+				this.cmd(
+					act.setText,
+					0,
+					'Searching for ' + value + ' : ' + value + ' = ' + value + ' (Element found!)',
+				);
+				this.cmd(act.step);
+				this.cmd(act.setText, 0, 'Found:' + value);
+				this.cmd(act.setHighlight, tree.graphicID, 0);
+			} else {
+				if (this.compare(tree.data, value) > 0) {
+					this.cmd(
+						act.setText,
+						0,
+						'Searching for ' +
+							value +
+							' : ' +
+							value +
+							' < ' +
+							tree.data +
+							' (look to left subtree)',
+					);
+					this.cmd(act.step);
+					this.cmd(act.setHighlight, tree.graphicID, 0);
+					if (tree.left != null) {
+						this.cmd(
+							act.createHighlightCircle,
+							this.highlightID,
+							TreeMap.HIGHLIGHT_COLOR,
+							tree.x,
+							tree.y,
+						);
+						this.cmd(act.move, this.highlightID, tree.left.x, tree.left.y);
+						this.cmd(act.step);
+						this.cmd(act.delete, this.highlightID);
+					}
+					this.doFind(tree.left, value);
+				} else {
+					this.cmd(
+						act.setText,
+						0,
+						' Searching for ' +
+							value +
+							' : ' +
+							value +
+							' > ' +
+							tree.data +
+							' (look to right subtree)',
+					);
+					this.cmd(act.step);
+					this.cmd(act.setHighlight, tree.graphicID, 0);
+					if (tree.right != null) {
+						this.cmd(
+							act.createHighlightCircle,
+							this.highlightID,
+							TreeMap.HIGHLIGHT_COLOR,
+							tree.x,
+							tree.y,
+						);
+						this.cmd(act.move, this.highlightID, tree.right.x, tree.right.y);
+						this.cmd(act.step);
+						this.cmd(act.delete, this.highlightID);
+					}
+					this.doFind(tree.right, value);
+				}
+			}
+		} else {
+			this.cmd(
+				act.setText,
+				0,
+				' Searching for ' + value + ' : < Empty Tree > (Element not found)',
+			);
+			this.cmd(act.step);
+			this.cmd(act.setText, 0, ' Searching for ' + value + ' :  (Element not found)');
+		}
+	}
+
+	remakeTree(curr) {
+		if (curr == null) return;
+		if (curr.left != null) {
+			this.cmd(act.connect, curr.graphicID, curr.left.graphicID, TreeMap.LINK_COLOR);
+			this.remakeTree(curr.left);
+		}
+		if (curr.right != null) {
+			this.cmd(act.connect, curr.graphicID, curr.right.graphicID, TreeMap.LINK_COLOR);
+			this.remakeTree(curr.right);
+		}
+	}
+
+	compare(a, b) {
 		const numA = parseInt(a);
 		const numB = parseInt(b);
 
@@ -269,89 +354,65 @@ export default class TreeMap extends Hash {
 		}
 	}
 
-    insertElement(key, value) {
-		const elem = `<${key}, ${value}>`;
+	add(key, value) {
 		this.commands = [];
-
-		this.cmd(act.setText, this.loadFactorID, `Load Factor: ${this.load_factor}`);
-
-		if (
-			(this.size + 1) / this.table_size > this.load_factor &&
-			this.table_size * 2 + 1 < MAX_SIZE
-		) {
-			this.resize();
-		}
-
-		this.cmd(act.setText, this.ExplainLabel, 'Inserting element ' + elem);
-
-		const index = this.doHash(key);
-
-        if (this.hashTableValues[index] != null) {
-            this.cmd(act.setText, this.ExplainLabel, 'Searching for duplicates of ' + key);
-        } else {
-            this.cmd(act.setText, this.ExplainLabel, 'Creating New Tree');
-        }
-        this.cmd(act.step);
-
-        this.hashTableValues[index] = this.addH(elem, key, value, index, this.hashTableValues[index]);
-		this.resizeTree(index);
-
-        this.cmd(act.setText, this.ExplainLabel, '');
+        const elem = `<${key}, ${value}>`;
+		this.cmd(act.setText, 0, ' Inserting ' + elem);
+		this.treeRoot = this.addH(key, value, elem, this.treeRoot);
+		this.resizeTree();
 		return this.commands;
 	}
 
-    addH(elem, key, value, index, curr) {
+	addH(key, value, elem, curr) {
 		if (curr == null) {
-            this.size++;
-            const treeNodeID = this.nextIndex++;
-            const heightLabelID = this.nextIndex++;
-            const bfLabelID = this.nextIndex++;
-            this.cmd(act.createCircle, treeNodeID, elem, 30, TreeMap.STARTING_Y);
-    
-            this.cmd(act.setForegroundColor, treeNodeID, TreeMap.FOREGROUND_COLOR);
-            this.cmd(act.setBackgroundColor, treeNodeID, TreeMap.BACKGROUND_COLOR);
-            this.cmd(act.createLabel, heightLabelID, 0, 30 - 20, TreeMap.STARTING_Y - 20);
-            this.cmd(act.setForegroundColor, heightLabelID, TreeMap.HEIGHT_LABEL_COLOR);
-    
-            this.cmd(act.createLabel, bfLabelID, 0, 30 + 20, TreeMap.STARTING_Y - 20);
-            this.cmd(act.setForegroundColor, bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
-            this.cmd(act.step);
-            this.cmd(act.setText, this.ExplainLabel, '');
-            return new AVLNode(elem, key, value, treeNodeID, heightLabelID, bfLabelID, 0, 0);
+			this.cmd(act.setText, 0, 'Null found, inserting new node');
+			const treeNodeID = this.nextIndex++;
+			const heightLabelID = this.nextIndex++;
+			const bfLabelID = this.nextIndex++;
+			this.cmd(act.createCircle, treeNodeID, elem, 30, TreeMap.STARTING_Y);
+
+			this.cmd(act.setForegroundColor, treeNodeID, TreeMap.FOREGROUND_COLOR);
+			this.cmd(act.setBackgroundColor, treeNodeID, TreeMap.BACKGROUND_COLOR);
+			this.cmd(act.createLabel, heightLabelID, 0, 30 - 20, TreeMap.STARTING_Y - 20);
+			this.cmd(act.setForegroundColor, heightLabelID, TreeMap.HEIGHT_LABEL_COLOR);
+
+			this.cmd(act.createLabel, bfLabelID, 0, 30 + 20, TreeMap.STARTING_Y - 20);
+			this.cmd(act.setForegroundColor, bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
+			this.cmd(act.step);
+			this.cmd(act.setText, 0, '');
+			return new TreeMapNode(elem, key, value, treeNodeID, heightLabelID, bfLabelID, 0, 0);
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
-        if (this.compare(key, curr.key) < 0) {
-			this.cmd(act.setText, this.ExplainLabel, `${key} < ${curr.key}. Looking at left subtree`);
+		if (this.compare(key, curr.key) < 0) {
+			this.cmd(act.setText, 0, `${key} < ${curr.key}. Looking at left subtree`);
 			this.cmd(act.step);
-			curr.left = this.addH(elem, key, value, index, curr.left);
+			curr.left = this.addH(key, value, elem, curr.left);
 			curr.left.parent = curr;
-			this.resizeTree(index);
+			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
-        } else if (this.compare(key, curr.key) > 0){
-			this.cmd(act.setText, this.ExplainLabel, `${key} > ${curr.key}. Looking at right subtree`);
+		} else if (this.compare(key, curr.key) > 0) {
+			this.cmd(act.setText, 0, `${key} > ${curr.key}. Looking at right subtree`);
 			this.cmd(act.step);
-			curr.right = this.addH(elem, key, value, index, curr.right);
+			curr.right = this.addH(key, value, elem, curr.right);
 			curr.right.parent = curr;
-			this.resizeTree(index);
+			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.right.graphicID);
 			connected && this.cmd(act.step);
 		} else {
-			this.cmd(act.setText, this.ExplainLabel, `${key} == ${curr.key}. Duplicate! Change value`);
-
+			this.cmd(act.setText, 0, `${key} == ${curr.key}. Found duplicate! Change values.`);
             curr.value = value;
             curr.elem = `<${key}, ${value}>`
             this.cmd(act.setText, curr.graphicID, elem);
-            this.cmd(act.step);
-
+			this.cmd(act.step);
 		}
-		curr = this.balance(curr, index);
+		curr = this.balance(curr);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
-        this.cmd(act.setText, this.ExplainLabel, '');
+		this.cmd(act.setText, 0, '');
 		return curr;
 	}
 
-    connectSmart(id1, id2) {
+	connectSmart(id1, id2) {
 		if (!this.edges.some(e => e[0] === id1 && e[1] === id2)) {
 			this.cmd(act.connect, id1, id2, TreeMap.LINK_COLOR);
 			this.cmd(act.setEdgeAlpha, id1, id2, TreeMap.LINK_OPACITY);
@@ -361,73 +422,73 @@ export default class TreeMap extends Hash {
 		return false;
 	}
 
-	balance(curr, index) {
+	balance(curr) {
 		curr.updateHeightAndBF();
 		this.cmd(act.setText, curr.heightLabelID, curr.height);
 		this.cmd(act.setText, curr.bfLabelID, curr.bf);
-		this.cmd(act.setText, this.ExplainLabel, 'Adjusting height and balance factor after recursive call');
+		this.cmd(act.setText, 0, 'Adjusting height and balance factor after recursive call');
 		this.cmd(act.step);
 
 		if (curr.bf < -1) {
-			this.cmd(act.setText, this.ExplainLabel, 'Balance factor < -1');
+			this.cmd(act.setText, 0, 'Balance factor < -1');
 			this.cmd(act.setTextColor, curr.bfLabelID, TreeMap.HIGHLIGHT_LABEL_COLOR);
 			this.cmd(act.step);
 			if (curr.right != null && curr.right.bf > 0) {
-				this.cmd(act.setText, this.ExplainLabel, 'Right child balance factor > 0');
+				this.cmd(act.setText, 0, 'Right child balance factor > 0');
 				this.cmd(act.setTextColor, curr.right.bfLabelID, TreeMap.HIGHLIGHT_LABEL_COLOR);
 				this.cmd(act.step);
-				this.cmd(act.setText, this.ExplainLabel, 'Right-left rotation');
+				this.cmd(act.setText, 0, 'Right-left rotation');
 				this.cmd(act.step);
 				this.cmd(act.setTextColor, curr.right.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
-				curr.right = this.singleRotateRight(curr.right, index);
+				curr.right = this.singleRotateRight(curr.right);
 			} else {
 				if (curr.right != null) {
-					this.cmd(act.setText, this.ExplainLabel, 'Right child balance factor <= 0');
+					this.cmd(act.setText, 0, 'Right child balance factor <= 0');
 					this.cmd(act.setTextColor, curr.right.bfLabelID, TreeMap.HIGHLIGHT_LABEL_COLOR);
 					this.cmd(act.step);
 				} else {
-					this.cmd(act.setText, this.ExplainLabel, 'No right child');
+					this.cmd(act.setText, 0, 'No right child');
 					this.cmd(act.step);
 				}
-				this.cmd(act.setText, this.ExplainLabel, 'Left rotation');
+				this.cmd(act.setText, 0, 'Left rotation');
 				this.cmd(act.step);
 			}
 			this.cmd(act.setTextColor, curr.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
 			this.cmd(act.setTextColor, curr.right.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
-			curr = this.singleRotateLeft(curr, index);
+			curr = this.singleRotateLeft(curr);
 		} else if (curr.bf > 1) {
-			this.cmd(act.setText, this.ExplainLabel, 'Balance factor > 1');
+			this.cmd(act.setText, 0, 'Balance factor > 1');
 			this.cmd(act.setTextColor, curr.bfLabelID, TreeMap.HIGHLIGHT_LABEL_COLOR);
 			this.cmd(act.step);
 			if (curr.left != null && curr.left.bf < 0) {
-				this.cmd(act.setText, this.ExplainLabel, 'Left child balance factor < 0');
+				this.cmd(act.setText, 0, 'Left child balance factor < 0');
 				this.cmd(act.setTextColor, curr.left.bfLabelID, TreeMap.HIGHLIGHT_LABEL_COLOR);
 				this.cmd(act.step);
-				this.cmd(act.setText, this.ExplainLabel, 'Left-right rotation');
+				this.cmd(act.setText, 0, 'Left-right rotation');
 				this.cmd(act.step);
 				this.cmd(act.setTextColor, curr.left.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
-				curr.left = this.singleRotateLeft(curr.left, index);
+				curr.left = this.singleRotateLeft(curr.left);
 			} else {
 				if (curr.left != null) {
-					this.cmd(act.setText, this.ExplainLabel, 'Left child balance factor >= 0');
+					this.cmd(act.setText, 0, 'Left child balance factor >= 0');
 					this.cmd(act.setTextColor, curr.left.bfLabelID, TreeMap.HIGHLIGHT_LABEL_COLOR);
 					this.cmd(act.step);
 				} else {
-					this.cmd(act.setText, this.ExplainLabel, 'No left child');
+					this.cmd(act.setText, 0, 'No left child');
 					this.cmd(act.step);
 				}
-				this.cmd(act.setText, this.ExplainLabel, 'Right rotation');
+				this.cmd(act.setText, 0, 'Right rotation');
 				this.cmd(act.step);
 				this.cmd(act.setTextColor, curr.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
 			}
 			this.cmd(act.setTextColor, curr.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
 			this.cmd(act.setTextColor, curr.left.bfLabelID, TreeMap.HEIGHT_LABEL_COLOR);
-			curr = this.singleRotateRight(curr, index);
+			curr = this.singleRotateRight(curr);
 		}
 		return curr;
 	}
 
-	singleRotateRight(tree, index) {
+	singleRotateRight(tree) {
 		const B = tree;
 		const A = tree.left;
 		const t2 = A.right;
@@ -446,8 +507,8 @@ export default class TreeMap extends Hash {
 		this.cmd(act.connect, A.graphicID, B.graphicID, TreeMap.LINK_COLOR);
 		this.cmd(act.setEdgeAlpha, A.graphicID, B.graphicID, TreeMap.LINK_OPACITY);
 		A.parent = B.parent;
-		if (this.hashTableValues[index] === B) {
-			this.hashTableValues[index] = A;
+		if (this.treeRoot === B) {
+			this.treeRoot = A;
 		} else {
 			this.cmd(act.disconnect, B.parent.graphicID, B.graphicID, TreeMap.LINK_COLOR);
 			this.cmd(act.connect, B.parent.graphicID, A.graphicID, TreeMap.LINK_COLOR);
@@ -470,11 +531,11 @@ export default class TreeMap extends Hash {
 		A.updateHeightAndBF();
 		this.cmd(act.setText, A.heightLabelID, A.height);
 		this.cmd(act.setText, A.bfLabelID, A.bf);
-		this.resizeTree(index);
+		this.resizeTree();
 		return A;
 	}
 
-	singleRotateLeft(tree, index) {
+	singleRotateLeft(tree) {
 		const A = tree;
 		const B = tree.right;
 		const t2 = B.left;
@@ -495,8 +556,8 @@ export default class TreeMap extends Hash {
 		this.cmd(act.setEdgeAlpha, B.graphicID, A.graphicID, TreeMap.LINK_OPACITY);
 
 		B.parent = A.parent;
-		if (this.hashTableValues[index] === A) {
-			this.hashTableValues[index] = B;
+		if (this.treeRoot === A) {
+			this.treeRoot = B;
 		} else {
 			this.cmd(act.disconnect, A.parent.graphicID, A.graphicID, TreeMap.LINK_COLOR);
 			this.cmd(act.connect, A.parent.graphicID, B.graphicID, TreeMap.LINK_COLOR);
@@ -520,7 +581,7 @@ export default class TreeMap extends Hash {
 		this.cmd(act.setText, B.heightLabelID, B.height);
 		this.cmd(act.setText, B.bfLabelID, B.bf);
 
-		this.resizeTree(index);
+		this.resizeTree();
 		return B;
 	}
 
@@ -541,269 +602,160 @@ export default class TreeMap extends Hash {
 		}
 	}
 
-    deleteNode(curr) {
+	deleteNode(curr) {
 		this.cmd(act.delete, curr.graphicID);
 		this.cmd(act.delete, curr.heightLabelID);
 		this.cmd(act.delete, curr.bfLabelID);
 	}
 
-    deleteElement(key) {
+	remove(data) {
 		this.commands = [];
-		this.cmd(act.setText, this.ExplainLabel, 'Deleting entry with key: ' + key);
-		const index = this.doHash(key);
-		if (this.hashTableValues[index] == null) {
-			this.cmd(
-				act.setText,
-				this.ExplainLabel,
-				'Deleting entry with key: ' + key + '  Key not in table',
-			);
-			return this.commands;
-		}
-		this.cmd(act.setHighlight, this.hashTableValues[index].graphicID, 1);
-		this.cmd(act.step);
-		this.cmd(act.setHighlight, this.hashTableValues[index].graphicID, 0);
-		
 
-		this.cmd(act.setText, this.ExplainLabel, `Deleting ${key}`);
+		this.cmd(act.setText, 0, `Deleting ${data}`);
 		this.cmd(act.step);
-		this.cmd(act.setText, this.ExplainLabel, ' ');
+		this.cmd(act.setText, 0, ' ');
 
 		this.highlightID = this.nextIndex++;
-		this.hashTableValues[index] = this.removeH(this.hashTableValues[index], key, index);
-		this.cmd(act.setText, this.ExplainLabel, '');
-		this.resizeTree(index);
-        
+		this.treeRoot = this.removeH(this.treeRoot, data);
+		this.cmd(act.setText, 0, '');
+		this.resizeTree();
 		return this.commands;
 	}
 
-	removeH(curr, key, index) {
+	removeH(curr, data) {
 		if (curr == null) {
-			this.cmd(act.setText, this.ExplainLabel, `${key} not found in the tree`);
+			this.cmd(act.setText, 0, `${data} not found in the tree`);
 			return;
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
-		if (this.compare(key, curr.key) < 0) {
-			this.cmd(act.setText, this.ExplainLabel, `${key} < ${curr.key}. Looking left`);
+		if (this.compare(data, curr.data) < 0) {
+			this.cmd(act.setText, 0, `${data} < ${curr.data}. Looking left`);
 			this.cmd(act.step);
-			curr.left = this.removeH(curr.left, key, index);
+			curr.left = this.removeH(curr.left, data);
 			if (curr.left != null) {
 				curr.left.parent = curr;
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
-				this.resizeTree(index);
+				this.resizeTree();
 			}
-		} else if (this.compare(key, curr.key) > 0) {
-			this.cmd(act.setText, this.ExplainLabel, `${key} > ${curr.key}. Looking right`);
+		} else if (this.compare(data, curr.data) > 0) {
+			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking right`);
 			this.cmd(act.step);
-			curr.right = this.removeH(curr.right, key, index);
+			curr.right = this.removeH(curr.right, data);
 			if (curr.right != null) {
 				curr.right.parent = curr;
 				this.connectSmart(curr.graphicID, curr.right.graphicID);
-				this.resizeTree(index);
+				this.resizeTree();
 			}
 		} else {
 			if (curr.left == null && curr.right == null) {
-				this.cmd(act.setText, this.ExplainLabel, 'Element to delete is a leaf node');
+				this.cmd(act.setText, 0, 'Element to delete is a leaf node');
 				this.cmd(act.step);
 				this.deleteNode(curr);
 				this.cmd(act.step);
 				return null;
 			} else if (curr.left == null) {
-				this.cmd(act.setText, this.ExplainLabel, `One-child case, replace with right child`);
+				this.cmd(act.setText, 0, `One-child case, replace with right child`);
 				this.cmd(act.step);
 				this.deleteNode(curr);
 				this.cmd(act.step);
 				return curr.right;
 			} else if (curr.right == null) {
-				this.cmd(act.setText, this.ExplainLabel, `One-child case, replace with left child`);
+				this.cmd(act.setText, 0, `One-child case, replace with left child`);
 				this.cmd(act.step);
 				this.deleteNode(curr);
 				this.cmd(act.step);
 				return curr.left;
 			} else {
-                this.size--;
 				const dummy = [];
 				if (this.predSucc === 'succ') {
-					this.cmd(act.setText, this.ExplainLabel, `Two-child case, replace data with successor`);
+					this.cmd(act.setText, 0, `Two-child case, replace data with successor`);
 					this.cmd(act.step);
 					curr.right = this.removeSucc(curr.right, dummy);
 					curr.right && this.connectSmart(curr.graphicID, curr.right.graphicID);
 				} else {
-					this.cmd(act.setText, this.ExplainLabel, `Two-child case, replace data with predecessor`);
+					this.cmd(act.setText, 0, `Two-child case, replace data with predecessor`);
 					this.cmd(act.step);
 					curr.left = this.removePred(curr.left, dummy);
 					curr.left && this.connectSmart(curr.graphicID, curr.left.graphicID);
 				}
-				this.resizeTree(index);
-				curr.elem = dummy[0];
-				this.cmd(act.setText, curr.graphicID, curr.elem);
+				this.resizeTree();
+				curr.data = dummy[0];
+				this.cmd(act.setText, curr.graphicID, curr.data);
 			}
 		}
-		curr = this.balance(curr, index);
+		curr = this.balance(curr);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
-		this.cmd(act.setText, this.ExplainLabel, '');
+		this.cmd(act.setText, 0, '');
 		return curr;
 	}
 
-	removeSucc(curr, dummy, index) {
+	removeSucc(curr, dummy) {
 		this.cmd(act.setHighlight, curr.graphicID, 1, '#0000ff');
 		this.cmd(act.step);
 		if (curr.left == null) {
-			this.cmd(act.setText, this.ExplainLabel, 'No left child, replace with right child');
+			this.cmd(act.setText, 0, 'No left child, replace with right child');
 			this.cmd(act.step);
-			dummy.push(curr.elem);
+			dummy.push(curr.data);
 			this.deleteNode(curr);
 			this.cmd(act.step);
-			this.cmd(act.setText, this.ExplainLabel, '');
+			this.cmd(act.setText, 0, '');
 			return curr.right;
 		}
 		this.cmd(act.setText, 0, 'Left child exists, look left');
 		this.cmd(act.step);
-		curr.left = this.removeSucc(curr.left, dummy, index);
+		curr.left = this.removeSucc(curr.left, dummy);
 		if (curr.left != null) {
 			curr.left.parent = curr;
 			this.connectSmart(curr.graphicID, curr.left.graphicID);
-			this.resizeTree(index);
+			this.resizeTree();
 		}
-		curr = this.balance(curr, index);
+		curr = this.balance(curr);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
 		return curr;
 	}
 
-	removePred(curr, dummy, index) {
+	removePred(curr, dummy) {
 		this.cmd(act.setHighlight, curr.graphicID, 1, '#0000ff');
 		this.cmd(act.step);
 		if (curr.right == null) {
-			this.cmd(act.setText, this.ExplainLabel, 'No right child, replace with right child');
+			this.cmd(act.setText, 0, 'No right child, replace with right child');
 			this.cmd(act.step);
-			dummy.push(curr.elem);
+			dummy.push(curr.data);
 			this.deleteNode(curr);
 			this.cmd(act.step);
-			this.cmd(act.setText, this.ExplainLabel, '');
+			this.cmd(act.setText, 0, '');
 			return curr.left;
 		}
 		this.cmd(act.setText, 0, 'Right child exists, look right');
 		this.cmd(act.step);
-		curr.right = this.removePred(curr.right, dummy, index);
+		curr.right = this.removePred(curr.right, dummy);
 		if (curr.right != null) {
 			curr.right.parent = curr;
 			this.connectSmart(curr.graphicID, curr.right.graphicID);
-			this.resizeTree(index);
+			this.resizeTree();
 		}
-		curr = this.balance(curr, index);
+		curr = this.balance(curr);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
 		return curr;
 	}
 
-    findElement(key) {
-		this.commands = [];
-		this.cmd(act.setText, this.ExplainLabel, 'Finding entry with key: ' + key);
-
-		const index = this.doHash(key);
-		const tmp = this.hashTableValues[index];
-		this.doFind(tmp, key);
-
-		return this.commands;
-	}
-
-
-	doFind(tree, key) {
-		this.cmd(act.setText, 0, 'Searchiing for ' + key);
-		if (tree != null) {
-			this.cmd(act.setHighlight, tree.graphicID, 1);
-			if (this.compare(tree.key, key) === 0) {
-				this.cmd(
-					act.setText,
-					this.ExplainLabel,
-					'Searching for ' + key + ' : ' + key + ' = ' + key + ' (Element found!)',
-				);
-				this.cmd(act.step);
-				this.cmd(act.setText, this.ExplainLabel, 'Found Value:' + tree.value);
-				this.cmd(act.setHighlight, tree.graphicID, 0);
-			} else {
-				if (this.compare(tree.key, key) > 0) {
-					this.cmd(
-						act.setText,
-						0,
-						'Searching for ' +
-							key +
-							' : ' +
-							key +
-							' < ' +
-							tree.key +
-							' (look to left subtree)',
-					);
-					this.cmd(act.step);
-					this.cmd(act.setHighlight, tree.graphicID, 0);
-					if (tree.left != null) {
-						this.cmd(
-							act.createHighlightCircle,
-							this.highlightID,
-							TreeMap.HIGHLIGHT_COLOR,
-							tree.x,
-							tree.y,
-						);
-						this.cmd(act.move, this.highlightID, tree.left.x, tree.left.y);
-						this.cmd(act.step);
-						this.cmd(act.delete, this.highlightID);
-					}
-					this.doFind(tree.left, key);
-				} else {
-					this.cmd(
-						act.setText,
-						this.ExplainLabel,
-						' Searching for ' +
-							key +
-							' : ' +
-							key +
-							' > ' +
-							tree.key +
-							' (look to right subtree)',
-					);
-					this.cmd(act.step);
-					this.cmd(act.setHighlight, tree.graphicID, 0);
-					if (tree.right != null) {
-						this.cmd(
-							act.createHighlightCircle,
-							this.highlightID,
-							TreeMap.HIGHLIGHT_COLOR,
-							tree.x,
-							tree.y,
-						);
-						this.cmd(act.move, this.highlightID, tree.right.x, tree.right.y);
-						this.cmd(act.step);
-						this.cmd(act.delete, this.highlightID);
-					}
-					this.doFind(tree.right, key);
-				}
-			}
-		} else {
-			this.cmd(
-				act.setText,
-				this.ExplainLabel,
-				' Searching for ' + key + ' : < Empty Tree > (Element not found)',
-			);
-			this.cmd(act.step);
-			this.cmd(act.setText, 0, ' Searching for ' + key + ' :  (Element not found)');
-		}
-	}
-
-    resizeTree(index) {
-		if (this.hashTableValues[index] == null) {
+	resizeTree() {
+		if (this.treeRoot == null) {
 			return;
 		}
-		let startingPoint = POINTER_ARRAY_ELEM_START_X + index * POINTER_ARRAY_ELEM_WIDTH;
-		this.resizeWidths(this.hashTableValues[index]);
-		if (this.hashTableValues[index]  != null) {
-			if (this.hashTableValues[index].leftWidth > startingPoint) {
-				startingPoint = this.hashTableValues[index].leftWidth;
-			} else if (this.hashTableValues[index].rightWidth > startingPoint) {
+		let startingPoint = this.startingX;
+		this.resizeWidths(this.treeRoot);
+		if (this.treeRoot != null) {
+			if (this.treeRoot.leftWidth > startingPoint) {
+				startingPoint = this.treeRoot.leftWidth;
+			} else if (this.treeRoot.rightWidth > startingPoint) {
 				startingPoint = Math.max(
-					this.hashTableValues[index].leftWidth,
-					2 * startingPoint - this.hashTableValues[index].rightWidth,
+					this.treeRoot.leftWidth,
+					2 * startingPoint - this.treeRoot.rightWidth,
 				);
 			}
-			this.setNewPositions(this.hashTableValues[index], startingPoint, TreeMap.STARTING_Y, 0);
-			this.animateNewPositions(this.hashTableValues[index]);
+			this.setNewPositions(this.treeRoot, startingPoint, TreeMap.STARTING_Y, 0);
+			this.animateNewPositions(this.treeRoot);
 			this.cmd(act.step);
 		}
 	}
@@ -841,7 +793,7 @@ export default class TreeMap extends Hash {
 		}
 	}
 
-    resizeWidths(tree) {
+	resizeWidths(tree) {
 		if (tree == null) {
 			return 0;
 		}
@@ -849,11 +801,43 @@ export default class TreeMap extends Hash {
 		tree.rightWidth = Math.max(this.resizeWidths(tree.right), TreeMap.WIDTH_DELTA / 2);
 		return tree.leftWidth + tree.rightWidth;
 	}
+
+	clear() {
+		this.insertField.value = '';
+		this.deleteField.value = '';
+		this.findField.value = '';
+		this.commands = [];
+		this.recClear(this.treeRoot);
+		this.treeRoot = null;
+		return this.commands;
+	}
+
+	recClear(curr) {
+		if (curr != null) {
+			this.cmd(act.delete, curr.graphicID);
+			this.cmd(act.delete, curr.heightLabelID);
+			this.cmd(act.delete, curr.bfLabelID);
+			this.recClear(curr.left);
+			this.recClear(curr.right);
+		}
+	}
+
+	disableUI() {
+		for (let i = 0; i < this.controls.length; i++) {
+			this.controls[i].disabled = true;
+		}
+	}
+
+	enableUI() {
+		for (let i = 0; i < this.controls.length; i++) {
+			this.controls[i].disabled = false;
+		}
+	}
 }
 
-class AVLNode {
+class TreeMapNode {
 	constructor(elem, key, value, id, hid, bfid, initialX, initialY) {
-        this.elem = elem;
+		this.elem = elem;
         this.key = key;
         this.value = value;
 		this.x = initialX;
@@ -885,7 +869,10 @@ class AVLNode {
 	}
 }
 
+// Various constants
+
 TreeMap.HIGHLIGHT_LABEL_COLOR = '#FF0000';
+// TreeMap.HIGHLIGHT_LINK_COLOR = '#FF0000';
 
 TreeMap.HIGHLIGHT_COLOR = '#007700';
 TreeMap.HEIGHT_LABEL_COLOR = '#000000';
@@ -895,14 +882,10 @@ TreeMap.LINK_OPACITY = 0.2;
 TreeMap.HIGHLIGHT_CIRCLE_COLOR = '#007700';
 TreeMap.FOREGROUND_COLOR = '#000000';
 TreeMap.BACKGROUND_COLOR = '#FFFFFF';
-TreeMap.PRINT_COLOR = '#007700';
 
 TreeMap.WIDTH_DELTA = 50;
 TreeMap.HEIGHT_DELTA = 50;
-TreeMap.STARTING_Y = 150;
+TreeMap.STARTING_Y = 50;
 
-TreeMap.FIRST_PRINT_POS_X = 50;
-TreeMap.PRINT_VERTICAL_GAP = 20;
-TreeMap.PRINT_HORIZONTAL_GAP = 50;
 TreeMap.EXPLANITORY_TEXT_X = 10;
 TreeMap.EXPLANITORY_TEXT_Y = 10;
