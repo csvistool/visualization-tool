@@ -221,6 +221,7 @@ export default class TreeMap extends Algorithm {
 			this.implementAction(
 				this.add.bind(this),
 				Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND,
+                Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND
 			);
 			this.animationManager.skipForward();
 			this.animationManager.clearHistory();
@@ -235,40 +236,40 @@ export default class TreeMap extends Algorithm {
 		this.startingX = newWidth / 2;
 	}
 
-	findElement(findValue) {
+	findElement(findKey) {
 		this.commands = [];
 
 		this.highlightID = this.nextIndex++;
 
-		this.doFind(this.treeRoot, findValue);
+		this.doFind(this.treeRoot, findKey);
 
 		return this.commands;
 	}
 
-	doFind(tree, value) {
-		this.cmd(act.setText, 0, 'Searchiing for ' + value);
+	doFind(tree, key) {
+		this.cmd(act.setText, 0, 'Searchiing for ' + key);
 		if (tree != null) {
 			this.cmd(act.setHighlight, tree.graphicID, 1);
-			if (this.compare(tree.data, value) === 0) {
+			if (this.compare(tree.key, key) === 0) {
 				this.cmd(
 					act.setText,
 					0,
-					'Searching for ' + value + ' : ' + value + ' = ' + value + ' (Element found!)',
+					'Searching for ' + key + ' : ' + key + ' = ' + key + ' (Element found!)',
 				);
 				this.cmd(act.step);
-				this.cmd(act.setText, 0, 'Found:' + value);
+				this.cmd(act.setText, 0, 'Found:' + tree.value);
 				this.cmd(act.setHighlight, tree.graphicID, 0);
 			} else {
-				if (this.compare(tree.data, value) > 0) {
+				if (this.compare(tree.key, key) > 0) {
 					this.cmd(
 						act.setText,
 						0,
 						'Searching for ' +
-							value +
+							key +
 							' : ' +
-							value +
+							key +
 							' < ' +
-							tree.data +
+							tree.key +
 							' (look to left subtree)',
 					);
 					this.cmd(act.step);
@@ -285,17 +286,17 @@ export default class TreeMap extends Algorithm {
 						this.cmd(act.step);
 						this.cmd(act.delete, this.highlightID);
 					}
-					this.doFind(tree.left, value);
+					this.doFind(tree.left, key);
 				} else {
 					this.cmd(
 						act.setText,
 						0,
 						' Searching for ' +
-							value +
+							key +
 							' : ' +
-							value +
+							key +
 							' > ' +
-							tree.data +
+							tree.key +
 							' (look to right subtree)',
 					);
 					this.cmd(act.step);
@@ -312,17 +313,17 @@ export default class TreeMap extends Algorithm {
 						this.cmd(act.step);
 						this.cmd(act.delete, this.highlightID);
 					}
-					this.doFind(tree.right, value);
+					this.doFind(tree.right, key);
 				}
 			}
 		} else {
 			this.cmd(
 				act.setText,
 				0,
-				' Searching for ' + value + ' : < Empty Tree > (Element not found)',
+				' Searching for ' + key + ' : < Empty Tree > (Element not found)',
 			);
 			this.cmd(act.step);
-			this.cmd(act.setText, 0, ' Searching for ' + value + ' :  (Element not found)');
+			this.cmd(act.setText, 0, ' Searching for ' + key + ' :  (Element not found)');
 		}
 	}
 
@@ -608,39 +609,39 @@ export default class TreeMap extends Algorithm {
 		this.cmd(act.delete, curr.bfLabelID);
 	}
 
-	remove(data) {
+	remove(key) {
 		this.commands = [];
 
-		this.cmd(act.setText, 0, `Deleting ${data}`);
+		this.cmd(act.setText, 0, `Deleting ${key}`);
 		this.cmd(act.step);
 		this.cmd(act.setText, 0, ' ');
 
 		this.highlightID = this.nextIndex++;
-		this.treeRoot = this.removeH(this.treeRoot, data);
+		this.treeRoot = this.removeH(this.treeRoot, key);
 		this.cmd(act.setText, 0, '');
 		this.resizeTree();
 		return this.commands;
 	}
 
-	removeH(curr, data) {
+	removeH(curr, key) {
 		if (curr == null) {
-			this.cmd(act.setText, 0, `${data} not found in the tree`);
+			this.cmd(act.setText, 0, `${key} not found in the tree`);
 			return;
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
-		if (this.compare(data, curr.data) < 0) {
-			this.cmd(act.setText, 0, `${data} < ${curr.data}. Looking left`);
+		if (this.compare(key, curr.key) < 0) {
+			this.cmd(act.setText, 0, `${key} < ${curr.key}. Looking left`);
 			this.cmd(act.step);
-			curr.left = this.removeH(curr.left, data);
+			curr.left = this.removeH(curr.left, key);
 			if (curr.left != null) {
 				curr.left.parent = curr;
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
 				this.resizeTree();
 			}
-		} else if (this.compare(data, curr.data) > 0) {
-			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking right`);
+		} else if (this.compare(key, curr.key) > 0) {
+			this.cmd(act.setText, 0, `${key} > ${curr.key}. Looking right`);
 			this.cmd(act.step);
-			curr.right = this.removeH(curr.right, data);
+			curr.right = this.removeH(curr.right, key);
 			if (curr.right != null) {
 				curr.right.parent = curr;
 				this.connectSmart(curr.graphicID, curr.right.graphicID);
@@ -679,8 +680,10 @@ export default class TreeMap extends Algorithm {
 					curr.left && this.connectSmart(curr.graphicID, curr.left.graphicID);
 				}
 				this.resizeTree();
-				curr.data = dummy[0];
-				this.cmd(act.setText, curr.graphicID, curr.data);
+                curr.key = dummy[0].key;
+                curr.value = dummy[0].value;
+                curr.elem = dummy[0].elem;
+				this.cmd(act.setText, curr.graphicID, curr.elem);
 			}
 		}
 		curr = this.balance(curr);
@@ -695,7 +698,7 @@ export default class TreeMap extends Algorithm {
 		if (curr.left == null) {
 			this.cmd(act.setText, 0, 'No left child, replace with right child');
 			this.cmd(act.step);
-			dummy.push(curr.data);
+			dummy.push(curr);
 			this.deleteNode(curr);
 			this.cmd(act.step);
 			this.cmd(act.setText, 0, '');
@@ -720,7 +723,7 @@ export default class TreeMap extends Algorithm {
 		if (curr.right == null) {
 			this.cmd(act.setText, 0, 'No right child, replace with right child');
 			this.cmd(act.step);
-			dummy.push(curr.data);
+			dummy.push(curr);
 			this.deleteNode(curr);
 			this.cmd(act.step);
 			this.cmd(act.setText, 0, '');
@@ -803,7 +806,8 @@ export default class TreeMap extends Algorithm {
 	}
 
 	clear() {
-		this.insertField.value = '';
+		this.keyField.value = '';
+        this.valueField.value = '';
 		this.deleteField.value = '';
 		this.findField.value = '';
 		this.commands = [];
