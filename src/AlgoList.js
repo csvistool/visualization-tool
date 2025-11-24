@@ -57,6 +57,7 @@ export const algoMap = {
 	DisjointSet: ['Disjoint Set', algos.DisjointSet, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
+	TreeMap: ["TreeMap", algos.TreeMap]
 };
 
 const aprilFoolsAlgos = ['LVA', 'NonLinearProbing'];
@@ -116,6 +117,7 @@ export const algoList = [
 	'MiracleSort',
 	'BogoSort',
 	'FredSort',
+	"TreeMap",
 ];
 
 export const relatedSearches = {
