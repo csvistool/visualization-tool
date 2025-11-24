@@ -57,6 +57,7 @@ export const algoMap = {
 	DisjointSet: ['Disjoint Set', algos.DisjointSet, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
+	TreeMap: ['TreeMap', algos.TreeMap]
 };
 
 const aprilFoolsAlgos = ['LVA', 'NonLinearProbing'];
@@ -109,6 +110,7 @@ export const algoList = [
 	'DP & Extras',
 	'CreateGraph',
 	'DisjointSet',
+	"TreeMap",
 	'SplayTree',
 	'Floyd',
 	'DropSort',
@@ -185,6 +187,7 @@ export const relatedSearches = {
 	Kruskal: ['BFS', 'DFS', 'Dijkstra', 'Prim', 'DisjointSet'],
 	LCS: ['Floyd'],
 	Floyd: ['LCS'],
+	TreeMap: ['AVL', 'ClosedHash', 'OpenHash'],
 };
 
 export const algoFilter = [
@@ -343,6 +346,10 @@ export const algoFilter = [
 	{
 		id: "DisjointSet",
 		category: 'DP & Extras'
+	},
+	{
+		id: 'TreeMap',
+		category: 'DP & Extras',
 	},
 	{
 		id: 'SplayTree',
