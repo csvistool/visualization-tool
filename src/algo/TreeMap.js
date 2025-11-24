@@ -620,6 +620,7 @@ export default class TreeMap extends Hash {
 				this.cmd(act.step);
 				return curr.left;
 			} else {
+                this.size--;
 				const dummy = [];
 				if (this.predSucc === 'succ') {
 					this.cmd(act.setText, this.ExplainLabel, `Two-child case, replace data with successor`);
@@ -691,6 +692,99 @@ export default class TreeMap extends Hash {
 		curr = this.balance(curr, index);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
 		return curr;
+	}
+
+    findElement(key) {
+		this.commands = [];
+		this.cmd(act.setText, this.ExplainLabel, 'Finding entry with key: ' + key);
+
+		const index = this.doHash(key);
+		const tmp = this.hashTableValues[index];
+		this.doFind(tmp, key);
+
+		return this.commands;
+	}
+
+
+	doFind(tree, key) {
+		this.cmd(act.setText, 0, 'Searchiing for ' + key);
+		if (tree != null) {
+			this.cmd(act.setHighlight, tree.graphicID, 1);
+			if (this.compare(tree.key, key) === 0) {
+				this.cmd(
+					act.setText,
+					this.ExplainLabel,
+					'Searching for ' + key + ' : ' + key + ' = ' + key + ' (Element found!)',
+				);
+				this.cmd(act.step);
+				this.cmd(act.setText, this.ExplainLabel, 'Found Value:' + tree.value);
+				this.cmd(act.setHighlight, tree.graphicID, 0);
+			} else {
+				if (this.compare(tree.key, key) > 0) {
+					this.cmd(
+						act.setText,
+						0,
+						'Searching for ' +
+							key +
+							' : ' +
+							key +
+							' < ' +
+							tree.key +
+							' (look to left subtree)',
+					);
+					this.cmd(act.step);
+					this.cmd(act.setHighlight, tree.graphicID, 0);
+					if (tree.left != null) {
+						this.cmd(
+							act.createHighlightCircle,
+							this.highlightID,
+							TreeMap.HIGHLIGHT_COLOR,
+							tree.x,
+							tree.y,
+						);
+						this.cmd(act.move, this.highlightID, tree.left.x, tree.left.y);
+						this.cmd(act.step);
+						this.cmd(act.delete, this.highlightID);
+					}
+					this.doFind(tree.left, key);
+				} else {
+					this.cmd(
+						act.setText,
+						this.ExplainLabel,
+						' Searching for ' +
+							key +
+							' : ' +
+							key +
+							' > ' +
+							tree.key +
+							' (look to right subtree)',
+					);
+					this.cmd(act.step);
+					this.cmd(act.setHighlight, tree.graphicID, 0);
+					if (tree.right != null) {
+						this.cmd(
+							act.createHighlightCircle,
+							this.highlightID,
+							TreeMap.HIGHLIGHT_COLOR,
+							tree.x,
+							tree.y,
+						);
+						this.cmd(act.move, this.highlightID, tree.right.x, tree.right.y);
+						this.cmd(act.step);
+						this.cmd(act.delete, this.highlightID);
+					}
+					this.doFind(tree.right, key);
+				}
+			}
+		} else {
+			this.cmd(
+				act.setText,
+				this.ExplainLabel,
+				' Searching for ' + key + ' : < Empty Tree > (Element not found)',
+			);
+			this.cmd(act.step);
+			this.cmd(act.setText, 0, ' Searching for ' + key + ' :  (Element not found)');
+		}
 	}
 
     resizeTree(index) {
