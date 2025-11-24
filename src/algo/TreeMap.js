@@ -343,7 +343,7 @@ export default class TreeMap extends Hash {
             curr.elem = `<${key}, ${value}>`
             this.cmd(act.setText, curr.graphicID, elem);
             this.cmd(act.step);
-            
+
 		}
 		curr = this.balance(curr, index);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
@@ -539,6 +539,158 @@ export default class TreeMap extends Hash {
 				this.cmd(act.setText, tree.heightLabelID, newHeight);
 			}
 		}
+	}
+
+    deleteNode(curr) {
+		this.cmd(act.delete, curr.graphicID);
+		this.cmd(act.delete, curr.heightLabelID);
+		this.cmd(act.delete, curr.bfLabelID);
+	}
+
+    deleteElement(key) {
+		this.commands = [];
+		this.cmd(act.setText, this.ExplainLabel, 'Deleting entry with key: ' + key);
+		const index = this.doHash(key);
+		if (this.hashTableValues[index] == null) {
+			this.cmd(
+				act.setText,
+				this.ExplainLabel,
+				'Deleting entry with key: ' + key + '  Key not in table',
+			);
+			return this.commands;
+		}
+		this.cmd(act.setHighlight, this.hashTableValues[index].graphicID, 1);
+		this.cmd(act.step);
+		this.cmd(act.setHighlight, this.hashTableValues[index].graphicID, 0);
+		
+
+		this.cmd(act.setText, this.ExplainLabel, `Deleting ${key}`);
+		this.cmd(act.step);
+		this.cmd(act.setText, this.ExplainLabel, ' ');
+
+		this.highlightID = this.nextIndex++;
+		this.hashTableValues[index] = this.removeH(this.hashTableValues[index], key, index);
+		this.cmd(act.setText, this.ExplainLabel, '');
+		this.resizeTree(index);
+        
+		return this.commands;
+	}
+
+	removeH(curr, key, index) {
+		if (curr == null) {
+			this.cmd(act.setText, this.ExplainLabel, `${key} not found in the tree`);
+			return;
+		}
+		this.cmd(act.setHighlight, curr.graphicID, 1);
+		if (this.compare(key, curr.key) < 0) {
+			this.cmd(act.setText, this.ExplainLabel, `${key} < ${curr.key}. Looking left`);
+			this.cmd(act.step);
+			curr.left = this.removeH(curr.left, key, index);
+			if (curr.left != null) {
+				curr.left.parent = curr;
+				this.connectSmart(curr.graphicID, curr.left.graphicID);
+				this.resizeTree(index);
+			}
+		} else if (this.compare(key, curr.key) > 0) {
+			this.cmd(act.setText, this.ExplainLabel, `${key} > ${curr.key}. Looking right`);
+			this.cmd(act.step);
+			curr.right = this.removeH(curr.right, key, index);
+			if (curr.right != null) {
+				curr.right.parent = curr;
+				this.connectSmart(curr.graphicID, curr.right.graphicID);
+				this.resizeTree(index);
+			}
+		} else {
+			if (curr.left == null && curr.right == null) {
+				this.cmd(act.setText, this.ExplainLabel, 'Element to delete is a leaf node');
+				this.cmd(act.step);
+				this.deleteNode(curr);
+				this.cmd(act.step);
+				return null;
+			} else if (curr.left == null) {
+				this.cmd(act.setText, this.ExplainLabel, `One-child case, replace with right child`);
+				this.cmd(act.step);
+				this.deleteNode(curr);
+				this.cmd(act.step);
+				return curr.right;
+			} else if (curr.right == null) {
+				this.cmd(act.setText, this.ExplainLabel, `One-child case, replace with left child`);
+				this.cmd(act.step);
+				this.deleteNode(curr);
+				this.cmd(act.step);
+				return curr.left;
+			} else {
+				const dummy = [];
+				if (this.predSucc === 'succ') {
+					this.cmd(act.setText, this.ExplainLabel, `Two-child case, replace data with successor`);
+					this.cmd(act.step);
+					curr.right = this.removeSucc(curr.right, dummy);
+					curr.right && this.connectSmart(curr.graphicID, curr.right.graphicID);
+				} else {
+					this.cmd(act.setText, this.ExplainLabel, `Two-child case, replace data with predecessor`);
+					this.cmd(act.step);
+					curr.left = this.removePred(curr.left, dummy);
+					curr.left && this.connectSmart(curr.graphicID, curr.left.graphicID);
+				}
+				this.resizeTree(index);
+				curr.elem = dummy[0];
+				this.cmd(act.setText, curr.graphicID, curr.elem);
+			}
+		}
+		curr = this.balance(curr, index);
+		this.cmd(act.setHighlight, curr.graphicID, 0);
+		this.cmd(act.setText, this.ExplainLabel, '');
+		return curr;
+	}
+
+	removeSucc(curr, dummy, index) {
+		this.cmd(act.setHighlight, curr.graphicID, 1, '#0000ff');
+		this.cmd(act.step);
+		if (curr.left == null) {
+			this.cmd(act.setText, this.ExplainLabel, 'No left child, replace with right child');
+			this.cmd(act.step);
+			dummy.push(curr.elem);
+			this.deleteNode(curr);
+			this.cmd(act.step);
+			this.cmd(act.setText, this.ExplainLabel, '');
+			return curr.right;
+		}
+		this.cmd(act.setText, 0, 'Left child exists, look left');
+		this.cmd(act.step);
+		curr.left = this.removeSucc(curr.left, dummy, index);
+		if (curr.left != null) {
+			curr.left.parent = curr;
+			this.connectSmart(curr.graphicID, curr.left.graphicID);
+			this.resizeTree(index);
+		}
+		curr = this.balance(curr, index);
+		this.cmd(act.setHighlight, curr.graphicID, 0);
+		return curr;
+	}
+
+	removePred(curr, dummy, index) {
+		this.cmd(act.setHighlight, curr.graphicID, 1, '#0000ff');
+		this.cmd(act.step);
+		if (curr.right == null) {
+			this.cmd(act.setText, this.ExplainLabel, 'No right child, replace with right child');
+			this.cmd(act.step);
+			dummy.push(curr.elem);
+			this.deleteNode(curr);
+			this.cmd(act.step);
+			this.cmd(act.setText, this.ExplainLabel, '');
+			return curr.left;
+		}
+		this.cmd(act.setText, 0, 'Right child exists, look right');
+		this.cmd(act.step);
+		curr.right = this.removePred(curr.right, dummy, index);
+		if (curr.right != null) {
+			curr.right.parent = curr;
+			this.connectSmart(curr.graphicID, curr.right.graphicID);
+			this.resizeTree(index);
+		}
+		curr = this.balance(curr, index);
+		this.cmd(act.setHighlight, curr.graphicID, 0);
+		return curr;
 	}
 
     resizeTree(index) {
