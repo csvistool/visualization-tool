@@ -85,6 +85,7 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 	return (
 		<div className="container">
 			<Header theme={theme} toggleTheme={toggleTheme} />
+			<FinalsBanner />
 			<div className="content">
 				<Routes>
 					<Route
@@ -110,7 +111,6 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 										/>
 									</div>
 									<div className="mid-flex">
-										{FinalsBanner()}
 										<div className="inner-flex">
 											<SearchFilter filteredAlgoList={filteredAlgoList} />
 										</div>
