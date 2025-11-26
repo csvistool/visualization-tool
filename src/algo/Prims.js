@@ -59,7 +59,7 @@ const PQ_X = 45;
 const PQ_Y = 143;
 const PQ_SPACING = 50;
 const PQ_LINE_SPACING = 25;
-const PQ_MAX_PER_LINE = 8;
+const PQ_MAX_PER_LINE = 6;
 
 export default class Prims extends Graph {
 	constructor(am, w, h) {

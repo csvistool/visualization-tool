@@ -233,8 +233,8 @@ export default class BFS extends Graph {
 				this.cmd(
 					act.move,
 					this.queueID[i],
-					QUEUE_START_X + (i - 1) * QUEUE_SPACING,
-					QUEUE_START_Y,
+					QUEUE_START_X,
+					QUEUE_START_Y + (i - 1) * QUEUE_SPACING,
 				);
 			}
 
@@ -287,8 +287,8 @@ export default class BFS extends Graph {
 							act.createLabel,
 							this.nextIndex++,
 							this.toStr(neighbor),
-							QUEUE_START_X + (this.queue.length - 1) * QUEUE_SPACING,
-							QUEUE_START_Y,
+							QUEUE_START_X,
+							QUEUE_START_Y + (this.queue.length - 1) * QUEUE_SPACING,
 						);
 					} else {
 						this.cmd(
