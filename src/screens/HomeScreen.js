@@ -85,7 +85,7 @@ const HomeScreen = ({ theme, toggleTheme }) => {
 	return (
 		<div className="container">
 			<Header theme={theme} toggleTheme={toggleTheme} />
-			<FinalsBanner />
+			{/* <FinalsBanner /> */}
 			<div className="content">
 				<Routes>
 					<Route
