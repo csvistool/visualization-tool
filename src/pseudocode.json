@@ -169,7 +169,7 @@
 				["    end for"],
 				["    Node newNode ← new Node(data)"],
 				["    newNode.next ← curr.next"],
-				["    curr ← newNode"],
+				["    curr.next ← newNode"],
 				["    size++"],
 				["  end if"],
 				["end procedure"]
@@ -187,7 +187,7 @@
 				["    end for"],
 				["    create newNode node with data"],
 				["    newNode.next points to curr.next"],
-				["    curr points to newNode"],
+				["    curr.next points to newNode"],
 				["    increment size"],
 				["  end if"],
 				["end procedure"]
