@@ -680,8 +680,8 @@
 				["    for (i from front to back):"],
 				["      copy array value at i to newArray"],
 				["    array points to newArray"],
-				["    put data into array at back"],
-				["    increment size"],
+				["  put data into array at back"],
+				["  increment size"],
 				["end procedure"]
 			]
 		},
