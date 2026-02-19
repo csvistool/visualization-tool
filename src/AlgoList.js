@@ -81,9 +81,10 @@ export const algoList = [
 	'AVL',
 	'BTree',
 	'SkipList',
-	'HashMaps',
+	'Maps',
 	'ClosedHash',
 	'OpenHash',
+	"TreeMap",
 	'Sorting and Quickselect',
 	'BubbleSort',
 	'CocktailSort',
@@ -99,7 +100,9 @@ export const algoList = [
 	'BoyerMoore',
 	'KMP',
 	'RabinKarp',
-	'Graph Algorithms',
+	'Graphs',
+	'CreateGraph',
+	'DisjointSet',
 	'BFS',
 	'DFS',
 	'Dijkstra',
@@ -108,9 +111,6 @@ export const algoList = [
 	'LCS',
 	'---',
 	'DP & Extras',
-	'CreateGraph',
-	'DisjointSet',
-	"TreeMap",
 	'SplayTree',
 	'Floyd',
 	'DropSort',
@@ -253,11 +253,11 @@ export const algoFilter = [
 	},
 	{
 		id: 'OpenHash',
-		category: 'HashMaps',
+		category: 'Maps',
 	},
 	{
 		id: 'ClosedHash',
-		category: 'HashMaps',
+		category: 'Maps',
 	},
 	{
 		id: 'BubbleSort',
@@ -313,23 +313,23 @@ export const algoFilter = [
 	},
 	{
 		id: 'BFS',
-		category: 'Graph Algorithms',
+		category: 'Graphs',
 	},
 	{
 		id: 'DFS',
-		category: 'Graph Algorithms',
+		category: 'Graphs',
 	},
 	{
 		id: 'Dijkstra',
-		category: 'Graph Algorithms',
+		category: 'Graphs',
 	},
 	{
 		id: 'Prim',
-		category: 'Graph Algorithms',
+		category: 'Graphs',
 	},
 	{
 		id: 'Kruskal',
-		category: 'Graph Algorithms',
+		category: 'Graphs',
 	},
 	{
 		id: 'LCS',
@@ -341,15 +341,15 @@ export const algoFilter = [
 	},
 	{
 		id: 'CreateGraph',
-		category: 'DP & Extras',
+		category: 'Graphs',
 	},
 	{
 		id: "DisjointSet",
-		category: 'DP & Extras'
+		category: 'Graphs'
 	},
 	{
 		id: 'TreeMap',
-		category: 'DP & Extras',
+		category: 'Maps',
 	},
 	{
 		id: 'SplayTree',
