@@ -29,6 +29,7 @@
 * {
 	-webkit-appearance: none;
 	-moz-appearance: none;
+	appearance: none;
 }
 
 .VisualizationMainPage body {
@@ -48,7 +49,8 @@
 .VisualizationMainPage #container {
 	background: #ffffff;
 	/* margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
-	text-align: left; /* this overrides the text-align: center on the body element. */
+	text-align: left;
+	/* this overrides the text-align: center on the body element. */
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -196,13 +198,16 @@ em {
 	filter: var(--filter);
 	transform: scale(1.1);
 }
+
 .pseudocode-toggle {
 	cursor: pointer;
 	transition: 0.2s;
 }
+
 .pseudocode-toggle:hover {
 	scale: 125%;
 }
+
 .VisualizationMainPage .modal {
 	position: absolute;
 	right: 20px;
@@ -213,7 +218,8 @@ em {
 }
 
 .VisualizationMainPage .bigo {
-	border-collapse: collapse; /* Ensures borders are not doubled */
+	border-collapse: collapse;
+	/* Ensures borders are not doubled */
 	position: absolute;
 	min-width: 40%;
 }
@@ -223,7 +229,8 @@ em {
 	color: var(--primary);
 	padding: 5px;
 	min-width: 50px;
-	border: 1px solid gray; /* Adds border to table cells */
+	border: 1px solid gray;
+	/* Adds border to table cells */
 }
 
 .bigo table {
@@ -238,7 +245,8 @@ em {
 
 .bigo .blur {
 	filter: blur(5px);
-	transition: filter 0.3s ease; /* Smooth transition */
+	transition: filter 0.3s ease;
+	/* Smooth transition */
 }
 
 .VisualizationMainPage .modal-content {
@@ -252,8 +260,10 @@ em {
 }
 
 .VisualizationMainPage .modal-content ul {
-	list-style-type: none; /* Makes bullet points invisible */
-	padding-left: 0; /* Removes default padding */
+	list-style-type: none;
+	/* Makes bullet points invisible */
+	padding-left: 0;
+	/* Removes default padding */
 }
 
 .VisualizationMainPage .modal-content li {
@@ -392,11 +402,11 @@ input[type='radio'] {
 	margin-right: 2px;
 }
 
-input[type='radio'] + label {
+input[type='radio']+label {
 	color: var(--primary);
 }
 
-input[type='radio']:checked + label {
+input[type='radio']:checked+label {
 	padding: 1px 3px 1px 1px;
 	background-color: rgba(176, 179, 184, 0.8);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
@@ -412,19 +422,23 @@ input[type='checkbox'] {
 }
 
 @keyframes shake {
+
 	10%,
 	90% {
 		transform: translate3d(-1px, 0, 0);
 	}
+
 	20%,
 	80% {
 		transform: translate3d(2px, 0, 0);
 	}
+
 	30%,
 	50%,
 	70% {
 		transform: translate3d(-4px, 0, 0);
 	}
+
 	40%,
 	60% {
 		transform: translate3d(4px, 0, 0);
@@ -517,6 +531,7 @@ input[type='checkbox'] {
 		opacity: 0;
 		transform: translateX(30px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateX(0);
@@ -781,6 +796,7 @@ input[type='checkbox'] {
 		opacity: 0;
 		transform: translateX(30px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateX(0);
@@ -1076,4 +1092,10 @@ input[type='checkbox'] {
 	position: sticky;
 	width: 100%;
 	height: 90vh;
+}
+
+.shortcut-highlight {
+	outline: 2px solid #f9c333;
+	transition: outline 0.1s;
+	box-shadow: 0 0 10px #f9c333;
 }
