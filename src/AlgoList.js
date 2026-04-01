@@ -60,9 +60,17 @@ export const algoMap = {
 	TreeMap: ['TreeMap', algos.TreeMap]
 };
 
-const aprilFoolsAlgos = ['LVA', 'NonLinearProbing'];
-export const algoList = [
-	...(isAprilFools ? aprilFoolsAlgos : []),
+const aprilFoolsAlgos = [
+	'LVA',
+	'NonLinearProbing',
+	'DropSort',
+	'SleepSort',
+	'MiracleSort',
+	'BogoSort',
+	'FredSort',
+];
+
+const baseAlgoList = [
 	'Lists',
 	'ArrayList',
 	'LinkedList',
@@ -119,6 +127,10 @@ export const algoList = [
 	'BogoSort',
 	'FredSort',
 ];
+
+export const algoList = isAprilFools
+	? [...aprilFoolsAlgos, ...baseAlgoList.filter(item => !aprilFoolsAlgos.includes(item))]
+	: baseAlgoList;
 
 export const relatedSearches = {
 	ArrayList: ['LinkedList', 'StackArray', 'QueueArray', 'DequeArray'],
