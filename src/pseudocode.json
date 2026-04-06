@@ -2257,7 +2257,7 @@
 			]
 		}
 	},
-	"Kruskals": {
+	"Kruskal": {
 		"run": {
 			"code": [
 				["procedure Kruskals(Graph g):"],
