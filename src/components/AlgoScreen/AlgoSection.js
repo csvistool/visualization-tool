@@ -1,7 +1,7 @@
 import '../../css/AlgoScreen.css';
 import '../../css/App.css';
 
-import { BsBookHalf, BsClock, BsCodeSlash, BsInfoCircle, BsTranslate } from 'react-icons/bs';
+import { BsBookHalf, BsClock, BsCodeSlash, BsInfoCircle, BsKeyboard, BsTranslate } from 'react-icons/bs';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import AlgorithmNotFound404 from '../../components/AlgorithmNotFound404';
@@ -10,6 +10,7 @@ import BigOModal from '../../modals/BigOModal';
 import ModalSidebarSectionTab from '../../components/AlgoScreen/ModalSidebarSectionTab';
 import Pseudocode from '../../components/AlgoScreen/Pseudocode';
 import ReactGA from 'react-ga4';
+import { SHORTCUTS_CONFIG } from './ShortcutConfig';
 import { algoMap } from '../../AlgoList';
 import infoModals from '../../modals/InfoModals';
 import pseudocodeText from '../../pseudocode.json';
@@ -78,6 +79,59 @@ const AlgoSection = ({ theme }) => {
 
 	// Handle page view and animation setup
 	useEffect(() => {
+		const handleKeyDown = (e) => {
+			// Ignore if focus is on an input or textarea
+			if (
+				['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) ||
+				document.activeElement.isContentEditable
+			) {
+				return;
+			}
+
+			const key = e.key;
+
+			// Toggle shortcuts with '?' or 'Ctrl+/'
+			if (key === '?' || (e.ctrlKey && key === '/')) {
+				e.preventDefault();
+				if (!infoModalEnabled) {
+					setInfoModalEnabled(true);
+					setInfoModalTab('shortcuts');
+				} else {
+					// If modal is open, verify if it's on shortcuts tab, if so close, else switch
+					if (infoModalTab === 'shortcuts') {
+						setInfoModalEnabled(false);
+					} else {
+						setInfoModalTab('shortcuts');
+					}
+				}
+				return;
+			}
+
+			// Ignore if modifier keys are pressed (except Shift for ?)
+			if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+			const config = SHORTCUTS_CONFIG[algoName];
+			if (config && config[key]) {
+				e.preventDefault();
+				const targetId = config[key].target;
+				const element = document.querySelector(`[data-shortcut-target="${targetId}"]`);
+				if (element) {
+					element.focus();
+					if (element.select) {
+						element.select();
+					}
+					// Add a temporary highlight class
+					element.classList.add('shortcut-highlight');
+					setTimeout(() => element.classList.remove('shortcut-highlight'), 500);
+				}
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [algoName, infoModalEnabled, infoModalTab]);
+
+	useEffect(() => {
 		ReactGA.send({ hitType: 'pageview', page: algoName });
 
 		if (algoDetails) {
@@ -113,7 +167,7 @@ const AlgoSection = ({ theme }) => {
 
 			animManagRef.current.addListener("AnimationStarted", null, () => {
 				if (pseudocodeDataRef.current && !modalOpenedRef.current) {
-					modalOpenedRef.current = true; 
+					modalOpenedRef.current = true;
 					setInfoModalEnabled(true);
 					setInfoModalTab('code');
 				}
@@ -150,7 +204,29 @@ const AlgoSection = ({ theme }) => {
 	const togglePseudocodeType = () => {
 		setPseudocodeType(prev => (prev === 'english' ? 'code' : 'english'));
 	};
-	
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (infoModalEnabled && canvasRef.current && canvasRef.current.contains(event.target)) {
+				// Clicked on canvas (outside modal)
+				setInfoModalEnabled(false);
+			}
+
+			// Also check if clicked on the main container but not the modal
+			// The modal is absolute positioned, so we might need a specific ref for it if the above isn't enough.
+			// However, the modal is inside "viewport" div.
+			const modal = document.querySelector('.modal.info-modal');
+			if (infoModalEnabled && modal && !modal.contains(event.target) && !event.target.closest('.menu-modal')) {
+				setInfoModalEnabled(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [infoModalEnabled]);
+
 	if (!algoDetails) {
 		return <AlgorithmNotFound404 />;
 	}
@@ -167,8 +243,25 @@ const AlgoSection = ({ theme }) => {
 							className="menu-modal"
 							size={30}
 							onClick={toggleInfoModal}
-							opacity={infoModalEnabled ? '100%' : '40%'}
+							opacity={infoModalEnabled && infoModalTab !== 'shortcuts' ? '100%' : '40%'}
 							title="Information & Documentation"
+						/>
+					)}
+					{SHORTCUTS_CONFIG[algoName] && (
+						<BsKeyboard
+							className="menu-modal"
+							size={30}
+							onClick={() => {
+								if (infoModalEnabled && infoModalTab === 'shortcuts') {
+									setInfoModalEnabled(false);
+								} else {
+									setInfoModalEnabled(true);
+									setInfoModalTab('shortcuts');
+								}
+							}}
+							opacity={infoModalEnabled && infoModalTab === 'shortcuts' ? '100%' : '40%'}
+							title="Keyboard Shortcuts"
+							style={{ marginLeft: '10px' }}
 						/>
 					)}
 				</div>
@@ -208,6 +301,15 @@ const AlgoSection = ({ theme }) => {
 										title={'Big O'}
 									/>
 								)}
+								{SHORTCUTS_CONFIG[algoName] && (
+									<ModalSidebarSectionTab
+										onClick={() => setInfoModalTab('shortcuts')}
+										currentTab={infoModalTab}
+										name={'shortcuts'}
+										icon={BsKeyboard}
+										title={'Shortcuts'}
+									/>
+								)}
 							</div>
 
 							{infoModalTab === 'about' && infoModals[algoName] && (
@@ -241,6 +343,48 @@ const AlgoSection = ({ theme }) => {
 							{infoModalTab === 'bigo' && (
 								<div className="tab-content bigo-content">
 									<BigOModal complexities={complexities} />
+								</div>
+							)}
+
+							{infoModalTab === 'shortcuts' && SHORTCUTS_CONFIG[algoName] && (
+								<div className="tab-content shortcuts-content">
+									<h3>Keyboard Shortcuts</h3>
+									<div className="shortcuts-list" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '10px 20px', alignItems: 'center' }}>
+										{Object.entries(SHORTCUTS_CONFIG[algoName]).map(([key, { label }]) => (
+											<React.Fragment key={key}>
+												<kbd style={{
+													backgroundColor: '#eee',
+													border: '1px solid #b4b4b4',
+													borderRadius: '3px',
+													boxShadow: '0 1px 1px rgba(0,0,0,.2), 0 2px 0 0 rgba(255,255,255,.7) inset',
+													color: '#333',
+													display: 'inline-block',
+													fontSize: '.85em',
+													fontWeight: 700,
+													lineHeight: 1,
+													padding: '2px 4px',
+													whiteSpace: 'nowrap'
+												}}>{key}</kbd>
+												<span>{label}</span>
+											</React.Fragment>
+										))}
+										<React.Fragment>
+											<kbd style={{
+												backgroundColor: '#eee',
+												border: '1px solid #b4b4b4',
+												borderRadius: '3px',
+												boxShadow: '0 1px 1px rgba(0,0,0,.2), 0 2px 0 0 rgba(255,255,255,.7) inset',
+												color: '#333',
+												display: 'inline-block',
+												fontSize: '.85em',
+												fontWeight: 700,
+												lineHeight: 1,
+												padding: '2px 4px',
+												whiteSpace: 'nowrap'
+											}}>?</kbd>
+											<span>Toggle shortcuts help</span>
+										</React.Fragment>
+									</div>
 								</div>
 							)}
 						</div>
