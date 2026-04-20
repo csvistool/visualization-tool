@@ -356,6 +356,36 @@ em {
 	font-size: 14px;
 }
 
+.VisualizationMainPage input[type='text'].tab-focused-input {
+	border: 2px solid #3498db;
+	box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+	outline: none;
+}
+
+.VisualizationMainPage input[type='button'].tab-focused-input {
+	box-shadow: 0 0 8px rgba(52, 152, 219, 0.7);
+	outline: 2px solid #3498db;
+	outline-offset: 2px;
+}
+
+.VisualizationMainPage .menu-modal.tab-focused-input {
+	outline: 2px solid #3498db;
+	outline-offset: 4px;
+	box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
+}
+
+.VisualizationMainPage input[type='checkbox'].tab-focused-input,
+.VisualizationMainPage input[type='radio'].tab-focused-input {
+	outline: 2px solid #3498db;
+	outline-offset: 2px;
+}
+
+.VisualizationMainPage select.tab-focused-input {
+	border-color: #3498db !important;
+	box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+	outline: none;
+}
+
 .VisualizationMainPage select {
 	appearance: menulist-button;
 	-moz-appearance: menulist-button;
