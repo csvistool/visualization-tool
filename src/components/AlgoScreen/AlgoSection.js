@@ -167,6 +167,14 @@ const AlgoSection = ({ theme }) => {
 							className="menu-modal"
 							size={30}
 							onClick={toggleInfoModal}
+							onKeyDown={(event) => {
+								if (event.key === 'Enter' || event.key === ' ') {
+									event.preventDefault();
+									toggleInfoModal();
+								}
+							}}
+							role="button"
+							tabIndex={0}
 							opacity={infoModalEnabled ? '100%' : '40%'}
 							title="Information & Documentation"
 						/>
