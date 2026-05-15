@@ -26,6 +26,84 @@
 
 import { act } from '../anim/AnimationMain';
 
+let controlTabNavigationInstalled = false;
+
+const getControlRoots = () => {
+	const algorithmRoot = document.getElementById('algoControlSection') || document.getElementById('AlgorithmSpecificControls');
+	const animationRoot = document.getElementById('GeneralAnimationControls');
+	const roots = [algorithmRoot, animationRoot].filter(Boolean);
+	console.log('Control roots found:', roots.length, roots);
+	return roots;
+};
+
+const getControlFocusables = () => {
+	const roots = getControlRoots();
+	return roots
+		.flatMap((root) =>
+			Array.from(
+				root.querySelectorAll(
+					'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+				)
+			)
+		)
+		.filter((el) => !el.disabled && el.offsetParent !== null);
+};
+
+const handleControlTabNavigation = (event) => {
+	if (event.key !== 'Tab') return;
+	
+	const roots = getControlRoots();
+	const activeElement = document.activeElement;
+	
+	// Check if the active element is within a control root
+	if (!roots.some((root) => root && root.contains(activeElement))) return;
+
+	const focusables = getControlFocusables();
+	console.log('Tab pressed. Active element:', activeElement.tagName, activeElement.type, activeElement.value);
+	console.log('Focusables found:', focusables.length);
+	focusables.forEach((f, i) => console.log(`  [${i}]`, f.tagName, f.type, f.value));
+
+	console.log(
+  focusables.map(el => ({
+    tag: el.tagName,
+    type: el.type,
+    visible: !!el.offsetParent,
+    tabIndex: el.tabIndex
+  }))
+);
+	
+	if (focusables.length === 0) return;
+
+	event.preventDefault();
+	const currentIndex = focusables.indexOf(activeElement);
+	console.log('Current index in focusables:', currentIndex);
+	
+	// If active element not found, start from first
+	const startIndex = currentIndex === -1 ? 0 : currentIndex;
+	const direction = event.shiftKey ? -1 : 1;
+	let nextIndex = startIndex + direction;
+	
+	if (nextIndex >= focusables.length) nextIndex = 0;
+	if (nextIndex < 0) nextIndex = focusables.length - 1;
+
+	console.log('Moving to index:', nextIndex, 'element:', focusables[nextIndex].tagName, focusables[nextIndex].type, focusables[nextIndex].value);
+
+	focusables.forEach((el) => el.classList.remove('tab-focused-input'));
+	const next = focusables[nextIndex];
+	next.focus();
+	next.classList.add('tab-focused-input');
+};
+
+const installControlTabNavigation = () => {
+	if (controlTabNavigationInstalled) {
+		console.log('Tab navigation already installed');
+		return;
+	}
+	console.log('Installing control Tab navigation handler');
+	document.addEventListener('keydown', handleControlTabNavigation, true);
+	controlTabNavigationInstalled = true;
+};
+
 export function addLabelToAlgorithmBar(labelName, group) {
 	const element = document.createElement('p');
 	element.appendChild(document.createTextNode(labelName));
@@ -78,7 +156,7 @@ export function addCheckboxToAlgorithmBar(boxLabel, checked, group) {
 	return element;
 }
 
-export function addDropDownGroupToAlgorithmBar(optionNames, groupName, group) {
+export function addDropDownGroupToAlgorithmBar(optionNames, groupName, group, algorithm = null) {
 	const dropDown = document.createElement('select');
 	dropDown.name = groupName;
 	for (let i = 0; i < optionNames.length; i++) {
@@ -101,10 +179,16 @@ export function addDropDownGroupToAlgorithmBar(optionNames, groupName, group) {
 		group.appendChild(span);
 		span.setAttribute('class', 'groupChild');
 	}
+	
+	// Attach Tab navigation if algorithm instance is provided
+	if (algorithm) {
+		algorithm.attachTabNavigation(dropDown);
+	}
+	
 	return dropDown;
 }
 
-export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group) {
+export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group, algorithm = null) {
 	const buttonList = [];
 	const newTable = document.createElement('table');
 
@@ -126,6 +210,11 @@ export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group)
 		bottomLevel.appendChild(label);
 		newTable.appendChild(midLevel);
 		buttonList.push(button);
+		
+		// Attach Tab navigation if algorithm instance is provided
+		if (algorithm) {
+			algorithm.attachTabNavigation(button);
+		}
 	}
 
 	if (!group) {
@@ -142,10 +231,11 @@ export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group)
 	return buttonList;
 }
 
-export function addControlToAlgorithmBar(type, value, group) {
+export function addControlToAlgorithmBar(type, value, group, algorithm = null) {
 	const element = document.createElement('input');
+	const normalizedType = type.toLowerCase();
 
-	element.setAttribute('type', type);
+	element.setAttribute('type', normalizedType);
 	element.setAttribute('value', value);
 
 	if (!group) {
@@ -157,6 +247,16 @@ export function addControlToAlgorithmBar(type, value, group) {
 	} else {
 		group.appendChild(element);
 		element.setAttribute('class', 'groupChild');
+	}
+
+	// Add tabindex for proper keyboard focus
+	if (normalizedType === 'button' || normalizedType === 'checkbox' || normalizedType === 'radio') {
+		element.setAttribute('tabindex', '0');
+	}
+
+	// Attach Tab navigation to buttons, checkboxes, radio buttons if algorithm instance is provided
+	if (algorithm && (normalizedType === 'button' || normalizedType === 'checkbox' || normalizedType === 'radio')) {
+		algorithm.attachTabNavigation(element);
 	}
 
 	return element;
@@ -198,6 +298,7 @@ const CODE_STANDARD_COLOR = '#000000';
 
 export default class Algorithm {
 	constructor(am, w, h) {
+		installControlTabNavigation();
 		if (am == null) {
 			return;
 		}
@@ -397,11 +498,87 @@ export default class Algorithm {
 		return input.substr(-maxLen);
 	}
 
+	getNextFocusableInput(currentField, direction = 1) {
+		const algorithmRoot = document.getElementById('algoControlSection') || document.getElementById('AlgorithmSpecificControls');
+		const roots = [algorithmRoot, document.getElementById('GeneralAnimationControls')];
+		if (roots.length === 0) return null;
+
+		const allInputs = roots
+			.flatMap((root) => Array.from(
+				root.querySelectorAll(
+					'input[type="text"], input[type="button"], input[type="checkbox"], input[type="radio"], select, [tabindex="0"]'
+				)
+			));
+
+		if (allInputs.length === 0) return null;
+
+		const currentIndex = allInputs.indexOf(currentField);
+		if (currentIndex === -1) return allInputs[0];
+
+		let nextIndex = currentIndex + direction;
+		// Wrap around if at the end or beginning
+		if (nextIndex >= allInputs.length) {
+			nextIndex = 0;
+		} else if (nextIndex < 0) {
+			nextIndex = allInputs.length - 1;
+		}
+
+		return allInputs[nextIndex];
+	}
+
+	highlightInputField(field) {
+		if (field) {
+			field.classList.add('tab-focused-input');
+			field.focus();
+			// Only select text for text inputs
+			if (field.type === 'text') {
+				field.select();
+			}
+		}
+	}
+
+	unhighlightInputFields() {
+		const algorithmRoot = document.getElementById('algoControlSection') || document.getElementById('AlgorithmSpecificControls');
+		const roots = [algorithmRoot, document.getElementById('GeneralAnimationControls')].filter(Boolean);
+		roots.forEach((root) => {
+			const allInputs = root.querySelectorAll(
+				'input, button, select, textarea, [tabindex]:not([tabindex="-1"])'
+			);
+			allInputs.forEach((input) => {
+				input.classList.remove('tab-focused-input');
+			});
+		});
+	}
+
+	attachTabNavigation(element, action = null) {
+		// Attach Tab/Enter navigation to any focusable element
+		element.addEventListener('keydown', (event) => {
+			const keyASCII = event.keyCode || event.which;
+
+			// Handle Enter key - trigger click for buttons, or action function
+			if (keyASCII === 13) {
+				event.preventDefault();
+				this.unhighlightInputFields();
+				if (element.type === 'button' || element.type === 'select') {
+					element.click();
+				} else if (action) {
+					action();
+				}
+				return;
+			}
+		});
+	}
+
+	enableTabNavigationForButton(button) {
+		// Easy helper method to add Tab navigation to existing buttons
+		this.attachTabNavigation(button);
+	}
+
 	returnSubmit(field, funct, maxsize, intOnly, ignoreMaxSize = false) {
 		if (maxsize !== undefined) {
 			field.size = maxsize;
 		}
-		return function (event) {
+		return (event) => {
 			let keyASCII = 0;
 			if (window.event) {
 				// IE
@@ -412,8 +589,11 @@ export default class Algorithm {
 			}
 			const sizeGood = ignoreMaxSize || field.value.length < maxsize;
 
+			// Handle Enter key - submit the action
 			if (keyASCII === 13 && funct != null) {
+				this.unhighlightInputFields();
 				funct();
+				return;
 			} else if (
 				keyASCII === 32 || // space
 				keyASCII === 190 ||
@@ -486,7 +666,7 @@ Algorithm.prototype.returnSubmitFloat = function (field, funct, maxsize) {
 	if (maxsize !== undefined) {
 		field.size = maxsize;
 	}
-	return function (event) {
+	return (event) => {
 		let keyASCII = 0;
 		if (window.event) {
 			// IE
@@ -497,7 +677,9 @@ Algorithm.prototype.returnSubmitFloat = function (field, funct, maxsize) {
 		}
 		// Submit on return
 		if (keyASCII === 13) {
+			this.unhighlightInputFields();
 			funct();
+			return;
 		}
 		// Control keys (arrows, del, etc) are always OK
 		else if (controlKey(keyASCII)) {

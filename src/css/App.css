@@ -527,7 +527,8 @@ div.content {
 }
 
 .inner-flex button.button:hover,
-.inner-flex button.button:active {
+.inner-flex button.button:active,
+.inner-flex button.button:focus-visible {
 	background: var(--card-hover);
 	border-color: var(--hover-border);
 	border-width: 2px; /* Slightly thicker border on hover */

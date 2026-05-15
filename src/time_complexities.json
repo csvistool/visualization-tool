@@ -782,9 +782,9 @@
 				"example": "26|20|29,33|12,16|21|27|31,32|36,37 find 21"
 			},
 			"best": {
-				"big_o": "O(log n)",
-				"explanation": "Element exists near top of tree.",
-				"example": "26|20|29,33|12,16|21|27|31,32|36,37 find 29"
+				"big_o": "O(1)",
+				"explanation": "Element exists in the root of the tree.",
+				"example": "26|20|29,33|12,16|21|27|31,32|36,37 find 26"
 			}
 		},
 		"Calculate Height": {
