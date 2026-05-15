@@ -97,6 +97,7 @@ export default class LinkedList extends Algorithm {
 			4,
 			false,
 		);
+		this.addValueField.setAttribute('data-shortcut-target', 'insert');
 		this.controls.push(this.addValueField);
 
 		addLabelToAlgorithmBar('at index', addTopHorizontalGroup);
@@ -158,6 +159,7 @@ export default class LinkedList extends Algorithm {
 			4,
 			true,
 		);
+		this.removeField.setAttribute('data-shortcut-target', 'delete');
 		this.controls.push(this.removeField);
 
 		// Remove from index button
@@ -838,8 +840,8 @@ export default class LinkedList extends Algorithm {
 		runningRemoveIndexOnly
 			? this.highlight(12, 0, 'removeIndex')
 			: runningRemoveBack
-			? this.highlight(10, 0, 'removeBack')
-			: this.highlight(3, 0, 'removeFront');
+				? this.highlight(10, 0, 'removeBack')
+				: this.highlight(3, 0, 'removeFront');
 
 		this.cmd(act.step);
 		this.cmd(act.delete, this.linkedListElemID[index]);
@@ -863,8 +865,8 @@ export default class LinkedList extends Algorithm {
 		runningRemoveIndexOnly
 			? this.highlight(13, 0, 'removeIndex')
 			: runningRemoveBack
-			? this.highlight(11, 0, 'removeBack')
-			: this.highlight(4, 0, 'removeFront');
+				? this.highlight(11, 0, 'removeBack')
+				: this.highlight(4, 0, 'removeFront');
 		this.cmd(act.step);
 
 		return this.commands;

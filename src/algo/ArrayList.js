@@ -82,6 +82,7 @@ export default class ArrayList extends Algorithm {
 			4,
 			false,
 		);
+		this.addValueField.setAttribute('data-shortcut-target', 'insert');
 		this.controls.push(this.addValueField);
 
 		addLabelToAlgorithmBar('at index', addTopHorizontalGroup);
@@ -143,6 +144,7 @@ export default class ArrayList extends Algorithm {
 			4,
 			true,
 		);
+		this.removeField.setAttribute('data-shortcut-target', 'delete');
 		this.controls.push(this.removeField);
 
 		// Remove from index button

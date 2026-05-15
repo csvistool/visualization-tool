@@ -75,6 +75,7 @@ export default class BST extends Algorithm {
 			4,
 			false,
 		);
+		this.insertField.setAttribute('data-shortcut-target', 'insert');
 		this.controls.push(this.insertField);
 
 		this.insertButton = addControlToAlgorithmBar('Button', 'Insert');
@@ -91,6 +92,7 @@ export default class BST extends Algorithm {
 			4,
 			false,
 		);
+		this.deleteField.setAttribute('data-shortcut-target', 'delete');
 		this.controls.push(this.deleteField);
 
 		this.deleteButton = addControlToAlgorithmBar('Button', 'Delete');
@@ -107,6 +109,7 @@ export default class BST extends Algorithm {
 			4,
 			false,
 		);
+		this.findField.setAttribute('data-shortcut-target', 'find');
 		this.controls.push(this.findField);
 
 		this.findButton = addControlToAlgorithmBar('Button', 'Find');
@@ -603,12 +606,12 @@ export default class BST extends Algorithm {
 						act.setText,
 						0,
 						'Searching for ' +
-							value +
-							' : ' +
-							value +
-							' < ' +
-							tree.data +
-							' (look to left subtree)',
+						value +
+						' : ' +
+						value +
+						' < ' +
+						tree.data +
+						' (look to left subtree)',
 					);
 					this.cmd(act.step);
 
@@ -635,12 +638,12 @@ export default class BST extends Algorithm {
 						act.setText,
 						0,
 						' Searching for ' +
-							value +
-							' : ' +
-							value +
-							' > ' +
-							tree.data +
-							' (look to right subtree)',
+						value +
+						' : ' +
+						value +
+						' > ' +
+						tree.data +
+						' (look to right subtree)',
 					);
 					this.cmd(act.step);
 					this.cmd(act.setHighlight, tree.graphicID, 0, 'find');
@@ -765,7 +768,7 @@ export default class BST extends Algorithm {
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
-		// } else if (data > curr.data) {
+			// } else if (data > curr.data) {
 		} else if (this.compare(data, curr.data) > 0) {
 			this.highlight(10, 0, 'add');
 			this.highlight(11, 0, 'add');
@@ -865,7 +868,7 @@ export default class BST extends Algorithm {
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
 				this.resizeTree();
 			}
-		// } else if (data > curr.data) {
+			// } else if (data > curr.data) {
 		} else if (this.compare(data, curr.data)) {
 			this.highlight(11, 0, this.predSuccMethod);
 			this.highlight(12, 0, this.predSuccMethod);

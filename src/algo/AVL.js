@@ -59,6 +59,7 @@ export default class AVL extends Algorithm {
 			4,
 			false,
 		);
+		this.insertField.setAttribute('data-shortcut-target', 'insert');
 		this.controls.push(this.insertField);
 
 		this.insertButton = addControlToAlgorithmBar('Button', 'Insert');
@@ -75,6 +76,7 @@ export default class AVL extends Algorithm {
 			4,
 			false,
 		);
+		this.deleteField.setAttribute('data-shortcut-target', 'delete');
 		this.controls.push(this.deleteField);
 
 		this.deleteButton = addControlToAlgorithmBar('Button', 'Delete');
@@ -91,6 +93,7 @@ export default class AVL extends Algorithm {
 			4,
 			false,
 		);
+		this.findField.setAttribute('data-shortcut-target', 'find');
 		this.controls.push(this.findField);
 
 		this.findButton = addControlToAlgorithmBar('Button', 'Find');
@@ -311,12 +314,12 @@ export default class AVL extends Algorithm {
 						act.setText,
 						0,
 						'Searching for ' +
-							value +
-							' : ' +
-							value +
-							' < ' +
-							tree.data +
-							' (look to left subtree)',
+						value +
+						' : ' +
+						value +
+						' < ' +
+						tree.data +
+						' (look to left subtree)',
 					);
 					this.cmd(act.step);
 					this.cmd(act.setHighlight, tree.graphicID, 0);
@@ -338,12 +341,12 @@ export default class AVL extends Algorithm {
 						act.setText,
 						0,
 						' Searching for ' +
-							value +
-							' : ' +
-							value +
-							' > ' +
-							tree.data +
-							' (look to right subtree)',
+						value +
+						' : ' +
+						value +
+						' > ' +
+						tree.data +
+						' (look to right subtree)',
 					);
 					this.cmd(act.step);
 					this.cmd(act.setHighlight, tree.graphicID, 0);
@@ -438,7 +441,7 @@ export default class AVL extends Algorithm {
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
-		// } else if (data > curr.data) {
+			// } else if (data > curr.data) {
 		} else if (this.compare(data, curr.data) > 0) {
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking at right subtree`);
 			this.cmd(act.step);
@@ -683,7 +686,7 @@ export default class AVL extends Algorithm {
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
 				this.resizeTree();
 			}
-		// } else if (data > curr.data) {
+			// } else if (data > curr.data) {
 		} else if (this.compare(data, curr.data) > 0) {
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking right`);
 			this.cmd(act.step);
