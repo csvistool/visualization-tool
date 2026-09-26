@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  format-and-lint:
+  run-ci:
     runs-on: ubuntu-latest
     steps:
       # Checkout Action: https://github.com/actions/checkout
