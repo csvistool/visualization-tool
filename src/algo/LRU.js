@@ -138,6 +138,21 @@ export default class LRU extends Algorithm {
 
 	// Control bar
 
+	addInputField(parentGroup, size, callback, isIntOnly = false, initialVal = '') {
+		const field = addControlToAlgorithmBar('Text', initialVal, parentGroup);
+		field.size = size;
+		field.onkeydown = this.returnSubmit(field, callback.bind(this), size, isIntOnly);
+		this.controls.push(field);
+		return field;
+	}
+
+	addButton(label, callback, parentGroup) {
+		const button = addControlToAlgorithmBar('Button', label, parentGroup);
+		button.onclick = callback.bind(this);
+		this.controls.push(button);
+		return button;
+	}
+
 	addControls() {
 		this.controls = [];
 
@@ -147,68 +162,28 @@ export default class LRU extends Algorithm {
 		const putBot = addGroupToAlgorithmBar(true, putVG);
 
 		addLabelToAlgorithmBar('Key:', putTop);
-		this.putKeyField = addControlToAlgorithmBar('Text', '', putTop);
-		this.putKeyField.size = MAX_KEY_LENGTH;
-		this.putKeyField.onkeydown = this.returnSubmit(
-			this.putKeyField,
-			this.putCallback.bind(this),
-			MAX_KEY_LENGTH,
-			false,
-		);
-		this.controls.push(this.putKeyField);
+		this.putKeyField = this.addInputField(putTop, MAX_KEY_LENGTH, this.putCallback);
 
 		addLabelToAlgorithmBar('Value:', putBot);
-		this.putValField = addControlToAlgorithmBar('Text', '', putBot);
-		this.putValField.size = MAX_VAL_LENGTH;
-		this.putValField.onkeydown = this.returnSubmit(
-			this.putValField,
-			this.putCallback.bind(this),
-			MAX_VAL_LENGTH,
-			false,
-		);
-		this.controls.push(this.putValField);
+		this.putValField = this.addInputField(putBot, MAX_VAL_LENGTH, this.putCallback);
 
-		this.putButton = addControlToAlgorithmBar('Button', 'Put');
-		this.putButton.onclick = this.putCallback.bind(this);
-		this.controls.push(this.putButton);
+		this.putButton = this.addButton('Put', this.putCallback);
 
 		addDivisorToAlgorithmBar();
 
-		// Get
+		// Get: Key
 		const getG = addGroupToAlgorithmBar(true);
 		addLabelToAlgorithmBar('Key:', getG);
-		this.getKeyField = addControlToAlgorithmBar('Text', '', getG);
-		this.getKeyField.size = MAX_KEY_LENGTH;
-		this.getKeyField.onkeydown = this.returnSubmit(
-			this.getKeyField,
-			this.getCallback.bind(this),
-			MAX_KEY_LENGTH,
-			false,
-		);
-		this.controls.push(this.getKeyField);
-
-		this.getButton = addControlToAlgorithmBar('Button', 'Get');
-		this.getButton.onclick = this.getCallback.bind(this);
-		this.controls.push(this.getButton);
+		this.getKeyField = this.addInputField(getG, MAX_KEY_LENGTH, this.getCallback);
+		this.getButton = this.addButton('Get', this.getCallback);
 
 		addDivisorToAlgorithmBar();
 
-		// Delete
+		// Delete: Key
 		const delG = addGroupToAlgorithmBar(true);
 		addLabelToAlgorithmBar('Key:', delG);
-		this.deleteKeyField = addControlToAlgorithmBar('Text', '', delG);
-		this.deleteKeyField.size = MAX_KEY_LENGTH;
-		this.deleteKeyField.onkeydown = this.returnSubmit(
-			this.deleteKeyField,
-			this.deleteCallback.bind(this),
-			MAX_KEY_LENGTH,
-			false,
-		);
-		this.controls.push(this.deleteKeyField);
-
-		this.deleteButton = addControlToAlgorithmBar('Button', 'Delete');
-		this.deleteButton.onclick = this.deleteCallback.bind(this);
-		this.controls.push(this.deleteButton);
+		this.deleteKeyField = this.addInputField(delG, MAX_KEY_LENGTH, this.deleteCallback);
+		this.deleteButton = this.addButton('Delete', this.deleteCallback);
 
 		addDivisorToAlgorithmBar();
 
@@ -218,26 +193,19 @@ export default class LRU extends Algorithm {
 		const capBot = addGroupToAlgorithmBar(true, capVG);
 
 		addLabelToAlgorithmBar('Capacity:', capTop);
-		this.capacityField = addControlToAlgorithmBar('Text', String(DEFAULT_CAPACITY), capTop);
-		this.capacityField.size = 3;
-		this.capacityField.onkeydown = this.returnSubmit(
-			this.capacityField,
-			this.restartCallback.bind(this),
-			2,
+		this.capacityField = this.addInputField(
+			capTop,
+			3,
+			this.restartCallback,
 			true,
+			String(DEFAULT_CAPACITY),
 		);
-		this.controls.push(this.capacityField);
-
-		this.restartButton = addControlToAlgorithmBar('Button', 'Restart', capBot);
-		this.restartButton.onclick = this.restartCallback.bind(this);
-		this.controls.push(this.restartButton);
+		this.restartButton = this.addButton('Restart', this.restartCallback, capBot);
 
 		addDivisorToAlgorithmBar();
 
 		// Clear button
-		this.clearButton = addControlToAlgorithmBar('Button', 'Clear');
-		this.clearButton.onclick = this.clearCallback.bind(this);
-		this.controls.push(this.clearButton);
+		this.clearButton = this.addButton('Clear', this.clearCallback);
 	}
 
 	setup() {
@@ -531,18 +499,21 @@ export default class LRU extends Algorithm {
 
 	// Callbacks for the supported operations of LRU Cache
 
+	rejectInput(message, button) {
+		this.implementAction(this.setStatusCmd.bind(this), message);
+		this.shake(button);
+	}
+
 	putCallback() {
 		this.clearInspection();
 		const key = this.putKeyField.value.trim();
 		const val = this.putValField.value.trim();
 		if (key === '' || val === '') {
-			this.implementAction(this.setStatusCmd.bind(this), STATUS.NEED_KEY_VALUE);
-			this.shake(this.putButton);
+			this.rejectInput(STATUS.NEED_KEY_VALUE, this.putButton);
 			return;
 		}
 		if (FORBIDDEN_KEYS.has(key)) {
-			this.implementAction(this.setStatusCmd.bind(this), STATUS.FORBIDDEN_KEY(key));
-			this.shake(this.putButton);
+			this.rejectInput(STATUS.FORBIDDEN_KEY(key), this.putButton);
 			return;
 		}
 		this.putKeyField.value = '';
@@ -554,8 +525,7 @@ export default class LRU extends Algorithm {
 		this.clearInspection();
 		const key = this.getKeyField.value.trim();
 		if (key === '') {
-			this.implementAction(this.setStatusCmd.bind(this), STATUS.NEED_GET_KEY);
-			this.shake(this.getButton);
+			this.rejectInput(STATUS.NEED_GET_KEY, this.getButton);
 			return;
 		}
 		this.getKeyField.value = '';
@@ -566,8 +536,7 @@ export default class LRU extends Algorithm {
 		this.clearInspection();
 		const key = this.deleteKeyField.value.trim();
 		if (key === '') {
-			this.implementAction(this.setStatusCmd.bind(this), STATUS.NEED_DEL_KEY);
-			this.shake(this.deleteButton);
+			this.rejectInput(STATUS.NEED_DEL_KEY, this.deleteButton);
 			return;
 		}
 		this.deleteKeyField.value = '';
@@ -579,11 +548,7 @@ export default class LRU extends Algorithm {
 		const raw = parseInt(this.capacityField.value, 10);
 		// Enforce capacity between 1 and MAX_CAPACITY (explicitly disallow 0 or negative)
 		if (isNaN(raw) || raw < 1 || raw > MAX_CAPACITY) {
-			this.implementAction(
-				this.setStatusCmd.bind(this),
-				STATUS.INVALID_CAPACITY(MAX_CAPACITY),
-			);
-			this.shake(this.restartButton);
+			this.rejectInput(STATUS.INVALID_CAPACITY(MAX_CAPACITY), this.restartButton);
 			return;
 		}
 		this.capacity = raw;
