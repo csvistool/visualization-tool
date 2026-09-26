@@ -29,7 +29,7 @@ import Algorithm, {
 import { act } from '../anim/AnimationMain';
 import pseudocodeText from '../pseudocode.json';
 
-// ─── Layout constants ────────────────────────────────────────────────────────
+// Layout Configurations
 
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
@@ -67,7 +67,7 @@ const BADGE_Y = DLL_START_Y - 50;
 // Off-screen position used to "hide" canvas objects we can't destroy
 const OFFSCREEN = -2000;
 
-// ─── Colors ──────────────────────────────────────────────────────────────────
+// Colors
 
 const MRU_COLOR = '#006400'; // dark green
 const LRU_COLOR = '#CC0000'; // crimson red
@@ -81,7 +81,7 @@ const PTR_CELL_BG = '#E3F2FD';
 const CELL_BORDER = '#B0BEC5';
 const WHITE = '#FFFFFF';
 
-// ─── Limits ───────────────────────────────────────────────────────────────────
+// Limits for the simulation
 
 const MAX_CAPACITY = 10;
 const DEFAULT_CAPACITY = 5;
@@ -91,7 +91,7 @@ const MAX_VAL_LENGTH = 4;
 // Keys that would cause prototype pollution
 const FORBIDDEN_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
-// ─── Status Message Helpers ───────────────────────────────────────────────────
+// Status Message Helpers
 
 export const STATUS = {
 	// Validation / Input errors
@@ -123,7 +123,7 @@ export const STATUS = {
 		`Inspecting: key "${key}" maps to DLL node "${key}" (value: "${val}") at ${pos}.`,
 };
 
-// ─── LRU class ───────────────────────────────────────────────────────────────
+// LRU Visualizer
 
 export default class LRU extends Algorithm {
 	constructor(am, w, h) {
@@ -136,7 +136,7 @@ export default class LRU extends Algorithm {
 		this.setup();
 	}
 
-	// ── Control bar ────────────────────────────────────────────────────────────
+	// Control bar
 
 	addControls() {
 		this.controls = [];
@@ -240,21 +240,14 @@ export default class LRU extends Algorithm {
 		this.controls.push(this.clearButton);
 	}
 
-	// ── Setup ──────────────────────────────────────────────────────────────────
-
 	setup() {
-		// JS-side state
 		this.capacity = DEFAULT_CAPACITY;
-		// O(1) lookup map: key → { keyCellID, ptrCellID, nodeID, valLabelID }
 		this.map = Object.create(null);
-		// Active keys in the Hash Map
 		this.mapKeys = [];
-		// Ordered MRU→LRU: [{ key, value, nodeID, valLabelID }]
 		this.dll = [];
-		// Tracked DLL connections
 		this.dllConnections = [];
 
-		// ── Permanent canvas objects ───────────────────────────────────────────
+		// Canvas Headers
 
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
@@ -334,7 +327,7 @@ export default class LRU extends Algorithm {
 		this.nextIndex = this.resetIndex;
 	}
 
-	// ── Interactive Click-to-Inspect ───────────────────────────────────────────
+	// Interactive Click-to-Inspect
 
 	getCanvasCoords(event) {
 		if (!this.canvas) return { x: -1, y: -1 };
@@ -389,26 +382,14 @@ export default class LRU extends Algorithm {
 	inspectKey(key) {
 		this.clearInspection();
 		const mapEntry = this.map[key];
-		const dllIdx = this.dll.findIndex(n => n.key === key);
+		const dllIdx = this.getDllIndex(key);
 		if (!mapEntry || dllIdx === -1) return;
 
 		const targetNode = this.dll[dllIdx];
 		this.inspectedKey = key;
 		this.commands = [];
 
-		this.cmd(act.setBackgroundColor, mapEntry.keyCellID, PTR_CELL_BG);
-		this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, '#BBDEFB');
-		this.cmd(act.setBackgroundColor, targetNode.nodeID, '#E1F5FE');
-		this.cmd(
-			act.connect,
-			mapEntry.ptrCellID,
-			targetNode.nodeID,
-			MAP_LINK_COLOR,
-			0.0,
-			true,
-			'',
-			0,
-		);
+		this.highlightEntryAndNode(key, PTR_CELL_BG, '#E1F5FE', MAP_LINK_COLOR);
 
 		const posDesc =
 			dllIdx === 0
@@ -426,26 +407,17 @@ export default class LRU extends Algorithm {
 	clearInspection() {
 		if (!this.inspectedKey) return;
 		const key = this.inspectedKey;
-		const mapEntry = this.map[key];
-		const dllIdx = this.dll.findIndex(n => n.key === key);
 		this.inspectedKey = null;
 
 		this.commands = [];
-		if (mapEntry) {
-			this.cmd(act.setBackgroundColor, mapEntry.keyCellID, KEY_CELL_BG);
-			this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, PTR_CELL_BG);
-			if (dllIdx !== -1) {
-				this.cmd(act.disconnect, mapEntry.ptrCellID, this.dll[dllIdx].nodeID);
-				this.cmd(act.setBackgroundColor, this.dll[dllIdx].nodeID, WHITE);
-			}
-		}
+		this.resetEntryAndNode(key);
 		this.setStatus('');
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
 		this.commands = [];
 	}
 
-	// ── UI lifecycle ───────────────────────────────────────────────────────────
+	// UI lifecycle
 
 	enableUI() {
 		for (let i = 0; i < this.controls.length; i++) {
@@ -459,7 +431,7 @@ export default class LRU extends Algorithm {
 		}
 	}
 
-	// ── Helpers ────────────────────────────────────────────────────────────────
+	// Helpers
 
 	setStatus(text) {
 		this.cmd(act.setText, this.infoLabelID, text);
@@ -477,7 +449,87 @@ export default class LRU extends Algorithm {
 		return MAP_START_Y + idx * MAP_ROW_GAP;
 	}
 
-	// ── Callbacks ──────────────────────────────────────────────────────────────
+	getDllIndex(key) {
+		return this.dll.findIndex(n => n.key === key);
+	}
+
+	highlightEntryAndNode(
+		key,
+		cellColor,
+		nodeColor = cellColor,
+		linkColor = MAP_LINK_COLOR,
+		keyCellColor = cellColor,
+	) {
+		const mapEntry = this.map[key];
+		const dllIdx = this.getDllIndex(key);
+		if (!mapEntry || dllIdx === -1) return;
+
+		const targetNodeID = this.dll[dllIdx].nodeID;
+		this.cmd(act.setBackgroundColor, mapEntry.keyCellID, keyCellColor);
+		this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, cellColor);
+		this.cmd(act.setBackgroundColor, targetNodeID, nodeColor);
+		this.cmd(act.connect, mapEntry.ptrCellID, targetNodeID, linkColor, 0.0, true, '', 0);
+	}
+
+	resetEntryAndNode(key, disconnect = true) {
+		const mapEntry = this.map[key];
+		const dllIdx = this.getDllIndex(key);
+
+		if (mapEntry) {
+			this.cmd(act.setBackgroundColor, mapEntry.keyCellID, KEY_CELL_BG);
+			this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, PTR_CELL_BG);
+			if (dllIdx !== -1) {
+				const targetNodeID = this.dll[dllIdx].nodeID;
+				if (disconnect) {
+					this.cmd(act.disconnect, mapEntry.ptrCellID, targetNodeID);
+				}
+				this.cmd(act.setBackgroundColor, targetNodeID, WHITE);
+			}
+		}
+	}
+
+	updateRecencyBadges() {
+		if (this.dll.length === 0) {
+			// Hide badges offscreen
+			this.cmd(act.move, this.mruBadgeID, OFFSCREEN, OFFSCREEN);
+			this.cmd(act.move, this.mruTextID, OFFSCREEN, OFFSCREEN);
+			this.cmd(act.move, this.lruBadgeID, OFFSCREEN, OFFSCREEN);
+			this.cmd(act.move, this.lruTextID, OFFSCREEN, OFFSCREEN);
+		} else if (this.dll.length === 1) {
+			// Capacity = 1 / Size = 1 edge case: single combined badge
+			const x = this.dllNodeX(0);
+			this.cmd(act.setText, this.mruTextID, 'MRU / LRU');
+			this.cmd(act.setWidth, this.mruBadgeID, 72);
+			this.cmd(act.setBackgroundColor, this.mruBadgeID, COMBO_BADGE_COLOR);
+			this.cmd(act.setForegroundColor, this.mruBadgeID, COMBO_BADGE_COLOR);
+			this.cmd(act.move, this.mruBadgeID, x, BADGE_Y);
+			this.cmd(act.move, this.mruTextID, x, BADGE_Y);
+
+			// Hide secondary LRU badge
+			this.cmd(act.move, this.lruBadgeID, OFFSCREEN, OFFSCREEN);
+			this.cmd(act.move, this.lruTextID, OFFSCREEN, OFFSCREEN);
+		} else {
+			// Size > 1: separate MRU and LRU badges
+			const mruX = this.dllNodeX(0);
+			const lruX = this.dllNodeX(this.dll.length - 1);
+
+			this.cmd(act.setText, this.mruTextID, 'MRU');
+			this.cmd(act.setWidth, this.mruBadgeID, BADGE_W);
+			this.cmd(act.setBackgroundColor, this.mruBadgeID, MRU_COLOR);
+			this.cmd(act.setForegroundColor, this.mruBadgeID, MRU_COLOR);
+			this.cmd(act.move, this.mruBadgeID, mruX, BADGE_Y);
+			this.cmd(act.move, this.mruTextID, mruX, BADGE_Y);
+
+			this.cmd(act.setText, this.lruTextID, 'LRU');
+			this.cmd(act.setWidth, this.lruBadgeID, BADGE_W);
+			this.cmd(act.setBackgroundColor, this.lruBadgeID, LRU_COLOR);
+			this.cmd(act.setForegroundColor, this.lruBadgeID, LRU_COLOR);
+			this.cmd(act.move, this.lruBadgeID, lruX, BADGE_Y);
+			this.cmd(act.move, this.lruTextID, lruX, BADGE_Y);
+		}
+	}
+
+	// Callbacks for the supported operations of LRU Cache
 
 	putCallback() {
 		this.clearInspection();
@@ -549,7 +601,7 @@ export default class LRU extends Algorithm {
 		return this.commands;
 	}
 
-	// ── Animation: put ────────────────────────────────────────────────────────
+	// Animation for put
 
 	animatePut(key, value) {
 		this.commands = [];
@@ -558,28 +610,13 @@ export default class LRU extends Algorithm {
 		this.cmd(act.step);
 
 		if (key in this.map) {
-			// ── Key exists: update in map and move DLL node to head (MRU) ───
 			this.highlight(1, 0, 'put');
 			this.cmd(act.step);
 
-			const mapEntry = this.map[key];
-			const dllIdx = this.dll.findIndex(n => n.key === key);
-			const targetNodeID = this.dll[dllIdx].nodeID;
+			const dllIdx = this.getDllIndex(key);
 
 			// Highlight Hash Map row & DLL node and draw active focused lookup pointer
-			this.cmd(act.setBackgroundColor, mapEntry.keyCellID, HIGHLIGHT_COLOR);
-			this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, HIGHLIGHT_COLOR);
-			this.cmd(act.setBackgroundColor, targetNodeID, HIGHLIGHT_COLOR);
-			this.cmd(
-				act.connect,
-				mapEntry.ptrCellID,
-				targetNodeID,
-				MAP_LINK_COLOR,
-				0.0,
-				true,
-				'',
-				0,
-			);
+			this.highlightEntryAndNode(key, HIGHLIGHT_COLOR);
 
 			this.highlight(2, 0, 'put');
 			this.setStatus(STATUS.PUT_HIT(key, value));
@@ -598,12 +635,9 @@ export default class LRU extends Algorithm {
 			this.cmd(act.step);
 
 			// Reset colors & remove active pointer arrow
-			this.cmd(act.disconnect, mapEntry.ptrCellID, targetNodeID);
-			this.cmd(act.setBackgroundColor, mapEntry.keyCellID, KEY_CELL_BG);
-			this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, PTR_CELL_BG);
-			this.cmd(act.setBackgroundColor, targetNodeID, WHITE);
+			this.resetEntryAndNode(key);
 		} else {
-			// ── Key is new ───────────────────────────────────────────────────
+			// Key is new
 			this.highlight(5, 0, 'put');
 			this.cmd(act.step);
 
@@ -613,27 +647,12 @@ export default class LRU extends Algorithm {
 				this.cmd(act.step);
 
 				const tail = this.dll[this.dll.length - 1];
-				const tailMap = this.map[tail.key];
-
-				this.cmd(act.setBackgroundColor, tail.nodeID, EVICT_COLOR);
-				if (tailMap) {
-					this.cmd(act.setBackgroundColor, tailMap.keyCellID, EVICT_COLOR);
-					this.cmd(act.setBackgroundColor, tailMap.ptrCellID, EVICT_COLOR);
-					this.cmd(
-						act.connect,
-						tailMap.ptrCellID,
-						tail.nodeID,
-						EVICT_COLOR,
-						0.0,
-						true,
-						'',
-						0,
-					);
-				}
+				this.highlightEntryAndNode(tail.key, EVICT_COLOR, EVICT_COLOR, EVICT_COLOR);
 				this.setStatus(STATUS.PUT_EVICT(this.capacity, tail.key));
 				this.highlight(10, 0, 'put');
 				this.cmd(act.step);
 
+				const tailMap = this.map[tail.key];
 				if (tailMap) {
 					this.cmd(act.disconnect, tailMap.ptrCellID, tail.nodeID);
 				}
@@ -657,7 +676,7 @@ export default class LRU extends Algorithm {
 		return this.commands;
 	}
 
-	// ── Animation: get ────────────────────────────────────────────────────────
+	// Animation for get
 
 	animateGet(key) {
 		this.commands = [];
@@ -674,15 +693,10 @@ export default class LRU extends Algorithm {
 		}
 
 		this.highlight(2, 0, 'get');
-		const mapEntry = this.map[key];
-		const dllIdx = this.dll.findIndex(n => n.key === key);
-		const targetNodeID = this.dll[dllIdx].nodeID;
+		const dllIdx = this.getDllIndex(key);
 
 		// Flash Hash Map row & DLL node in green with active focused lookup arrow
-		this.cmd(act.setBackgroundColor, mapEntry.keyCellID, FOUND_COLOR);
-		this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, FOUND_COLOR);
-		this.cmd(act.setBackgroundColor, targetNodeID, FOUND_COLOR);
-		this.cmd(act.connect, mapEntry.ptrCellID, targetNodeID, MAP_LINK_COLOR, 0.0, true, '', 0);
+		this.highlightEntryAndNode(key, FOUND_COLOR);
 
 		this.setStatus(STATUS.GET_HIT(key));
 		this.cmd(act.step);
@@ -693,10 +707,7 @@ export default class LRU extends Algorithm {
 		this.cmd(act.step);
 
 		// Disconnect active pointer and reset colors
-		this.cmd(act.disconnect, mapEntry.ptrCellID, targetNodeID);
-		this.cmd(act.setBackgroundColor, mapEntry.keyCellID, KEY_CELL_BG);
-		this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, PTR_CELL_BG);
-		this.cmd(act.setBackgroundColor, targetNodeID, WHITE);
+		this.resetEntryAndNode(key);
 
 		this.unhighlightAll('get');
 		this.redrawMapAndDLL();
@@ -704,7 +715,7 @@ export default class LRU extends Algorithm {
 		return this.commands;
 	}
 
-	// ── Animation: delete ─────────────────────────────────────────────────────
+	// Animation for delete
 
 	animateDelete(key) {
 		this.commands = [];
@@ -721,19 +732,16 @@ export default class LRU extends Algorithm {
 		}
 
 		this.highlight(2, 0, 'delete');
-		const mapEntry = this.map[key];
-		const dllIdx = this.dll.findIndex(n => n.key === key);
-		const targetNodeID = this.dll[dllIdx].nodeID;
-
-		this.cmd(act.setBackgroundColor, mapEntry.keyCellID, EVICT_COLOR);
-		this.cmd(act.setBackgroundColor, mapEntry.ptrCellID, EVICT_COLOR);
-		this.cmd(act.setBackgroundColor, targetNodeID, EVICT_COLOR);
-		this.cmd(act.connect, mapEntry.ptrCellID, targetNodeID, EVICT_COLOR, 0.0, true, '', 0);
+		this.highlightEntryAndNode(key, EVICT_COLOR, EVICT_COLOR, EVICT_COLOR);
 
 		this.setStatus(STATUS.DEL_FOUND(key));
 		this.cmd(act.step);
 
-		this.cmd(act.disconnect, mapEntry.ptrCellID, targetNodeID);
+		const mapEntry = this.map[key];
+		const dllIdx = this.getDllIndex(key);
+		if (mapEntry && dllIdx !== -1) {
+			this.cmd(act.disconnect, mapEntry.ptrCellID, this.dll[dllIdx].nodeID);
+		}
 		this.highlight(3, 0, 'delete');
 		this.removeEntry(key);
 		this.cmd(act.step);
@@ -744,7 +752,7 @@ export default class LRU extends Algorithm {
 		return this.commands;
 	}
 
-	// ── Core internal mutations ───────────────────────────────────────────────
+	// Core internal mutations
 
 	insertHead(key, value) {
 		const nodeID = this.nextIndex++;
@@ -810,7 +818,7 @@ export default class LRU extends Algorithm {
 
 	removeEntry(key) {
 		const mapEntry = this.map[key];
-		const dllIdx = this.dll.findIndex(n => n.key === key);
+		const dllIdx = this.getDllIndex(key);
 
 		if (mapEntry) {
 			this.cmd(act.delete, mapEntry.keyCellID);
@@ -827,7 +835,7 @@ export default class LRU extends Algorithm {
 		}
 	}
 
-	// ── Redraw & layout synchronization ────────────────────────────────────────
+	// Redraw & layout synchronization
 
 	redrawMapAndDLL() {
 		// 1. Clear previous DLL connections
@@ -868,45 +876,8 @@ export default class LRU extends Algorithm {
 			}
 		}
 
-		// 5. Update MRU / LRU Badges with comfortable vertical clearance above nodes
-		if (this.dll.length === 0) {
-			// Hide badges offscreen
-			this.cmd(act.move, this.mruBadgeID, OFFSCREEN, OFFSCREEN);
-			this.cmd(act.move, this.mruTextID, OFFSCREEN, OFFSCREEN);
-			this.cmd(act.move, this.lruBadgeID, OFFSCREEN, OFFSCREEN);
-			this.cmd(act.move, this.lruTextID, OFFSCREEN, OFFSCREEN);
-		} else if (this.dll.length === 1) {
-			// Capacity = 1 / Size = 1 edge case: single combined badge
-			const x = this.dllNodeX(0);
-			this.cmd(act.setText, this.mruTextID, 'MRU / LRU');
-			this.cmd(act.setWidth, this.mruBadgeID, 72);
-			this.cmd(act.setBackgroundColor, this.mruBadgeID, COMBO_BADGE_COLOR);
-			this.cmd(act.setForegroundColor, this.mruBadgeID, COMBO_BADGE_COLOR);
-			this.cmd(act.move, this.mruBadgeID, x, BADGE_Y);
-			this.cmd(act.move, this.mruTextID, x, BADGE_Y);
-
-			// Hide secondary LRU badge
-			this.cmd(act.move, this.lruBadgeID, OFFSCREEN, OFFSCREEN);
-			this.cmd(act.move, this.lruTextID, OFFSCREEN, OFFSCREEN);
-		} else {
-			// Size > 1: separate MRU and LRU badges
-			const mruX = this.dllNodeX(0);
-			const lruX = this.dllNodeX(this.dll.length - 1);
-
-			this.cmd(act.setText, this.mruTextID, 'MRU');
-			this.cmd(act.setWidth, this.mruBadgeID, BADGE_W);
-			this.cmd(act.setBackgroundColor, this.mruBadgeID, MRU_COLOR);
-			this.cmd(act.setForegroundColor, this.mruBadgeID, MRU_COLOR);
-			this.cmd(act.move, this.mruBadgeID, mruX, BADGE_Y);
-			this.cmd(act.move, this.mruTextID, mruX, BADGE_Y);
-
-			this.cmd(act.setText, this.lruTextID, 'LRU');
-			this.cmd(act.setWidth, this.lruBadgeID, BADGE_W);
-			this.cmd(act.setBackgroundColor, this.lruBadgeID, LRU_COLOR);
-			this.cmd(act.setForegroundColor, this.lruBadgeID, LRU_COLOR);
-			this.cmd(act.move, this.lruBadgeID, lruX, BADGE_Y);
-			this.cmd(act.move, this.lruTextID, lruX, BADGE_Y);
-		}
+		// 5. Update MRU / LRU Badges
+		this.updateRecencyBadges();
 
 		// 6. Update capacity counter
 		this.cmd(act.setText, this.capLabelID, this.capText());
@@ -920,7 +891,7 @@ export default class LRU extends Algorithm {
 		}
 	}
 
-	// ── Clear / reset ──────────────────────────────────────────────────────────
+	// Clear / reset
 
 	clearAll() {
 		this.commands = [];
@@ -948,10 +919,7 @@ export default class LRU extends Algorithm {
 		this.inspectedKey = null;
 
 		// Hide badges
-		this.cmd(act.move, this.mruBadgeID, OFFSCREEN, OFFSCREEN);
-		this.cmd(act.move, this.mruTextID, OFFSCREEN, OFFSCREEN);
-		this.cmd(act.move, this.lruBadgeID, OFFSCREEN, OFFSCREEN);
-		this.cmd(act.move, this.lruTextID, OFFSCREEN, OFFSCREEN);
+		this.updateRecencyBadges();
 
 		// Reset capacity counter
 		this.cmd(act.setText, this.capLabelID, this.capText());
