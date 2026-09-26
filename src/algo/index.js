@@ -14,6 +14,7 @@ export { default as LVA } from './LVA';
 export { default as BogoSort } from './BogoSort';
 export { default as NonLinearProbing } from './NonLinearProbing';
 export { default as LCS } from './LCS';
+export { default as LRU } from './LRU';
 export { default as DequeArray } from './DequeArray';
 export { default as DequeLL } from './DequeLL';
 export { default as Dijkstras } from './Dijkstras';
