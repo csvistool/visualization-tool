@@ -29,9 +29,7 @@ import { act } from '../anim/AnimationMain';
 let controlTabNavigationInstalled = false;
 
 const getControlRoots = () => {
-	const algorithmRoot =
-		document.getElementById('algoControlSection') ||
-		document.getElementById('AlgorithmSpecificControls');
+	const algorithmRoot = document.getElementById('algoControlSection') || document.getElementById('AlgorithmSpecificControls');
 	const animationRoot = document.getElementById('GeneralAnimationControls');
 	const roots = [algorithmRoot, animationRoot].filter(Boolean);
 	console.log('Control roots found:', roots.length, roots);
@@ -41,68 +39,56 @@ const getControlRoots = () => {
 const getControlFocusables = () => {
 	const roots = getControlRoots();
 	return roots
-		.flatMap(root =>
+		.flatMap((root) =>
 			Array.from(
 				root.querySelectorAll(
-					'button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
-				),
-			),
+					'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+				)
+			)
 		)
-		.filter(el => !el.disabled && el.offsetParent !== null);
+		.filter((el) => !el.disabled && el.offsetParent !== null);
 };
 
-const handleControlTabNavigation = event => {
+const handleControlTabNavigation = (event) => {
 	if (event.key !== 'Tab') return;
-
+	
 	const roots = getControlRoots();
 	const activeElement = document.activeElement;
-
+	
 	// Check if the active element is within a control root
-	if (!roots.some(root => root && root.contains(activeElement))) return;
+	if (!roots.some((root) => root && root.contains(activeElement))) return;
 
 	const focusables = getControlFocusables();
-	console.log(
-		'Tab pressed. Active element:',
-		activeElement.tagName,
-		activeElement.type,
-		activeElement.value,
-	);
+	console.log('Tab pressed. Active element:', activeElement.tagName, activeElement.type, activeElement.value);
 	console.log('Focusables found:', focusables.length);
 	focusables.forEach((f, i) => console.log(`  [${i}]`, f.tagName, f.type, f.value));
 
 	console.log(
-		focusables.map(el => ({
-			tag: el.tagName,
-			type: el.type,
-			visible: !!el.offsetParent,
-			tabIndex: el.tabIndex,
-		})),
-	);
-
+  focusables.map(el => ({
+    tag: el.tagName,
+    type: el.type,
+    visible: !!el.offsetParent,
+    tabIndex: el.tabIndex
+  }))
+);
+	
 	if (focusables.length === 0) return;
 
 	event.preventDefault();
 	const currentIndex = focusables.indexOf(activeElement);
 	console.log('Current index in focusables:', currentIndex);
-
+	
 	// If active element not found, start from first
 	const startIndex = currentIndex === -1 ? 0 : currentIndex;
 	const direction = event.shiftKey ? -1 : 1;
 	let nextIndex = startIndex + direction;
-
+	
 	if (nextIndex >= focusables.length) nextIndex = 0;
 	if (nextIndex < 0) nextIndex = focusables.length - 1;
 
-	console.log(
-		'Moving to index:',
-		nextIndex,
-		'element:',
-		focusables[nextIndex].tagName,
-		focusables[nextIndex].type,
-		focusables[nextIndex].value,
-	);
+	console.log('Moving to index:', nextIndex, 'element:', focusables[nextIndex].tagName, focusables[nextIndex].type, focusables[nextIndex].value);
 
-	focusables.forEach(el => el.classList.remove('tab-focused-input'));
+	focusables.forEach((el) => el.classList.remove('tab-focused-input'));
 	const next = focusables[nextIndex];
 	next.focus();
 	next.classList.add('tab-focused-input');
@@ -193,12 +179,12 @@ export function addDropDownGroupToAlgorithmBar(optionNames, groupName, group, al
 		group.appendChild(span);
 		span.setAttribute('class', 'groupChild');
 	}
-
+	
 	// Attach Tab navigation if algorithm instance is provided
 	if (algorithm) {
 		algorithm.attachTabNavigation(dropDown);
 	}
-
+	
 	return dropDown;
 }
 
@@ -224,7 +210,7 @@ export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group,
 		bottomLevel.appendChild(label);
 		newTable.appendChild(midLevel);
 		buttonList.push(button);
-
+		
 		// Attach Tab navigation if algorithm instance is provided
 		if (algorithm) {
 			algorithm.attachTabNavigation(button);
@@ -264,19 +250,12 @@ export function addControlToAlgorithmBar(type, value, group, algorithm = null) {
 	}
 
 	// Add tabindex for proper keyboard focus
-	if (
-		normalizedType === 'button' ||
-		normalizedType === 'checkbox' ||
-		normalizedType === 'radio'
-	) {
+	if (normalizedType === 'button' || normalizedType === 'checkbox' || normalizedType === 'radio') {
 		element.setAttribute('tabindex', '0');
 	}
 
 	// Attach Tab navigation to buttons, checkboxes, radio buttons if algorithm instance is provided
-	if (
-		algorithm &&
-		(normalizedType === 'button' || normalizedType === 'checkbox' || normalizedType === 'radio')
-	) {
+	if (algorithm && (normalizedType === 'button' || normalizedType === 'checkbox' || normalizedType === 'radio')) {
 		algorithm.attachTabNavigation(element);
 	}
 
@@ -520,19 +499,16 @@ export default class Algorithm {
 	}
 
 	getNextFocusableInput(currentField, direction = 1) {
-		const algorithmRoot =
-			document.getElementById('algoControlSection') ||
-			document.getElementById('AlgorithmSpecificControls');
+		const algorithmRoot = document.getElementById('algoControlSection') || document.getElementById('AlgorithmSpecificControls');
 		const roots = [algorithmRoot, document.getElementById('GeneralAnimationControls')];
 		if (roots.length === 0) return null;
 
-		const allInputs = roots.flatMap(root =>
-			Array.from(
+		const allInputs = roots
+			.flatMap((root) => Array.from(
 				root.querySelectorAll(
-					'input[type="text"], input[type="button"], input[type="checkbox"], input[type="radio"], select, [tabindex="0"]',
-				),
-			),
-		);
+					'input[type="text"], input[type="button"], input[type="checkbox"], input[type="radio"], select, [tabindex="0"]'
+				)
+			));
 
 		if (allInputs.length === 0) return null;
 
@@ -562,17 +538,13 @@ export default class Algorithm {
 	}
 
 	unhighlightInputFields() {
-		const algorithmRoot =
-			document.getElementById('algoControlSection') ||
-			document.getElementById('AlgorithmSpecificControls');
-		const roots = [algorithmRoot, document.getElementById('GeneralAnimationControls')].filter(
-			Boolean,
-		);
-		roots.forEach(root => {
+		const algorithmRoot = document.getElementById('algoControlSection') || document.getElementById('AlgorithmSpecificControls');
+		const roots = [algorithmRoot, document.getElementById('GeneralAnimationControls')].filter(Boolean);
+		roots.forEach((root) => {
 			const allInputs = root.querySelectorAll(
-				'input, button, select, textarea, [tabindex]:not([tabindex="-1"])',
+				'input, button, select, textarea, [tabindex]:not([tabindex="-1"])'
 			);
-			allInputs.forEach(input => {
+			allInputs.forEach((input) => {
 				input.classList.remove('tab-focused-input');
 			});
 		});
@@ -580,7 +552,7 @@ export default class Algorithm {
 
 	attachTabNavigation(element, action = null) {
 		// Attach Tab/Enter navigation to any focusable element
-		element.addEventListener('keydown', event => {
+		element.addEventListener('keydown', (event) => {
 			const keyASCII = event.keyCode || event.which;
 
 			// Handle Enter key - trigger click for buttons, or action function
@@ -606,7 +578,7 @@ export default class Algorithm {
 		if (maxsize !== undefined) {
 			field.size = maxsize;
 		}
-		return event => {
+		return (event) => {
 			let keyASCII = 0;
 			if (window.event) {
 				// IE
@@ -634,21 +606,17 @@ export default class Algorithm {
 				!sizeGood ||
 				(intOnly &&
 					!(
-						(
-							(keyASCII >= 48 && keyASCII <= 57) || // 0-9
-							(keyASCII === 189 && field.value.length === 0) || // minus at start
-							(keyASCII >= 96 && keyASCII <= 105)
-						) // numpad 0-9
+						(keyASCII >= 48 && keyASCII <= 57) || // 0-9
+						(keyASCII === 189 && field.value.length === 0) || // minus at start
+						(keyASCII >= 96 && keyASCII <= 105) // numpad 0-9
 					)) ||
 				(!intOnly &&
 					!(
-						(
-							(keyASCII >= 48 && keyASCII <= 57) || // 0-9
-							(keyASCII >= 65 && keyASCII <= 90) || // A-Z
-							(keyASCII >= 97 && keyASCII <= 122) || // a-z
-							(keyASCII === 189 && field.value.length === 0) || // minus at start
-							(keyASCII >= 96 && keyASCII <= 105)
-						) // numpad 0-9
+						(keyASCII >= 48 && keyASCII <= 57) || // 0-9
+						(keyASCII >= 65 && keyASCII <= 90) || // A-Z
+						(keyASCII >= 97 && keyASCII <= 122) || // a-z
+						(keyASCII === 189 && field.value.length === 0) || // minus at start
+						(keyASCII >= 96 && keyASCII <= 105) // numpad 0-9
 					))
 			) {
 				if (!controlKey(keyASCII)) return false;
@@ -698,7 +666,7 @@ Algorithm.prototype.returnSubmitFloat = function (field, funct, maxsize) {
 	if (maxsize !== undefined) {
 		field.size = maxsize;
 	}
-	return event => {
+	return (event) => {
 		let keyASCII = 0;
 		if (window.event) {
 			// IE
