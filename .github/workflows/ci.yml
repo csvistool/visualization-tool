@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - master
+    paths:
+      - 'src/**'
     types: [opened, synchronize, reopened]
 
 permissions:
