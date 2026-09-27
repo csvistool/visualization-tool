@@ -765,7 +765,7 @@ export default class BST extends Algorithm {
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
 			connected && this.cmd(act.step);
-		// } else if (data > curr.data) {
+			// } else if (data > curr.data) {
 		} else if (this.compare(data, curr.data) > 0) {
 			this.highlight(10, 0, 'add');
 			this.highlight(11, 0, 'add');
@@ -865,7 +865,7 @@ export default class BST extends Algorithm {
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
 				this.resizeTree();
 			}
-		// } else if (data > curr.data) {
+			// } else if (data > curr.data) {
 		} else if (this.compare(data, curr.data)) {
 			this.highlight(11, 0, this.predSuccMethod);
 			this.highlight(12, 0, this.predSuccMethod);

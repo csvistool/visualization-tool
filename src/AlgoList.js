@@ -57,7 +57,7 @@ export const algoMap = {
 	DisjointSet: ['Disjoint Set', algos.DisjointSet, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
-	TreeMap: ['TreeMap', algos.TreeMap]
+	TreeMap: ['TreeMap', algos.TreeMap],
 };
 
 const aprilFoolsAlgos = [
@@ -92,7 +92,7 @@ const baseAlgoList = [
 	'Maps',
 	'ClosedHash',
 	'OpenHash',
-	"TreeMap",
+	'TreeMap',
 	'Sorting and Quickselect',
 	'BubbleSort',
 	'CocktailSort',
@@ -356,8 +356,8 @@ export const algoFilter = [
 		category: 'Graphs',
 	},
 	{
-		id: "DisjointSet",
-		category: 'Graphs'
+		id: 'DisjointSet',
+		category: 'Graphs',
 	},
 	{
 		id: 'TreeMap',
