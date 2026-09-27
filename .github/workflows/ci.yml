@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - master
     types: [opened, synchronize, reopened]
@@ -16,11 +16,6 @@ jobs:
       # Checkout Action: https://github.com/actions/checkout
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          # Adding repository parameter to ensure that this action runs properly on the forks!
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Setup Node Action: https://github.com/actions/setup-node
       - name: Set up Node.js
