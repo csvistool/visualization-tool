@@ -35,18 +35,17 @@ This repository requires `node`/`npm`
 1. Fork the repository
 2. Clone the fork of the repository
 3. `cd` into the project directory
-4. `npm install` to install necessary dependencies
+4. `npm install` to install necessary dependencies + necessary hooks
 5. `npm run start` to start local version of the app
 6. The site should be locally accessible from `localhost:3000`
 
 ## Submitting a PR
 
-Before creating a pull request, please ensure your code passes ESLint and Prettier by running the following commands:
+Before creating a pull request, ensure that the only committed changes are in files relevant to the PR. Do not push changes to package-lock.json, node_modules or anything else that is unrelated to your ticket!
 
--   `npm run lint`
--   `npm run prettier`
-
-Also ensure that the only committed changes are in files relevant to the PR. Do not push changes to package-lock.json, node_modules or anything else that is unrelated to your ticket!
+The ESLint and Prettier formatting standards are automatically applied for each JS/TS file under `src/` you modify on commit via a hook. To double check that your code meets the standards, you can run the below commands:
+- `npm run lint`
+- `npm run prettier`
 
 To make a PR:
 
@@ -56,3 +55,4 @@ To make a PR:
 4. Name the PR something simple and descriptive
 5. In the description, make sure to reference the issue you worked on (such as “closes #155”, “addresses #150”, etc)
 6. Add anything else to the description that you think makes your changes more understandable
+7. Verify that the CI check passes! If there are any failures, please fix those and update the PR
