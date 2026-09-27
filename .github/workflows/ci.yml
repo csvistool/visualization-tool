@@ -16,9 +16,6 @@ jobs:
       # Checkout Action: https://github.com/actions/checkout
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Setup Node Action: https://github.com/actions/setup-node
       - name: Set up Node.js
