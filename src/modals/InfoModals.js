@@ -79,9 +79,9 @@ const Modals = {
 		<ul>
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
-				The worst case is when we have a reverse sorted array (we perform
+				The worst case is when we have a reverse sorted array (we perform{' '}
 				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>
-				comparisons)
+				{' '}comparisons)
 			</li>
 		</ul>
 	),
@@ -95,7 +95,7 @@ const Modals = {
 			</li>
 			<li>
 				Removing from the back requires a traversal to the node before the last node making
-				it <span className="equation">O(n)</span>
+				it{' '}<span className="equation">O(n)</span>
 			</li>
 		</ul>
 	),
@@ -117,9 +117,9 @@ const Modals = {
 		<ul>
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
-				The worst case is when we have a reverse sorted array (we perform
+				The worst case is when we have a reverse sorted array (we perform{' '}
 				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>
-				comparisons)
+				{' '}comparisons)
 			</li>
 			<li>
 				Even though Cocktail Shaker Sort has the same big-O as Bubble Sort, it is still
@@ -138,7 +138,7 @@ const Modals = {
 			</li>
 			<li>
 				Since this is a DLL with a tail, all operations acting at the front and back of the
-				list are <span className="equation">O(1)</span>
+				list are{' '}<span className="equation">O(1)</span>
 			</li>
 		</ul>
 	),
@@ -146,9 +146,9 @@ const Modals = {
 		<ul>
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
-				The worst case is when we have a reverse sorted array (we perform
+				The worst case is when we have a reverse sorted array (we perform{' '}
 				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>
-				comparisons)
+				{' '}comparisons)
 			</li>
 		</ul>
 	),
@@ -188,14 +188,14 @@ const Modals = {
 			</li>
 			<li>
 				LinkedLists are designed to operate at the head. So all operations acting at the
-				front are <span className="equation">O(1).</span>
+				front are{' '}<span className="equation">O(1).</span>
 			</li>
 			<li>
-				Without the tail, adding to the back is <span className="equation">O(n)</span> since
+				Without the tail, adding to the back is{' '}<span className="equation">O(n)</span>{' '}since
 				we must traverse from the head to the last node.
 			</li>
 			<li>
-				With the tail, adding to the back becomes <span className="equation">O(1)</span>{' '}
+				With the tail, adding to the back becomes{' '}<span className="equation">O(1)</span>{' '}
 				since we can set the next pointer of the tail to the new node and then have the tail
 				point to the new node.
 			</li>
