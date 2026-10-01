@@ -27,8 +27,8 @@
 import Algorithm, {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
-    addGroupToAlgorithmBar,
-    addLabelToAlgorithmBar,
+	addGroupToAlgorithmBar,
+	addLabelToAlgorithmBar,
 	addRadioButtonGroupToAlgorithmBar,
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
@@ -53,11 +53,11 @@ export default class TreeMap extends Algorithm {
 	addControls() {
 		this.controls = [];
 
-        const putVerticalGroup = addGroupToAlgorithmBar(false);
+		const putVerticalGroup = addGroupToAlgorithmBar(false);
 		const putTopHorizontalGroup = addGroupToAlgorithmBar(true, putVerticalGroup);
 		const putBottomHorizontalGroup = addGroupToAlgorithmBar(true, putVerticalGroup);
 
-        addLabelToAlgorithmBar(`Key: ${'\u00A0'.repeat(2)}`, putTopHorizontalGroup);
+		addLabelToAlgorithmBar(`Key: ${'\u00A0'.repeat(2)}`, putTopHorizontalGroup);
 		this.keyField = addControlToAlgorithmBar('Text', '', putTopHorizontalGroup);
 		this.keyField.size = MAX_HASH_LENGTH;
 		this.keyField.onkeydown = this.returnSubmit(
@@ -221,7 +221,7 @@ export default class TreeMap extends Algorithm {
 			this.implementAction(
 				this.add.bind(this),
 				Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND,
-                Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND
+				Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND,
 			);
 			this.animationManager.skipForward();
 			this.animationManager.clearHistory();
@@ -357,7 +357,7 @@ export default class TreeMap extends Algorithm {
 
 	add(key, value) {
 		this.commands = [];
-        const elem = `<${key}, ${value}>`;
+		const elem = `<${key}, ${value}>`;
 		this.cmd(act.setText, 0, ' Inserting ' + elem);
 		this.treeRoot = this.addH(key, value, elem, this.treeRoot);
 		this.resizeTree();
@@ -402,9 +402,9 @@ export default class TreeMap extends Algorithm {
 			connected && this.cmd(act.step);
 		} else {
 			this.cmd(act.setText, 0, `${key} == ${curr.key}. Found duplicate! Change values.`);
-            curr.value = value;
-            curr.elem = `<${key}, ${value}>`
-            this.cmd(act.setText, curr.graphicID, elem);
+			curr.value = value;
+			curr.elem = `<${key}, ${value}>`;
+			this.cmd(act.setText, curr.graphicID, elem);
 			this.cmd(act.step);
 		}
 		curr = this.balance(curr);
@@ -680,9 +680,9 @@ export default class TreeMap extends Algorithm {
 					curr.left && this.connectSmart(curr.graphicID, curr.left.graphicID);
 				}
 				this.resizeTree();
-                curr.key = dummy[0].key;
-                curr.value = dummy[0].value;
-                curr.elem = dummy[0].elem;
+				curr.key = dummy[0].key;
+				curr.value = dummy[0].value;
+				curr.elem = dummy[0].elem;
 				this.cmd(act.setText, curr.graphicID, curr.elem);
 			}
 		}
@@ -807,7 +807,7 @@ export default class TreeMap extends Algorithm {
 
 	clear() {
 		this.keyField.value = '';
-        this.valueField.value = '';
+		this.valueField.value = '';
 		this.deleteField.value = '';
 		this.findField.value = '';
 		this.commands = [];
@@ -842,8 +842,8 @@ export default class TreeMap extends Algorithm {
 class TreeMapNode {
 	constructor(elem, key, value, id, hid, bfid, initialX, initialY) {
 		this.elem = elem;
-        this.key = key;
-        this.value = value;
+		this.key = key;
+		this.value = value;
 		this.x = initialX;
 		this.y = initialY;
 		this.heightLabelID = hid;

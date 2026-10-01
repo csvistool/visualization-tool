@@ -51,7 +51,6 @@ const AlgoSection = ({ theme }) => {
 			behavior: 'smooth',
 			block: 'center',
 		});
-
 	}, []);
 
 	const unhighlightLine = useCallback((methodName, line) => {
@@ -111,16 +110,19 @@ const AlgoSection = ({ theme }) => {
 				setInfoModalTab('code');
 			}
 
-			animManagRef.current.addListener("AnimationStarted", null, () => {
+			animManagRef.current.addListener('AnimationStarted', null, () => {
 				if (pseudocodeDataRef.current && !modalOpenedRef.current) {
-					modalOpenedRef.current = true; 
+					modalOpenedRef.current = true;
 					setInfoModalEnabled(true);
 					setInfoModalTab('code');
 				}
 			});
 
 			const updateDimensions = () => {
-				animManagRef.current.changeSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);;
+				animManagRef.current.changeSize(
+					canvasRef.current.clientWidth,
+					canvasRef.current.clientHeight,
+				);
 			};
 
 			window.addEventListener('resize', updateDimensions);
@@ -150,7 +152,7 @@ const AlgoSection = ({ theme }) => {
 	const togglePseudocodeType = () => {
 		setPseudocodeType(prev => (prev === 'english' ? 'code' : 'english'));
 	};
-	
+
 	if (!algoDetails) {
 		return <AlgorithmNotFound404 />;
 	}
@@ -167,7 +169,7 @@ const AlgoSection = ({ theme }) => {
 							className="menu-modal"
 							size={30}
 							onClick={toggleInfoModal}
-							onKeyDown={(event) => {
+							onKeyDown={event => {
 								if (event.key === 'Enter' || event.key === ' ') {
 									event.preventDefault();
 									toggleInfoModal();
