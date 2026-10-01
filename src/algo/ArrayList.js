@@ -228,6 +228,7 @@ export default class ArrayList extends Algorithm {
 		// Clear button
 		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', verticalGroup2);
 		this.clearButton.onclick = () => this.clearCallback();
+		this.clearButton.style.display = 'none';
 		this.controls.push(this.clearButton);
 	}
 
