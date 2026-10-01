@@ -247,28 +247,31 @@ body {
 
 .menu {
 	position: fixed;
-	top: 68px;
-	left: -240px;
-	height: 100%;
+	top: -400px;
+	left: 2.75%;
+	height: auto;
 	width: 220px;
-	background-color: var(--background);
+	background: var(--buttons);
 	opacity: 0;
-	line-height: 3em;
-	padding: 1.5em;
+	line-height: 2em;
 	z-index: 3;
+	border: 1.5px var(--borders) solid;
+	border-radius: 0px 0px 20px 20px;
+	box-shadow: 5px 12px 12px var(--shadow);
+	margin: 20px;
 }
 
 .menu.show {
-	left: -20px;
-	opacity: 0.97;
+	top: 36px;
+	opacity: 1;
 	animation-name: enter;
-	animation-duration: 0.5s;
+	animation-duration: 0.25s;
 	z-index: 3;
 }
 
 .menu.hide {
 	animation-name: exit;
-	animation-duration: 0.5s;
+	animation-duration: 0.25s;
 }
 
 .menu ul {
@@ -279,7 +282,7 @@ body {
 	font-size: 1.4em;
 	font-weight: 700;
 	text-decoration: none;
-	color: var(--menu-text);
+	color: var(--text-primary);
 	transition: all 0.4s ease 0s;
 }
 
@@ -627,7 +630,7 @@ input::placeholder {
 	border: 1.5px var(--borders) solid;
 	border-radius: 20px;
 	box-shadow: 5px 12px 12px var(--shadow);
-	transition: all 0.4s ease 0s;
+	transition: all 0.25s ease 0s;
 	pointer-events: auto;
 	z-index: 2;
 	margin-top: 20px;
@@ -748,22 +751,22 @@ input::placeholder {
 
 @keyframes enter {
 	from {
-		left: -240px;
+		top: -400px;
 		opacity: 0;
 	}
 	to {
-		left: -20px;
-		opacity: 0.97;
+		top: 36px;
+		opacity: 1;
 	}
 }
 
 @keyframes exit {
 	from {
-		left: -20px;
-		opacity: 0.97;
+		top: 36px;
+		opacity: 1;
 	}
 	to {
-		left: -240px;
+		top: -400px;
 		opacity: 0;
 	}
 }
