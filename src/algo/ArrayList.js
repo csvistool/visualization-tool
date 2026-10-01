@@ -190,24 +190,17 @@ export default class ArrayList extends Algorithm {
 		const rightVerticalTop = addGroupToAlgorithmBar(true, rightVerticalGroup);
 		const rightVerticalBottom = addGroupToAlgorithmBar(true, rightVerticalGroup);
 
-		this.initialCapacityLabel = addLabelToAlgorithmBar(
-			'Initial Capacity: ',
-			rightVerticalTop,
-		);
+		this.initialCapacityLabel = addLabelToAlgorithmBar('Initial Capacity: ', rightVerticalTop);
 		this.initialCapacityField = addControlToAlgorithmBar('Text', SIZE, rightVerticalTop);
 		this.initialCapacityField.size = 4;
-		this.restartButton = addControlToAlgorithmBar(
-			'Button',
-			'Restart',
-			rightVerticalBottom,
-		);
+		this.restartButton = addControlToAlgorithmBar('Button', 'Restart', rightVerticalBottom);
 		this.initialCapacityField.onkeydown = this.returnSubmit(
 			this.initialCapacityField,
 			this.resizeInitialCapacityCall.bind(this),
 			2,
 			true,
 		);
-		this.restartButton.onclick = (e) => {
+		this.restartButton.onclick = e => {
 			e.preventDefault();
 			e.stopPropagation();
 			this.resizeInitialCapacityCall();
