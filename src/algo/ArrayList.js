@@ -186,6 +186,31 @@ export default class ArrayList extends Algorithm {
 
 		addDivisorToAlgorithmBar();
 
+		const rightVerticalGroup = addGroupToAlgorithmBar(false);
+		const rightVerticalTop = addGroupToAlgorithmBar(true, rightVerticalGroup);
+		const rightVerticalBottom = addGroupToAlgorithmBar(true, rightVerticalGroup);
+
+		this.initialCapacityLabel = addLabelToAlgorithmBar('Initial Capacity: ', rightVerticalTop);
+		this.initialCapacityField = addControlToAlgorithmBar('Text', SIZE, rightVerticalTop);
+		this.initialCapacityField.size = 4;
+		this.restartButton = addControlToAlgorithmBar('Button', 'Restart', rightVerticalBottom);
+		this.initialCapacityField.onkeydown = this.returnSubmit(
+			this.initialCapacityField,
+			this.resizeInitialCapacityCall.bind(this),
+			2,
+			true,
+		);
+		this.restartButton.onclick = e => {
+			e.preventDefault();
+			e.stopPropagation();
+			this.resizeInitialCapacityCall();
+			return false;
+		};
+		this.controls.push(this.initialCapacityField);
+		this.controls.push(this.restartButton);
+
+		addDivisorToAlgorithmBar();
+
 		const verticalGroup2 = addGroupToAlgorithmBar(false);
 
 		// Random data button
@@ -196,52 +221,63 @@ export default class ArrayList extends Algorithm {
 		// Clear button
 		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', verticalGroup2);
 		this.clearButton.onclick = () => this.clearCallback();
+		this.clearButton.style.display = 'none';
 		this.controls.push(this.clearButton);
 	}
 
 	setURLData(searchParams) {
-		this.implementAction(this.clearAll.bind(this));
-		const dataList = searchParams
-			.get('data')
-			.split(',')
-			.filter(item => item.trim() !== '');
-		dataList.forEach(dataEntry => {
-			this.addValueField.value = dataEntry.substring(0, 4);
-
-			if (
-				this.addValueField.value !== '' &&
-				!(this.length === this.size && this.length * 2 > MAX_SIZE)
-			) {
-				const addVal = this.addValueField.value;
-				this.addValueField.value = '';
-				if (this.size === this.length) {
-					this.implementAction(
-						this.resize.bind(this),
-						addVal,
-						this.size,
-						false,
-						true,
-						false,
-					);
-				} else {
-					this.implementAction(
-						this.add.bind(this),
-						addVal,
-						this.size,
-						false,
-						true,
-						false,
-						true,
-					);
-				}
-			} else {
-				this.shake(this.addBackButton);
-				this.implementAction(this.setInfoText.bind(this), 'Missing input data.');
-			}
-
+		if (searchParams.has('initialCapacity')) {
+			this.initialCapacityField.value = parseInt(
+				searchParams.get('initialCapacity').substring(0, 2),
+			);
+			this.resizeInitialCapacityCall();
 			this.animationManager.skipForward();
-			this.animationManager.clearHistory();
-		});
+		}
+
+		this.implementAction(this.clearAll.bind(this));
+		if (searchParams.has('data')) {
+			const dataList = searchParams
+				.get('data')
+				.split(',')
+				.filter(item => item.trim() !== '');
+			dataList.forEach(dataEntry => {
+				this.addValueField.value = dataEntry.substring(0, 4);
+
+				if (
+					this.addValueField.value !== '' &&
+					!(this.length === this.size && this.length * 2 > MAX_SIZE)
+				) {
+					const addVal = this.addValueField.value;
+					this.addValueField.value = '';
+					if (this.size === this.length) {
+						this.implementAction(
+							this.resize.bind(this),
+							addVal,
+							this.size,
+							false,
+							true,
+							false,
+						);
+					} else {
+						this.implementAction(
+							this.add.bind(this),
+							addVal,
+							this.size,
+							false,
+							true,
+							false,
+							true,
+						);
+					}
+				} else {
+					this.shake(this.addBackButton);
+					this.implementAction(this.setInfoText.bind(this), 'Missing input data.');
+				}
+
+				this.animationManager.skipForward();
+				this.animationManager.clearHistory();
+			});
+		}
 	}
 
 	setup() {
@@ -895,6 +931,71 @@ export default class ArrayList extends Algorithm {
 		}
 		this.length = SIZE;
 		return this.commands;
+	}
+
+	resizeInitialCapacityCall() {
+		const inputValue = parseInt(this.initialCapacityField.value);
+
+		if (inputValue > MAX_SIZE) {
+			this.addValueField.value = '';
+			this.addIndexField.value = '';
+			this.removeField.value = '';
+			this.commands = [];
+			this.cmd(act.setText, this.infoLabelID, `Capacity cannot exceed ${MAX_SIZE}.`);
+			this.animationManager.startNewAnimation(this.commands);
+			this.shake(this.restartButton);
+			return;
+		}
+
+		this.commands = [];
+		this.addValueField.value = '';
+		this.addIndexField.value = '';
+		this.removeField.value = '';
+		this.cmd(act.setText, this.infoLabelID, '');
+
+		for (let i = 0; i < this.size; i++) {
+			this.cmd(act.setText, this.arrayID[i], '');
+			this.arrayData[i] = null;
+		}
+		this.size = 0;
+
+		for (let i = 0; i < this.length; i++) {
+			this.cmd(act.delete, this.arrayID[i]);
+			this.cmd(act.delete, this.arrayLabelID[i]);
+		}
+
+		const newCapacity = inputValue || SIZE;
+		this.length = newCapacity;
+		this.arrayID = new Array(this.length);
+		this.arrayLabelID = new Array(this.length);
+		this.arrayData = new Array(this.length);
+
+		for (let i = 0; i < this.length; i++) {
+			this.arrayID[i] = this.nextIndex++;
+			this.arrayLabelID[i] = this.nextIndex++;
+		}
+
+		for (let i = 0; i < this.length; i++) {
+			const xpos = (i % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
+			const ypos = Math.floor(i / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
+			this.cmd(
+				act.createRectangle,
+				this.arrayID[i],
+				'',
+				ARRAY_ELEM_WIDTH,
+				ARRAY_ELEM_HEIGHT,
+				xpos,
+				ypos,
+			);
+			this.cmd(act.createLabel, this.arrayLabelID[i], i, xpos, ypos + ARRAY_ELEM_HEIGHT);
+			this.cmd(act.setForegroundColor, this.arrayLabelID[i], '#0000FF');
+		}
+
+		this.highlight1ID = this.nextIndex++;
+
+		this.animationManager.startNewAnimation(this.commands);
+		this.animationManager.skipForward();
+		this.animationManager.clearHistory();
 	}
 
 	disableUI() {
