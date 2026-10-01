@@ -183,7 +183,9 @@ export default class OpenHash extends Hash {
 				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			} else if (this.hashType === 'true') {
 				const specialLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;:/?=+=_-*&^%$#@!';
-				const keyLetter = specialLetters.charAt(Math.floor(Math.random() * specialLetters.length));
+				const keyLetter = specialLetters.charAt(
+					Math.floor(Math.random() * specialLetters.length),
+				);
 				key = keyLetter;
 				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			}
