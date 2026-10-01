@@ -214,6 +214,7 @@ export default class TreeMap extends Algorithm {
 		const MAX_SIZE = 12;
 		const MIN_SIZE = 2;
 		const randomSize = Math.floor(Math.random() * (MAX_SIZE - MIN_SIZE + 1)) + MIN_SIZE;
+		const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 		this.implementAction(this.clear.bind(this));
 
@@ -221,7 +222,7 @@ export default class TreeMap extends Algorithm {
 			this.implementAction(
 				this.add.bind(this),
 				Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND,
-				Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND,
+				letters.charAt(Math.floor(Math.random() * letters.length)),
 			);
 			this.animationManager.skipForward();
 			this.animationManager.clearHistory();

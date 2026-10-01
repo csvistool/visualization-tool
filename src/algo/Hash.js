@@ -318,6 +318,7 @@ export default class Hash extends Algorithm {
 		const MAX_SIZE = 12;
 		const MIN_SIZE = 2;
 		const randomSize = Math.floor(Math.random() * (MAX_SIZE - MIN_SIZE + 1)) + MIN_SIZE;
+		const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 		this.implementAction(this.clear.bind(this));
 
@@ -326,19 +327,17 @@ export default class Hash extends Algorithm {
 			let value;
 			if (this.hashType === 'integers') {
 				key = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
-				value = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
+				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			} else if (this.hashType === 'strings') {
 				// generate a random string using letters A-Z
-				const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-				const letter = letters.charAt(Math.floor(Math.random() * letters.length));
-				key = letter;
-				value = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
+				const keyLetter = letters.charAt(Math.floor(Math.random() * letters.length));
+				key = keyLetter;
+				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			} else if (this.hashType === 'true') {
 				// generate a random string using letters A-Z
-				const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-				const letter = letters.charAt(Math.floor(Math.random() * letters.length));
-				key = letter;
-				value = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
+				const keyLetter = letters.charAt(Math.floor(Math.random() * letters.length));
+				key = keyLetter;
+				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			}
 			this.implementAction(this.insertElement.bind(this), key, value);
 			this.animationManager.skipForward();
