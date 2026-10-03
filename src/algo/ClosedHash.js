@@ -171,6 +171,7 @@ export default class ClosedHash extends Hash {
 		const MAX_SIZE = this.table_size * this.load_factor - 1;
 		const MIN_SIZE = 2;
 		const randomSize = Math.floor(Math.random() * (MAX_SIZE - MIN_SIZE + 1)) + MIN_SIZE;
+		const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 		this.implementAction(this.resetAll.bind(this));
 
@@ -179,17 +180,18 @@ export default class ClosedHash extends Hash {
 			let value;
 			if (this.hashType === 'integers') {
 				key = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
-				value = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
+				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			} else if (this.hashType === 'strings') {
-				const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-				const letter = letters.charAt(Math.floor(Math.random() * letters.length));
-				key = letter;
-				value = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
+				const keyLetter = letters.charAt(Math.floor(Math.random() * letters.length));
+				key = keyLetter;
+				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			} else if (this.hashType === 'true') {
-				const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ[];',./{}|:<>?=+=_-)(*&^%$#@!";
-				const letter = letters.charAt(Math.floor(Math.random() * letters.length));
-				key = letter;
-				value = Math.floor(Math.random() * (UPPER_BOUND - LOWER_BOUND + 1)) + LOWER_BOUND;
+				const specialLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ[];',./{}|:<>?=+=_-)(*&^%$#@!";
+				const keyLetter = specialLetters.charAt(
+					Math.floor(Math.random() * specialLetters.length),
+				);
+				key = keyLetter;
+				value = letters.charAt(Math.floor(Math.random() * letters.length));
 			}
 			this.implementAction(this.insertElement.bind(this), key.toString(), value);
 			this.animationManager.skipForward();

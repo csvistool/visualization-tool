@@ -1,11 +1,5 @@
 # Visualization Tool
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 This is the source code for the Visualization Tool used for Georgia Tech's CS 1332 which covers all data structures & algorithms taught in class. It is hosted using GitHub Pages, and you can visit it at: https://csvistool.com.
 
 ## About
@@ -15,7 +9,7 @@ The CS1332 Visualization Tool was adapted and expanded by [Rodrigo Pontes](https
 
 ## Contributors ✨
 
-If you want to contribute to this wonderful tool, take a look at the [contributing doc](CONTRIBUTING.md)
+If you want to contribute to this wonderful tool, take a look at the [contributing doc](CONTRIBUTING.md). Please ping @luciankt for reviews, questions, or ideas (active as of 10/2026).
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
