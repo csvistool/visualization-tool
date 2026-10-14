@@ -30,6 +30,7 @@ describe('algo index exports', () => {
 		'KMP',
 		'Kruskals',
 		'LCS',
+		'LRU',
 		'LSDRadix',
 		'LVA',
 		'LinkedList',

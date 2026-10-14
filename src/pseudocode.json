@@ -1,4 +1,74 @@
 {
+	"LRU": {
+		"put": {
+			"code": [
+				["procedure put(key, value):"],
+				["  if key in map:"],
+				["    node ← map[key]"],
+				["    update node.value ← value"],
+				["    move node to head (MRU)"],
+				["  else:"],
+				["    create new node(key, value)"],
+				["    insert node at head"],
+				["    map[key] ← node"],
+				["    if size > capacity:"],
+				["      evict ← tail  (LRU node)"],
+				["      remove evict from list"],
+				["      delete map[evict.key]"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure put(key, value):"],
+				["  if key already exists in cache:"],
+				["    look up the node in the cache"],
+				["    update its value"],
+				["    move it to the front (MRU)"],
+				["  otherwise:"],
+				["    create a new cache entry"],
+				["    insert at front of list"],
+				["    record it in the cache"],
+				["    if over capacity:"],
+				["      identify the tail (LRU entry)"],
+				["      remove it from the list"],
+				["      remove it from the cache"],
+				["end procedure"]
+			]
+		},
+		"get": {
+			"code": [
+				["procedure get(key):"],
+				["  if key not in map: return -1"],
+				["  node ← map[key]"],
+				["  move node to head (MRU)"],
+				["  return node.value"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure get(key):"],
+				["  if key not in cache: return -1"],
+				["  look up the node in the cache"],
+				["  move the node to the front (MRU)"],
+				["  return the node's value"],
+				["end procedure"]
+			]
+		},
+		"delete": {
+			"code": [
+				["procedure delete(key):"],
+				["  if key not in map: return"],
+				["  node ← map[key]"],
+				["  remove node from list; delete map[key]"],
+				["end procedure"]
+			],
+			"english": [
+				["procedure delete(key):"],
+				["  if key not in cache: return"],
+				["  find the node in the cache"],
+				["  remove from list and cache"],
+				["end procedure"]
+			]
+		}
+	},
 	"ArrayList": {
 		"addFB": {
 			"code": [

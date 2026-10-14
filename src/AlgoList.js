@@ -56,6 +56,7 @@ export const algoMap = {
 	Kruskal: ["Kruskal's", algos.Kruskals, true],
 	DisjointSet: ['Disjoint Set', algos.DisjointSet, true],
 	LCS: ['LCS', algos.LCS, true, 'Longest Common Subsequence'],
+	LRU: ['LRU Cache', algos.LRU, true, 'LRU Cache'],
 	Floyd: ['Floyd-Warshall', algos.Floyd],
 	TreeMap: ['TreeMap', algos.TreeMap],
 };
@@ -120,6 +121,7 @@ const baseAlgoList = [
 	'---',
 	'DP & Extras',
 	'SplayTree',
+	'LRU',
 	'Floyd',
 	'DropSort',
 	'SleepSort',
@@ -197,7 +199,8 @@ export const relatedSearches = {
 	Dijkstra: ['BFS', 'DFS', 'Prim', 'Kruskal', 'DisjointSet'],
 	Prim: ['BFS', 'DFS', 'Dijkstra', 'Kruskal', 'DisjointSet'],
 	Kruskal: ['BFS', 'DFS', 'Dijkstra', 'Prim', 'DisjointSet'],
-	LCS: ['Floyd'],
+	LCS: ['Floyd', 'LRU'],
+	LRU: ['ClosedHash', 'OpenHash', 'DoublyLinkedList', 'LCS'],
 	Floyd: ['LCS'],
 	TreeMap: ['AVL', 'ClosedHash', 'OpenHash'],
 };
@@ -349,6 +352,10 @@ export const algoFilter = [
 	},
 	{
 		id: 'Floyd',
+		category: 'DP & Extras',
+	},
+	{
+		id: 'LRU',
 		category: 'DP & Extras',
 	},
 	{
