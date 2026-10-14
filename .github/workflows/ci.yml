@@ -39,3 +39,7 @@ jobs:
       # ESLint: Enforces style and syntax rules
       - name: Run ESLint
         run: npm run lint
+      
+      # Run Unit tests
+      - name: Run tests
+        run: npm run test
