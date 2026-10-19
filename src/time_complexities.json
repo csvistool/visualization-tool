@@ -1560,5 +1560,25 @@
 				"explanation": "Each letter in the first string is compared to each letter of the second string."
 			}
 		}
+	},
+	"LRU": {
+		"LRU Cache": {
+			"put (no eviction)": {
+				"big_o": "O(1)",
+				"explanation": "HashMap lookup + doubly-linked list head insertion are both O(1)."
+			},
+			"put (with eviction)": {
+				"big_o": "O(1)",
+				"explanation": "Tail removal from the DLL + HashMap delete are both O(1)."
+			},
+			"get": {
+				"big_o": "O(1)",
+				"explanation": "HashMap lookup finds the node in O(1); moving it to head in the DLL is also O(1)."
+			},
+			"delete": {
+				"big_o": "O(1)",
+				"explanation": "HashMap lookup + DLL node removal are both O(1)."
+			}
+		}
 	}
 }
