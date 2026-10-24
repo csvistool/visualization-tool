@@ -39,20 +39,55 @@ This repository requires `node`/`npm`
 5. `npm run start` to start local version of the app
 6. The site should be locally accessible from `localhost:3000`
 
+## Testing
+
+We use Jest and React Testing Library for testing. All unit tests live in adjacent `__tests__/` directories throughout `src/`.
+
+To run the test suite:
+
+```bash
+# Run tests in interactive watch mode
+npm test
+
+# Run all tests once (CI mode)
+npm test -- --watchAll=false
+
+# Run a specific test suite
+npm test -- --watchAll=false --testPathPattern=YourAlgo
+```
+
+### Testing Expectations
+- **New Visualizations / Features**: Whenever you add a new algorithm, data structure helper, or UI component, include unit tests covering component mounting, control setups, edge cases, and helper logic.
+- **Bug Fixes**: Include a regression test demonstrating that the bug is resolved.
+- **Passing Suite**: Ensure all existing and new tests pass with zero failures before opening a pull request.
+- **Demo Video**: When we update the visualization and it impacts the user experience, add a demo video in the PR description.
+
 ## Submitting a PR
 
-Before creating a pull request, ensure that the only committed changes are in files relevant to the PR. Do not push changes to package-lock.json, node_modules or anything else that is unrelated to your ticket!
+Before opening a pull request, run through the following checklist:
 
-The ESLint and Prettier formatting standards are automatically applied for each JS/TS file under `src/` you modify on commit via a hook. To double check that your code meets the standards, you can run the below commands:
-- `npm run lint`
-- `npm run prettier`
+### Pre-Submission Checklist
+- [ ] **Formatting**: Code formatted with Prettier (`npm run prettier`).
+- [ ] **Linting**: Code passes ESLint with zero errors (`npm run lint`).
+- [ ] **Tests**: All tests pass (`npm test -- --watchAll=false`).
+- [ ] **Unit Tests Added**: New features and bug fixes include relevant tests in `__tests__/`.
+- [ ] **Demo Video / Recording**: For any changes involving visual elements, animations, or UI components (e.g. new algorithm visualizers), include a short screen recording (video or GIF) in the PR description demonstrating the behavior.
+- [ ] **Clean Diff**: Ensure no unrelated files are committed (e.g., `package-lock.json`, `node_modules/`, scratch files).
 
-To make a PR:
+### How to Make a PR:
 
-1. Create a new pull request
-2. Click “Compare across forks”
-3. Base repo should be csvistool/master and head repo should be the relevant branch on your fork
-4. Name the PR something simple and descriptive
-5. In the description, make sure to reference the issue you worked on (such as “closes #155”, “addresses #150”, etc)
-6. Add anything else to the description that you think makes your changes more understandable
-7. Verify that the CI check passes! If there are any failures, please fix those and update the PR
+1. Create a new pull request.
+2. Click “Compare across forks”.
+3. Base repo should be `csvistool/master` and head repo should be the relevant branch on your fork.
+4. Name the PR something simple and descriptive.
+5. In the description, **follow the [Pull Request Template](.github/pull_request_template.md)**:
+   - Provide a concise summary and reference the issue you worked on (e.g., “closes #155”, “addresses #150”, etc.).
+   - Select the appropriate type of change.
+   - Attach your demo video / recording if your PR touches the UI or animations (or note N/A).
+   - Complete and verify all items in the pre-merge checklist.
+6. Verify that the CI check passes! If there are any failures, fix those and update the PR.
+7. To pull the latest changes from the base repo, run `git pull upstream master` to reflect the updates into your fork.
+
+---
+
+> **Tip for AI Coding Assistants**: If you are using an AI agent (e.g., Antigravity, Copilot, Cursor, Codex), refer to [`AGENTS.md`](./AGENTS.md) for automated workflows, code conventions, and repository constraints. Feel free to modify the `AGENTS.md` as well to suit your needs and/or contribute updates to increase velocity for the team.
