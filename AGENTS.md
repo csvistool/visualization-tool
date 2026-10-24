@@ -134,7 +134,7 @@ All source code in `src/` must pass both ESLint and Prettier before a PR is merg
 
 ## 4. Adding a New Algorithm / Data Structure
 
-This is the critical workflow for any agent implementing the LRU simulation or another new visualization.
+This is the critical workflow for any agent implementing another new visualization.
 
 1. **Create `src/algo/YourAlgo.js`** — extend `Algorithm` and implement all required animation methods. Study `src/algo/LinkedList.js` or `src/algo/Hash.js` as close references.
 2. **Register in `src/AlgoList.js`** — add an entry to the master registry object with the correct `display` name, `component`, `category`, and optional `tags`.
