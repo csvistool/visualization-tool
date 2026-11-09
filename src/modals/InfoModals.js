@@ -80,7 +80,7 @@ const Modals = {
 			<li>The best case is when we have a sorted array (terminates if no swaps are made)</li>
 			<li>
 				The worst case is when we have a reverse sorted array (we perform&nbsp;
-				<span className="equation">n + (n - 1) + (n - 2) + ... = n²</span>&nbsp;comparisons)
+				<span className="equation">(n - 1) + (n - 2) + ... + 1 = n(n - 1) / 2 = O(n²)</span>
 			</li>
 		</ul>
 	),

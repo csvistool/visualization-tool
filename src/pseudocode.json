@@ -1433,11 +1433,11 @@
 		"find": {
 			"code": [
 				["procedure BubbleSort(array):"],
-				["  end ← array.length"],
+				["  end ← array.length - 1"],
 				["  start ← 0"],
 				["  while start < end:"],
 				["    swapped ← start"],
-				["    for j ← 0, end:"],
+				["    for j ← start, end - 1:"],
 				["      if array[j] > array[j + 1]:"],
 				["        swap array[j], array[j + 1]"],
 				["        swapped ← j"],
@@ -1453,7 +1453,7 @@
 				["  start points to first element"],
 				["  while (start < end):"],
 				["    lastSwapped points to start"],
-				["    for (j from start to end):"],
+				["    for (j from start to end - 1):"],
 				["      if (array[j] > array[j + 1]):"],
 				["        bubble array[j] by swapping up"],
 				["        lastSwapped points to j"],

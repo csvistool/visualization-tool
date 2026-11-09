@@ -1032,7 +1032,7 @@
 		"BubbleSort without Last Swap Optimization": {
 			"worst": {
 				"big_o": "O(n²)",
-				"explanation": "We compare every element to every other element, which is approximately $n$ times $n$ work.",
+				"explanation": "BubbleSort repeatedly compares adjacent elements, resulting in O(n²) time complexity.",
 				"example": "[5, 4, 3, 2, 1]"
 			},
 			"average": {
